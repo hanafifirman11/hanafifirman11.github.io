@@ -1,0 +1,87 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { CATEGORIES } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  category: string;
+  tags: string[];
+}
+
+const { title, description, publishedAt, updatedAt, category, tags } = Astro.props;
+
+const formatter = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const categoryLabel = CATEGORIES[category]?.label ?? category;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  article={true}
+  publishedTime={publishedAt.toISOString()}
+>
+  <article class="max-w-3xl mx-auto px-6 py-12 animate-rise">
+    <!-- Article header -->
+    <header class="mb-12 pb-8 border-b border-subtle">
+      <div class="flex items-baseline gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-ink-soft">
+        <a href={`${base}/blog`} class="hover:text-accent transition-colors">← Blog</a>
+        <span>·</span>
+        <span class="text-accent">{categoryLabel}</span>
+      </div>
+
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-[1.1] tracking-tight mb-4">
+        {title}
+      </h1>
+
+      <p class="text-lg text-ink-muted leading-relaxed mb-6">
+        {description}
+      </p>
+
+      <div class="flex items-center gap-3 text-sm text-ink-soft font-mono">
+        <time datetime={publishedAt.toISOString()}>
+          {formatter.format(publishedAt)}
+        </time>
+        {
+          updatedAt && (
+            <>
+              <span>·</span>
+              <span>Updated {formatter.format(updatedAt)}</span>
+            </>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Article body -->
+    <div class="prose-editorial">
+      <slot />
+    </div>
+
+    <!-- Article footer -->
+    <footer class="mt-16 pt-8 border-t border-subtle">
+      {
+        tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-6">
+            {tags.map((tag) => (
+              <span class="text-xs font-mono px-2 py-1 rounded bg-paper-soft text-ink-muted">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+      <a href={`${base}/blog`} class="text-sm text-accent hover:underline">
+        ← Back to all writing
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

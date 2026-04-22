@@ -1,0 +1,50 @@
+---
+import { CATEGORIES } from '../consts';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  publishedAt: Date;
+  category: string;
+  tags: string[];
+}
+
+const { href, title, description, publishedAt, category, tags } = Astro.props;
+
+const formatter = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+
+const categoryLabel = CATEGORIES[category]?.label ?? category;
+---
+
+<article class="group py-8 border-b border-subtle last:border-0">
+  <a href={href} class="block">
+    <div class="flex items-baseline gap-3 mb-2 text-xs font-mono uppercase tracking-wider text-ink-soft">
+      <time datetime={publishedAt.toISOString()}>{formatter.format(publishedAt)}</time>
+      <span class="text-ink-soft">·</span>
+      <span class="text-accent">{categoryLabel}</span>
+    </div>
+
+    <h2 class="font-display text-2xl md:text-3xl font-semibold leading-tight mb-2 group-hover:text-accent transition-colors">
+      {title}
+    </h2>
+
+    <p class="text-ink-muted leading-relaxed mb-3">
+      {description}
+    </p>
+
+    {
+      tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 text-xs font-mono text-ink-soft">
+          {tags.map((tag) => (
+            <span>#{tag}</span>
+          ))}
+        </div>
+      )
+    }
+  </a>
+</article>
