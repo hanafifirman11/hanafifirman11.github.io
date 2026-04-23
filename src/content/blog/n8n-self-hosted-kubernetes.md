@@ -97,13 +97,13 @@ main:
     QUEUE_MODE:
       value: "redis"
     QUEUE_BULL_REDIS_HOST:
-      value: "redis-master.internal.domain"
+      value: "redis.example.internal"
       
     # Koneksi Database
     DB_TYPE:
       value: "postgresdb"
     DB_POSTGRESDB_HOST:
-      value: "postgres-cluster.internal.domain"
+      value: "postgres.example.internal"
       
     # Optimasi Penyimpanan File
     N8N_DEFAULT_BINARY_DATA_MODE:

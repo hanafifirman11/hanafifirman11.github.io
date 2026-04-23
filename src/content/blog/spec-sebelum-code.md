@@ -28,7 +28,7 @@ CLAUDE.md adalah file yang dibaca Claude Code di awal setiap sesi. Isinya adalah
 Contoh CLAUDE.md untuk project Spring Boot kami:
 
 ```markdown
-# Project: rem-kirimdoku-api
+# Project: payment-service-api
 
 ## Tech Stack
 - Java 21, Spring Boot 3 WebFlux, R2DBC, PostgreSQL, Kafka
