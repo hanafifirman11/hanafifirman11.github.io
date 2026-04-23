@@ -21,8 +21,8 @@ import expressiveCode from 'astro-expressive-code';
 //   -> SITE = 'https://hanafifirman11.github.io'
 //   -> BASE = '/'
 
-const SITE = 'https://hanafifirman11.github.io';
-const BASE = '/'; // Root deployment
+const SITE = 'https://hanafifirman.dev';
+const BASE = '/'; // custom domain — BASE tetap '/'
 
 export default defineConfig({
   site: SITE,

@@ -4,7 +4,7 @@ export const SITE = {
   description:
     'Solutions Architect with 11+ years in software development. Expert in payment systems architecture, microservices, and AI-assisted engineering.',
   author: 'Firman Hanafi',
-  url: 'https://hanafifirman11.github.io',
+  url: 'https://hanafifirman.dev',
   locale: 'id-ID',
   social: {
     github: 'https://github.com/hanafifirman11',
