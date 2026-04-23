@@ -12,7 +12,7 @@ interface Props {
 
 const { href, title, description, publishedAt, category, tags } = Astro.props;
 
-const formatter = new Intl.DateTimeFormat('id-ID', {
+const dateFormatter = new Intl.DateTimeFormat('id-ID', {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
@@ -21,27 +21,34 @@ const formatter = new Intl.DateTimeFormat('id-ID', {
 const categoryLabel = CATEGORIES[category]?.label ?? category;
 ---
 
-<article class="group py-8 border-b border-subtle last:border-0">
+<article class="group py-6 border-b border-subtle last:border-0">
   <a href={href} class="block">
-    <div class="flex items-baseline gap-3 mb-2 text-xs font-mono uppercase tracking-wider text-ink-soft">
-      <time datetime={publishedAt.toISOString()}>{formatter.format(publishedAt)}</time>
-      <span class="text-ink-soft">·</span>
-      <span class="text-accent">{categoryLabel}</span>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
+      <time
+        datetime={publishedAt.toISOString()}
+        class="text-xs font-mono text-ink-soft"
+      >
+        {dateFormatter.format(publishedAt)}
+      </time>
+      <span class="text-ink-soft text-xs">·</span>
+      <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-paper-soft border border-subtle text-accent">
+        {categoryLabel}
+      </span>
     </div>
 
-    <h2 class="font-display text-2xl md:text-3xl font-semibold leading-tight mb-2 group-hover:text-accent transition-colors">
+    <h2 class="font-display text-xl md:text-2xl font-semibold leading-snug mb-1.5 group-hover:text-accent transition-colors">
       {title}
     </h2>
 
-    <p class="text-ink-muted leading-relaxed mb-3">
+    <p class="text-sm text-ink-muted leading-relaxed line-clamp-2">
       {description}
     </p>
 
     {
       tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 text-xs font-mono text-ink-soft">
+        <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 text-xs font-mono text-ink-soft">
           {tags.map((tag) => (
-            <span>#{tag}</span>
+            <span class="hover:text-accent transition-colors">#{tag}</span>
           ))}
         </div>
       )

@@ -83,5 +83,94 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         ← Back to all writing
       </a>
     </footer>
+
+    <!-- Giscus: Comments & Reactions -->
+    <section class="max-w-3xl mx-auto px-6 pb-16 mt-4">
+      <div class="border-t border-subtle pt-10">
+        <h2 class="font-display text-xl font-semibold mb-6 text-ink">Diskusi</h2>
+        <div id="giscus-container"></div>
+      </div>
+    </section>
   </article>
+
+  <script type="module" is:inline>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.1/dist/mermaid-layout-elk.esm.min.mjs';
+
+    mermaid.registerLayoutLoaders(elkLayouts);
+
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: theme,
+      fontFamily: "'Inter Tight', system-ui, sans-serif",
+    });
+
+    await mermaid.run({ querySelector: '.mermaid' });
+  </script>
+
+  <style>
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      margin: 2em 0;
+      overflow-x: auto;
+      background: transparent !important;
+    }
+
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+  <script is:inline>
+    // Giscus initialization — respects current theme
+    function loadGiscus() {
+      const container = document.getElementById('giscus-container');
+      if (!container) return;
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'dark_dimmed'
+        : 'light';
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'hanafifirman11/hanafifirman-site');
+      script.setAttribute('data-repo-id', 'GANTI_DENGAN_REPO_ID');          // TODO: isi dari giscus.app
+      script.setAttribute('data-category', 'General');
+      script.setAttribute('data-category-id', 'GANTI_DENGAN_CATEGORY_ID');  // TODO: isi dari giscus.app
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'id');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      container.appendChild(script);
+    }
+
+    // Also update Giscus theme when user toggles dark/light
+    function updateGiscusTheme() {
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'dark_dimmed'
+        : 'light';
+      const iframe = document.querySelector('.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme } } },
+          'https://giscus.app'
+        );
+      }
+    }
+
+    loadGiscus();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(() => updateGiscusTheme());
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
 </BaseLayout>
+

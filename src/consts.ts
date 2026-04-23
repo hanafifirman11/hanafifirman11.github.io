@@ -1,15 +1,15 @@
 export const SITE = {
-  name: 'Hanafi Firman',
-  title: 'Hanafi Firman — Solution Architect',
+  name: 'Firman Hanafi',
+  title: 'Firman Hanafi — Solutions Architect',
   description:
-    'Solution architecture, AI engineering, and notes on building software that lasts. Written by Hanafi Firman.',
-  author: 'Hanafi Firman',
-  url: 'https://hanafifirman11.github.io/hanafifirman-site',
+    'Solutions Architect with 11+ years in software development. Expert in payment systems architecture, microservices, and AI-assisted engineering.',
+  author: 'Firman Hanafi',
+  url: 'https://hanafifirman11.github.io',
   locale: 'id-ID',
   social: {
     github: 'https://github.com/hanafifirman11',
-    linkedin: 'https://www.linkedin.com/in/hanafifirman',
-    email: 'mailto:hello@example.com',
+    linkedin: 'https://www.linkedin.com/in/firman-h-032352118/',
+    email: 'mailto:hanafi.fh.firman@gmail.com',
   },
 };
 

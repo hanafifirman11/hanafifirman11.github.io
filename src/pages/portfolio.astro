@@ -1,66 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-// Edit daftar project kamu di sini — struktur ini sengaja simple biar gampang maintain
-const projects = [
-  {
-    title: 'Solution Design for [Product Name]',
-    role: 'Solution Architect',
-    period: '2024 — present',
-    summary:
-      'Designed end-to-end architecture for [brief description]. Led design decisions on data flow, integration pattern, and deployment strategy.',
-    stack: ['Architecture', 'Microservices', 'Event-Driven'],
-    link: null,
-  },
-  {
-    title: 'AI Coding Assistant Evaluation',
-    role: 'POC Lead',
-    period: '2024',
-    summary:
-      'Benchmark study on Claude, Copilot, and Cursor for our engineering workflow. Measured impact on PR velocity, review quality, and developer experience.',
-    stack: ['AI', 'Developer Tooling', 'Research'],
-    link: null,
-  },
-  {
-    title: 'Personal portfolio & blog',
-    role: 'Self-directed',
-    period: '2026',
-    summary:
-      'This site. Built with Astro, deployed on GitHub Pages. Writing notes as I go.',
-    stack: ['Astro', 'Tailwind', 'MDX'],
-    link: 'https://github.com/hanafifirman11',
-  },
-];
-
-const skills = {
-  'Architecture & Design': [
-    'Solution design',
-    'System architecture',
-    'API design',
-    'Event-driven patterns',
-    'Microservices',
-    'Integration patterns',
-  ],
-  'AI & Engineering': [
-    'LLM integration',
-    'AI coding tools evaluation',
-    'Prompt engineering for engineering workflows',
-    'POC development',
-  ],
-  'Craft': [
-    'Technical writing',
-    'Engineer mentoring',
-    'Stakeholder communication',
-    'Trade-off analysis',
-  ],
-};
 ---
 
 <BaseLayout
   title="Portfolio"
-  description="Selected work as a solution architect — system designs, POCs, and technical leadership projects."
+  description="Work experience, projects, and technical skills — Solutions Architect with 11+ years building payment infrastructure at scale."
 >
-  <section class="max-w-3xl mx-auto px-6 py-12 md:py-16 animate-rise">
+  <section class="max-w-4xl mx-auto px-6 py-12 md:py-16 animate-rise">
     <header class="mb-12 pb-8 border-b border-subtle">
       <p class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft mb-4">
         Portfolio
@@ -69,71 +15,618 @@ const skills = {
         Selected work
       </h1>
       <p class="text-lg text-ink-muted leading-relaxed">
-        I work as a solution architect, mostly designing systems for product and
-        technology needs and running POCs on AI for software engineering. Below
-        are a few things I've worked on.
+        A journey from Java Programmer to Solutions Architect, building payment infrastructure at scale.
+        Below are my work experience, projects, and technical expertise.
       </p>
     </header>
 
-    <!-- Projects -->
-    <section class="mb-16">
-      <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
-        Projects
+    <!-- ========== EXPERIENCE ========== -->
+    <section class="mb-20">
+      <h2 class="font-mono text-sm text-ink-soft mb-8 pb-2 border-b border-subtle">
+        Work Experience
       </h2>
-      <div class="space-y-10">
-        {
-          projects.map((project) => (
-            <article>
-              <div class="flex items-baseline justify-between gap-4 mb-2 flex-wrap">
-                <h3 class="font-display text-xl font-semibold leading-tight">
-                  {project.link ? (
-                    <a href={project.link} class="hover:text-accent transition-colors">
-                      {project.title}
-                    </a>
-                  ) : (
-                    project.title
-                  )}
-                </h3>
-                <span class="font-mono text-xs text-ink-soft whitespace-nowrap">
-                  {project.period}
-                </span>
-              </div>
-              <p class="text-sm text-accent font-medium mb-3">{project.role}</p>
-              <p class="text-ink-muted leading-relaxed mb-3">{project.summary}</p>
-              <div class="flex flex-wrap gap-2">
-                {project.stack.map((tag) => (
-                  <span class="text-xs font-mono px-2 py-1 rounded bg-paper-soft text-ink-muted">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))
-        }
+      <div class="timeline">
+
+        <!-- Solutions Architect @ DOKU -->
+        <div class="timeline-item current">
+          <div class="timeline-dot"></div>
+          <div class="timeline-company">DOKU, PT Nusa Satu Inti Artha</div>
+          <h3 class="timeline-role">Solutions Architect</h3>
+          <div class="timeline-period">Apr 2021 — Present</div>
+          <div class="timeline-location">📍 DKI Jakarta · Remote</div>
+          <div class="timeline-desc">
+            <p>Leading solution design across DOKU's core financial platform, transfer services, payment channels, AI-assisted engineering, and DevOps initiatives:</p>
+
+            <p><strong>Solution Design & Architecture</strong></p>
+            <ul>
+              <li>Designed solution architecture for <strong>Financial Core</strong> systems — Settlement, Reconciliation, Centralized Refund, and Fee Calculation & Balance</li>
+              <li><strong>Decoupled</strong> monolithic financial-core microservice into <strong>nanoservices</strong> (Settlement, Reconciliation, Refund, Fee & Balance) to handle growing daily transaction volume</li>
+              <li>Designed <strong>Google Payment</strong> integration for <strong>QRIS MPM</strong> channel</li>
+              <li>Piloted <strong>Function Compute</strong> for reconciliation system — processing <strong>millions of transactions</strong> daily in a serverless architecture</li>
+              <li>Designed architecture to <strong>remove middle service</strong> for Google Remittance, migrating to Function Compute</li>
+              <li>Designed <strong>merchant onboarding for QRIS</strong> on DOKU co-brand partners</li>
+              <li>Designed <strong>merchant onboarding</strong> for Billing-as-a-Service product</li>
+              <li>Designed <strong>bill collection</strong> system for Flexy Bill (Billing-as-a-Service)</li>
+              <li><strong>Transfer Service</strong> — Solution design for remittance and disbursement platforms (KirimDoku)</li>
+            </ul>
+
+            <p><strong>API Gateway & Infrastructure</strong></p>
+            <ul>
+              <li>Conducted <strong>POC for APIWiz</strong> integration — installed and evaluated in DOKU sandbox environment with <strong>Kong OSS</strong> as the open-source API gateway</li>
+              <li>Co-built the <strong>API gateway</strong> using <strong>Spring Cloud Gateway</strong> as the inbound proxy for current systems</li>
+              <li>Managed dual API gateway architecture: <strong>Nginx</strong> (inbound proxy for legacy systems) and <strong>Spring Cloud Gateway</strong> (inbound proxy for current systems)</li>
+              <li>Managed <strong>Squid Proxy</strong> as the outbound proxy layer</li>
+              <li>Designed <strong>Apache Kafka</strong> infrastructure architecture for both development and production environments</li>
+            </ul>
+
+            <p><strong>AI-Assisted Engineering & Tooling</strong></p>
+            <ul>
+              <li>Conducted <strong>POC of AI tools</strong> for DOKU engineering adoption — selected <strong>Claude</strong> as primary tool</li>
+              <li>Served as internal <strong>trainer for AI-assisted software development</strong> practices</li>
+              <li>Championed AI usage across engineering workflows:
+                <ul>
+                  <li><strong>PRD & PID generation</strong> for Product team</li>
+                  <li>Integrated <strong>Serena</strong> for token-efficient AI interactions</li>
+                  <li><strong>Solution design with AI</strong> — sequence diagrams, C4 model (Level 1, 2, 3), OpenAPI Spec, and NFR for Expert Engineers and Solution Architects</li>
+                  <li><strong>Code generation</strong> for software engineering teams</li>
+                  <li><strong>Test generation</strong> — scenario tests, unit tests, and service test generators</li>
+                  <li>Deployed <strong>Claude Agent & Claude Skills</strong> tailored for each engineering pod</li>
+                </ul>
+              </li>
+              <li>Led DOKU's adoption of <strong>ClickUp</strong> as the engineering project management platform</li>
+            </ul>
+
+            <p><strong>DevOps & Platform Engineering</strong></p>
+            <ul>
+              <li>Built CI/CD pipelines for <strong>Function Compute</strong> (serverless) and established operational SOPs</li>
+              <li>Built CI/CD for <strong>Java & Kubernetes</strong> microservices deployment</li>
+              <li>Built CI/CD for <strong>Angular & static web</strong> to Alibaba Cloud OSS</li>
+              <li>Built CI/CD for <strong>Python & Kubernetes</strong> services</li>
+              <li>Built CI/CD for <strong>n8n & Kubernetes</strong> (scalable installation)</li>
+              <li>Integrated GitLab & GitHub repositories with <strong>Snyk (SAST)</strong> for security scanning</li>
+            </ul>
+          </div>
+          <div class="timeline-skills">
+            <span class="skill-tag">Solution Architecture</span>
+            <span class="skill-tag">QRIS</span>
+            <span class="skill-tag">Nanoservices</span>
+            <span class="skill-tag">Function Compute</span>
+            <span class="skill-tag">Spring Cloud Gateway</span>
+            <span class="skill-tag">Apache Kafka</span>
+            <span class="skill-tag">Cloud-Native</span>
+            <span class="skill-tag">CI/CD</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">Claude AI</span>
+            <span class="skill-tag">AI Trainer</span>
+            <span class="skill-tag">ELK Stack</span>
+            <span class="skill-tag">n8n</span>
+            <span class="skill-tag">ClickUp</span>
+            <span class="skill-tag">Snyk SAST</span>
+          </div>
+        </div>
+
+        <!-- Technical Lead @ DOKU -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-company">DOKU, PT Nusa Satu Inti Artha</div>
+          <h3 class="timeline-role">Technical Lead</h3>
+          <div class="timeline-period">Mar 2018 — Apr 2021</div>
+          <div class="timeline-location">📍 Menara Mulia, DKI Jakarta</div>
+          <div class="timeline-desc">
+            <p>Led the engineering team for <strong>KirimDoku / Transfer Service</strong> — handling remittance and disbursement products:</p>
+            <ul>
+              <li><strong>Rewrote</strong> legacy KirimDoku application from <strong>Play Framework to Spring Boot WebFlux and MVC</strong></li>
+              <li>Designed and built <strong>cashout system</strong> integrated with <strong>Indomaret and Alfamart</strong> retail networks</li>
+              <li>Designed and built <strong>bank connector</strong> to banks and switching networks for money disbursement</li>
+              <li>Designed and built <strong>KirimDoku integration with Ripple</strong> for cross-border remittance transactions</li>
+            </ul>
+          </div>
+          <div class="timeline-skills">
+            <span class="skill-tag">Scrum</span>
+            <span class="skill-tag">Technical Leadership</span>
+            <span class="skill-tag">Spring Boot WebFlux</span>
+            <span class="skill-tag">Ripple</span>
+            <span class="skill-tag">Remittance</span>
+            <span class="skill-tag">Disbursement</span>
+          </div>
+        </div>
+
+        <!-- Software Engineer @ DOKU -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-company">DOKU, PT Nusa Satu Inti Artha</div>
+          <h3 class="timeline-role">Software Engineer</h3>
+          <div class="timeline-period">Mar 2017 — Mar 2018</div>
+          <div class="timeline-location">📍 Jakarta</div>
+          <div class="timeline-desc">
+            <p>Maintained and developed features for <strong>KirimDoku / Transfer Service</strong> legacy application:</p>
+            <ul>
+              <li>Worked on KirimDoku legacy stack built with <strong>Play Framework</strong>, <strong>CoffeeScript</strong>, and <strong>native Java/Scala</strong></li>
+              <li>Developed remittance and disbursement features for the transfer service platform</li>
+            </ul>
+          </div>
+          <div class="timeline-skills">
+            <span class="skill-tag">Play Framework</span>
+            <span class="skill-tag">Scala</span>
+            <span class="skill-tag">CoffeeScript</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Remittance</span>
+          </div>
+        </div>
+
+        <!-- Java Programmer @ Ace Global -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-company">PT. Ace Global Consulting and Integration</div>
+          <h3 class="timeline-role">Java Programmer</h3>
+          <div class="timeline-period">Mar 2015 — Feb 2017</div>
+          <div class="timeline-location">📍 Jakarta</div>
+          <div class="timeline-desc">
+            <p>Developed enterprise systems for major retail clients:</p>
+            <ul>
+              <li>Built <strong>finance system for Indomaret</strong> using <strong>JSF (Java 7)</strong></li>
+              <li>Built <strong>ETL pipelines</strong> using <strong>Open Talend Studio</strong> for batch data integration between headquarters and retail stores (bidirectional sync)</li>
+              <li>Built <strong>Spring Batch</strong> jobs for batch data integration processes</li>
+            </ul>
+          </div>
+          <div class="timeline-skills">
+            <span class="skill-tag">Java 7</span>
+            <span class="skill-tag">JSF</span>
+            <span class="skill-tag">Spring Batch</span>
+            <span class="skill-tag">Talend ETL</span>
+            <span class="skill-tag">PostgreSQL</span>
+          </div>
+        </div>
+
+        <!-- Java Programmer @ Numazu -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-company">PT. Numazu Trans Teknologi</div>
+          <h3 class="timeline-role">Java Programmer</h3>
+          <div class="timeline-period">Jan 2014 — Jan 2015</div>
+          <div class="timeline-location">📍 Jakarta</div>
+          <div class="timeline-desc">
+            <p>Built end-to-end barcode systems for Japanese manufacturing clients:</p>
+            <ul>
+              <li>Built <strong>production barcode system</strong> for <strong>PT. Kyoraku Blowmolding Indonesia</strong> — tracking the entire manufacturing process from production to QC pass</li>
+              <li>Built <strong>production barcode system</strong> for <strong>PT. Keihin Indonesia</strong> — end-to-end tracking from product creation through quality control</li>
+            </ul>
+          </div>
+          <div class="timeline-skills">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Barcode Systems</span>
+            <span class="skill-tag">Manufacturing</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Apache Tomcat</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Skills -->
-    <section>
+    <!-- ========== PROJECTS ========== -->
+    <section class="mb-20">
       <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
-        What I work with
+        Projects
       </h2>
-      <div class="space-y-6">
-        {
-          Object.entries(skills).map(([category, items]) => (
-            <div>
-              <h3 class="font-display text-lg font-semibold mb-3">{category}</h3>
-              <div class="flex flex-wrap gap-2">
-                {items.map((item) => (
-                  <span class="text-sm px-3 py-1 rounded-full border border-subtle text-ink-muted">
-                    {item}
-                  </span>
-                ))}
+      <p class="text-ink-muted mb-6">Open source contributions, internal engineering initiatives, and personal builds.</p>
+
+      <!-- Tabs -->
+      <div class="project-tabs" id="projectTabs">
+        <button class="project-tab active" data-tab="opensource">🔓 Open Source</button>
+        <button class="project-tab" data-tab="notable">🏢 Notable Work</button>
+        <button class="project-tab" data-tab="personal">🧪 Personal</button>
+      </div>
+
+      <!-- Panel: Open Source -->
+      <div class="project-panel active" id="panel-opensource">
+        <div class="projects-grid">
+
+          <!-- n8n-nodes-7z -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="icon">📦</span>
+              <div class="links">
+                <a href="https://github.com/hanafifirman11/n8n-nodes-7z" target="_blank" rel="noopener">🔗 GitHub</a>
               </div>
             </div>
-          ))
-        }
+            <div class="name">n8n-nodes-7z</div>
+            <div class="desc">
+              A custom n8n community node for compressing and decompressing files using the 7-Zip format.
+              Enables automated file archiving workflows directly within n8n pipelines.
+            </div>
+            <div class="tech">
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">n8n</span>
+              <span class="skill-tag">7-Zip</span>
+              <span class="skill-tag">MIT License</span>
+            </div>
+          </div>
+
+          <!-- n8n-nodes-postgresql-copy -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="icon">🐘</span>
+              <div class="links">
+                <a href="https://github.com/hanafifirman11/n8n-nodes-postgresql-copy" target="_blank" rel="noopener">🔗 GitHub</a>
+              </div>
+            </div>
+            <div class="name">n8n-nodes-postgresql-copy</div>
+            <div class="desc">
+              A custom n8n community node extending PostgreSQL capabilities with the COPY command for
+              high-performance bulk data ingestion and extraction in automated workflows.
+            </div>
+            <div class="tech">
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">n8n</span>
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">COPY Command</span>
+              <span class="skill-tag">MIT License</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel: Notable Work -->
+      <div class="project-panel" id="panel-notable">
+        <div class="casestudy-grid">
+
+          <!-- Function Compute for Reconciliation -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">⚡</span>
+              <span class="title">Function Compute for Reconciliation</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">Reconciliation system couldn't scale to handle growing daily transaction volume</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Piloted serverless architecture using Alibaba Cloud Function Compute</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">Processing millions of transactions daily with auto-scaling, no infrastructure management overhead</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">Function Compute</span>
+              <span class="skill-tag">Alibaba Cloud</span>
+              <span class="skill-tag">Serverless</span>
+            </div>
+          </div>
+
+          <!-- KirimDoku Platform Rewrite -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">🔄</span>
+              <span class="title">KirimDoku Platform Rewrite</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">Legacy remittance platform built on Play Framework was hard to scale and maintain</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Full rewrite to Spring Boot WebFlux and Spring MVC, modern reactive architecture</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">Improved scalability, maintainability, and developer productivity for the transfer service platform</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">Spring Boot WebFlux</span>
+              <span class="skill-tag">Spring MVC</span>
+              <span class="skill-tag">Reactive</span>
+            </div>
+          </div>
+
+          <!-- QRIS Merchant Onboarding -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">📱</span>
+              <span class="title">QRIS Merchant Onboarding</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">No standardized onboarding flow for QRIS merchants on DOKU co-brand partners</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Designed end-to-end solution architecture for merchant onboarding across multiple partners</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">Enabled DOKU co-brand partners to onboard QRIS merchants at scale</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">QRIS</span>
+              <span class="skill-tag">Solution Design</span>
+              <span class="skill-tag">API Architecture</span>
+            </div>
+          </div>
+
+          <!-- n8n Self-Hosted on K8s -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">🔧</span>
+              <span class="title">n8n Self-Hosted on Kubernetes</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">Need a scalable, reliable workflow automation platform for internal engineering use</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Designed and managed self-hosted n8n on Kubernetes (ACK) — Main + Worker + Webhook pods, Redis queue mode, PostgreSQL, NAS-backed PVC</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">Production-grade automation platform serving multiple engineering teams across SIT, UAT, Sandbox, and Production</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">n8n</span>
+              <span class="skill-tag">Kubernetes</span>
+              <span class="skill-tag">Redis</span>
+              <span class="skill-tag">PostgreSQL</span>
+            </div>
+          </div>
+
+          <!-- Spring Cloud Gateway -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">🌐</span>
+              <span class="title">Spring Cloud Gateway — API Gateway</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">Legacy systems using Nginx as inbound proxy couldn't support modern API management needs</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Co-built API gateway using Spring Cloud Gateway as inbound proxy for current systems, alongside Nginx for legacy</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">Dual gateway architecture supporting both legacy and modern microservices with clean separation</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">Spring Cloud Gateway</span>
+              <span class="skill-tag">Nginx</span>
+              <span class="skill-tag">API Management</span>
+            </div>
+          </div>
+
+          <!-- fc-ai -->
+          <div class="casestudy-card">
+            <div class="casestudy-header">
+              <span class="icon">🤖</span>
+              <span class="title">fc-ai — AI-Assisted Engineering Platform</span>
+            </div>
+            <div class="casestudy-flow">
+              <div class="casestudy-step">
+                <span class="step-label problem">Problem</span>
+                <span class="step-text">Need to evaluate LLM integration for internal engineering productivity</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label approach">Approach</span>
+                <span class="step-text">Built Spring Boot 4 / Java project with Ollama on Kubernetes (CPU-only, Qwen models) for UAT/SIT environments</span>
+              </div>
+              <div class="casestudy-step">
+                <span class="step-label impact">Impact</span>
+                <span class="step-text">POC for AI-native microservice, foundation for DOKU's AI-assisted engineering adoption</span>
+              </div>
+            </div>
+            <div class="casestudy-tech">
+              <span class="skill-tag">Spring Boot 4</span>
+              <span class="skill-tag">Ollama</span>
+              <span class="skill-tag">Qwen</span>
+              <span class="skill-tag">Kubernetes</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel: Personal -->
+      <div class="project-panel" id="panel-personal">
+        <div class="projects-grid">
+
+          <!-- SpotCamp ID -->
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="icon">🏕️</span>
+              <div class="links">
+                <a href="https://github.com/hanafifirman11/spot-camp-id-frontend" target="_blank" rel="noopener">🔗 FE</a>
+                <a href="https://github.com/hanafifirman11/spot-camp-id-backend" target="_blank" rel="noopener">🔗 BE</a>
+              </div>
+            </div>
+            <div class="name">SpotCamp ID</div>
+            <span class="project-badge wip">🚧 In Progress ~50%</span>
+            <div class="desc">
+              A platform for discovering and exploring camping spots in Indonesia. Built out of personal
+              passion for family camping trips. Features location discovery, reviews, and campsite details.
+            </div>
+            <div class="tech">
+              <span class="skill-tag">Angular</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">SCSS</span>
+              <span class="skill-tag">Spring Boot</span>
+              <span class="skill-tag">PostgreSQL</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SKILLS ========== -->
+    <section>
+      <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
+        Tech Stack & Skills
+      </h2>
+      <p class="text-ink-muted mb-8">A curated collection of technologies, tools, and methodologies I work with daily.</p>
+
+      <div class="skills-grid">
+
+        <div class="skill-category">
+          <div class="cat-icon">🏛️</div>
+          <div class="cat-title">Architecture & Design</div>
+          <div class="cat-items">
+            <span class="skill-tag">Solution Architecture</span>
+            <span class="skill-tag">Enterprise Architecture</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Cloud-Native</span>
+            <span class="skill-tag">Event-Driven (DDD)</span>
+            <span class="skill-tag">Microservices</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">🤖</div>
+          <div class="cat-title">AI & Automation</div>
+          <div class="cat-items">
+            <span class="skill-tag">AI Pair Programming</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">LLM Integration</span>
+            <span class="skill-tag">Vibe Coding</span>
+            <span class="skill-tag">n8n</span>
+            <span class="skill-tag">Workflow Automation</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">💳</div>
+          <div class="cat-title">Domain Expertise</div>
+          <div class="cat-items">
+            <span class="skill-tag">Payment Systems</span>
+            <span class="skill-tag">Transfer & Remittance</span>
+            <span class="skill-tag">PCI DSS</span>
+            <span class="skill-tag">FinTech</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">⚙️</div>
+          <div class="cat-title">Backend & Languages</div>
+          <div class="cat-items">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Java EE</span>
+            <span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">Spring MVC</span>
+            <span class="skill-tag">Spring Batch</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Play Framework</span>
+            <span class="skill-tag">Hibernate</span>
+            <span class="skill-tag">JSP</span>
+            <span class="skill-tag">Primefaces</span>
+            <span class="skill-tag">JSF</span>
+            <span class="skill-tag">JBoss ESB</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">🎨</div>
+          <div class="cat-title">Frontend & Mobile</div>
+          <div class="cat-items">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">React Native</span>
+            <span class="skill-tag">AngularJS</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">🗄️</div>
+          <div class="cat-title">Databases</div>
+          <div class="cat-items">
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Oracle SQL</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">Database Optimization</span>
+            <span class="skill-tag">Database Design</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">☁️</div>
+          <div class="cat-title">Infrastructure & Cloud</div>
+          <div class="cat-items">
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Helm Charts</span>
+            <span class="skill-tag">OpenShift</span>
+            <span class="skill-tag">Jenkins</span>
+            <span class="skill-tag">SonarQube</span>
+            <span class="skill-tag">CI/CD</span>
+            <span class="skill-tag">IaC</span>
+            <span class="skill-tag">GCP</span>
+            <span class="skill-tag">Alibaba Cloud</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">📡</div>
+          <div class="cat-title">Messaging & Observability</div>
+          <div class="cat-items">
+            <span class="skill-tag">Apache Kafka</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Elastic Stack</span>
+            <span class="skill-tag">Prometheus</span>
+            <span class="skill-tag">Grafana</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="cat-icon">🔧</div>
+          <div class="cat-title">Tools & Methodologies</div>
+          <div class="cat-items">
+            <span class="skill-tag">IntelliJ IDEA</span>
+            <span class="skill-tag">STS</span>
+            <span class="skill-tag">Maven</span>
+            <span class="skill-tag">SBT</span>
+            <span class="skill-tag">Scrum</span>
+            <span class="skill-tag">JIRA</span>
+            <span class="skill-tag">Technical Leadership</span>
+          </div>
+        </div>
+
       </div>
     </section>
   </section>
 </BaseLayout>
+
+<script>
+  // Project tab switching
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.project-tab');
+    const panels = document.querySelectorAll('.project-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-tab');
+
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Update active panel
+        panels.forEach(p => p.classList.remove('active'));
+        const targetPanel = document.getElementById(`panel-${target}`);
+        if (targetPanel) targetPanel.classList.add('active');
+      });
+    });
+  });
+</script>

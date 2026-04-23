@@ -5,67 +5,137 @@ import { SITE } from '../consts';
 
 <BaseLayout
   title="About"
-  description="About Hanafi Firman — solution architect working on systems design and AI engineering."
+  description="About Firman Hanafi — Solutions Architect with 11+ years in software development, specializing in payment systems and AI-assisted engineering."
 >
-  <section class="max-w-2xl mx-auto px-6 py-12 md:py-16 animate-rise">
+  <section class="max-w-3xl mx-auto px-6 py-12 md:py-16 animate-rise">
     <header class="mb-10">
       <p class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft mb-4">
-        About
+        About Me
       </p>
-      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-6">
-        Hi, I'm Hanafi.
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-2">
+        Scaling Systems,<br />Exploring Trails
       </h1>
     </header>
 
     <div class="prose-editorial">
       <p>
-        I'm a solution architect. Most of my work sits between product teams who
-        know <em>what</em> they want to build and engineering teams who know
-        <em>how</em> to build it — my job is to shape the
-        <em>shape</em> of the thing so both sides can move.
+        I'm a <strong>Solution Architect</strong> with over <strong>11 years of experience</strong> in software
+        development, including 9+ years focused on <strong>payment technology architecture</strong> at
+        <strong>DOKU</strong> — Indonesia's pioneering payment gateway.
       </p>
 
       <p>
-        On a typical week, I'm scoping out solution designs, reviewing technical
-        approaches with senior engineers, and running proof-of-concepts for
-        things we're thinking of adopting — lately a lot of that has been
-        around AI tooling for software engineering workflows.
-      </p>
-
-      <h2>Why this site</h2>
-
-      <p>
-        I've been doing this long enough to notice the same trade-offs
-        reappear in different disguises. Writing them down helps me think, and
-        hopefully helps someone else avoid a dead-end I've already walked into.
+        I design <strong>core financial systems</strong>, reconciliation platforms, transfer services, remittance
+        flows, and API architectures that process <strong>millions of transactions</strong>. My expertise lies in
+        event-driven architecture, microservices, and nanoservices patterns.
       </p>
 
       <p>
-        The topics I keep coming back to:
+        Recently, I've been shifting my focus towards <strong>AI-assisted development practices</strong>, Vibe
+        Coding, and workflow automation using <strong>n8n and LLM integration</strong> to accelerate engineering
+        productivity.
       </p>
-
-      <ul>
-        <li><strong>Architecture & design patterns</strong> — how to scope
-          solutions that survive contact with real teams and real deadlines.</li>
-        <li><strong>AI for software engineering</strong> — what actually works,
-          what's overhyped, and what's changing faster than anyone can keep up
-          with.</li>
-        <li><strong>Engineering leadership</strong> — the soft parts of the job
-          that don't fit in an architecture diagram but determine whether the
-          diagram gets built.</li>
-      </ul>
-
-      <h2>Get in touch</h2>
 
       <p>
-        I'm open to conversations about architecture consulting, AI engineering
-        experiments, or just comparing notes. Best ways to reach me:
+        Outside of work, I enjoy <strong>camping with my family</strong>, exploring specialty coffee, and occasional
+        hiking trips — just as the tagline says: <em>scaling systems, exploring trails</em>.
       </p>
-
-      <ul>
-        <li><a href={SITE.social.linkedin}>LinkedIn</a> — for anything work-related</li>
-        <li><a href={SITE.social.github}>GitHub</a> — for code and side projects</li>
-      </ul>
     </div>
+
+    <!-- Highlight Cards -->
+    <div class="highlight-grid mt-10">
+      <div class="highlight-card">
+        <div class="icon">🏗️</div>
+        <div class="title">System Architecture</div>
+        <div class="desc">Designing scalable, event-driven payment platforms</div>
+      </div>
+      <div class="highlight-card">
+        <div class="icon">💳</div>
+        <div class="title">FinTech & Payments</div>
+        <div class="desc">PCI DSS compliant systems processing millions of transactions</div>
+      </div>
+      <div class="highlight-card">
+        <div class="icon">🤖</div>
+        <div class="title">AI & Automation</div>
+        <div class="desc">LLM integration, n8n workflows, and Vibe Coding practices</div>
+      </div>
+      <div class="highlight-card">
+        <div class="icon">⛰️</div>
+        <div class="title">Explorer at Heart</div>
+        <div class="desc">Camping, coffee, and trail adventures with family</div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <section class="mt-16">
+      <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
+        Education
+      </h2>
+      <div class="education-card">
+        <div class="edu-icon">🎓</div>
+        <div>
+          <div class="school">STMIK Dharma Negara</div>
+          <div class="degree">Bachelor in Computer Science (S.Kom), Informatics Engineering — S1 Conversion</div>
+          <div class="period">2015 — 2017 · Completed while working full-time</div>
+        </div>
+      </div>
+      <div class="education-card">
+        <div class="edu-icon">📘</div>
+        <div>
+          <div class="school">Telkom PDC</div>
+          <div class="degree">Diploma 2 (equivalent to an associate's degree), Informatics Engineering</div>
+          <div class="period">2013 — 2015 · Self-funded through non-IT jobs</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why this site -->
+    <section class="mt-16">
+      <div class="prose-editorial">
+        <h2>Why this site</h2>
+
+        <p>
+          I've been doing this long enough to notice the same trade-offs
+          reappear in different disguises. Writing them down helps me think, and
+          hopefully helps someone else avoid a dead-end I've already walked into.
+        </p>
+
+        <p>
+          The topics I keep coming back to:
+        </p>
+
+        <ul>
+          <li><strong>Architecture & design patterns</strong> — how to scope
+            solutions that survive contact with real teams and real deadlines.</li>
+          <li><strong>AI for software engineering</strong> — what actually works,
+            what's overhyped, and what's changing faster than anyone can keep up
+            with.</li>
+          <li><strong>Engineering leadership</strong> — the soft parts of the job
+            that don't fit in an architecture diagram but determine whether the
+            diagram gets built.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="mt-16">
+      <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
+        Get in Touch
+      </h2>
+      <p class="text-ink-muted mb-6">
+        Interested in collaboration, architecture consulting, or just a conversation about technology and coffee? Feel free to reach out.
+      </p>
+      <div class="contact-links">
+        <a href={SITE.social.linkedin} target="_blank" rel="noopener" class="contact-link">
+          <span class="link-icon">💼</span> LinkedIn
+        </a>
+        <a href={SITE.social.github} target="_blank" rel="noopener" class="contact-link">
+          <span class="link-icon">🐙</span> GitHub
+        </a>
+        <a href={SITE.social.email} class="contact-link">
+          <span class="link-icon">✉️</span> Email
+        </a>
+      </div>
+    </section>
   </section>
 </BaseLayout>

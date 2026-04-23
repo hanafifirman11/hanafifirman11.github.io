@@ -22,7 +22,7 @@ import expressiveCode from 'astro-expressive-code';
 //   -> BASE = '/'
 
 const SITE = 'https://hanafifirman11.github.io';
-const BASE = '/hanafifirman-site'; // ← ganti ini sesuai nama repo kamu
+const BASE = '/'; // Root deployment
 
 export default defineConfig({
   site: SITE,
