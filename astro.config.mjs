@@ -27,6 +27,11 @@ const BASE = '/'; // custom domain — BASE tetap '/'
 export default defineConfig({
   site: SITE,
   base: BASE,
+  i18n: {
+    defaultLocale: 'id',
+    locales: ['id', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [
     expressiveCode({
       themes: ['github-dark', 'github-light'],

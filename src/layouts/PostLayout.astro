@@ -9,11 +9,13 @@ interface Props {
   updatedAt?: Date;
   category: string;
   tags: string[];
+  lang?: 'id' | 'en';
 }
 
-const { title, description, publishedAt, updatedAt, category, tags } = Astro.props;
+const { title, description, publishedAt, updatedAt, category, tags, lang = 'id' } = Astro.props;
 
-const formatter = new Intl.DateTimeFormat('id-ID', {
+const locale = lang === 'en' ? 'en-US' : 'id-ID';
+const formatter = new Intl.DateTimeFormat(locale, {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -21,6 +23,11 @@ const formatter = new Intl.DateTimeFormat('id-ID', {
 
 const categoryLabel = CATEGORIES[category]?.label ?? category;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const blogBase = lang === 'en' ? `${base}/en/blog` : `${base}/blog`;
+const backLabel = '← Blog';
+const backAllLabel = lang === 'en' ? '← Back to all writing' : '← Back to all writing';
+const discussionLabel = lang === 'en' ? 'Discussion' : 'Diskusi';
+const updatedLabel = lang === 'en' ? 'Updated' : 'Updated';
 ---
 
 <BaseLayout
@@ -28,12 +35,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   description={description}
   article={true}
   publishedTime={publishedAt.toISOString()}
+  lang={lang}
 >
   <article class="max-w-3xl mx-auto px-6 py-12 animate-rise">
     <!-- Article header -->
     <header class="mb-12 pb-8 border-b border-subtle">
       <div class="flex items-baseline gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-ink-soft">
-        <a href={`${base}/blog`} class="hover:text-accent transition-colors">← Blog</a>
+        <a href={blogBase} class="hover:text-accent transition-colors">{backLabel}</a>
         <span>·</span>
         <span class="text-accent">{categoryLabel}</span>
       </div>
@@ -54,7 +62,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           updatedAt && (
             <>
               <span>·</span>
-              <span>Updated {formatter.format(updatedAt)}</span>
+              <span>{updatedLabel} {formatter.format(updatedAt)}</span>
             </>
           )
         }
@@ -79,15 +87,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           </div>
         )
       }
-      <a href={`${base}/blog`} class="text-sm text-accent hover:underline">
-        ← Back to all writing
+      <a href={blogBase} class="text-sm text-accent hover:underline">
+        {backAllLabel}
       </a>
     </footer>
 
     <!-- Giscus: Comments & Reactions -->
     <section class="max-w-3xl mx-auto px-6 pb-16 mt-4">
       <div class="border-t border-subtle pt-10">
-        <h2 class="font-display text-xl font-semibold mb-6 text-ink">Diskusi</h2>
+        <h2 class="font-display text-xl font-semibold mb-6 text-ink">{discussionLabel}</h2>
         <div id="giscus-container"></div>
       </div>
     </section>
@@ -173,4 +181,3 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   </script>
 </BaseLayout>
-

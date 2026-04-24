@@ -10,13 +10,15 @@ interface Props {
   image?: string;
   article?: boolean;
   publishedTime?: string;
+  lang?: 'id' | 'en';
 }
 
 const props = Astro.props;
+const lang = props.lang ?? 'id';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <Head {...props} />
     <!-- Theme FOUC prevention: runs before render -->
@@ -30,7 +32,7 @@ const props = Astro.props;
     </script>
   </head>
   <body>
-    <Header />
+    <Header lang={lang} />
     <main class="min-h-[70vh]">
       <slot />
     </main>

@@ -1,14 +1,34 @@
 ---
 import { SITE, NAV } from '../consts';
 import ThemeToggle from './ThemeToggle.astro';
+import { getLocalizedPath } from '../i18n/utils';
+
+interface Props {
+  lang?: 'id' | 'en';
+}
+
+const { lang = 'id' } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentPath = Astro.url.pathname.replace(base, '') || '/';
+
+// Build the equivalent path in the other language
+const targetLang = lang === 'id' ? 'en' : 'id';
+const switchPath = getLocalizedPath(currentPath, targetLang);
+const switchHref = `${base}${switchPath}`;
+const switchLabel = lang === 'id' ? 'EN' : 'ID';
+
+// For nav active detection — strip /en prefix for English pages
+const normalizedPath = currentPath.startsWith('/en/')
+  ? currentPath.slice(3)
+  : currentPath === '/en'
+  ? '/'
+  : currentPath;
 ---
 
 <header class="border-b border-subtle">
   <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-    <a href={`${base}/`} class="group">
+    <a href={lang === 'en' ? `${base}/en` : `${base}/`} class="group">
       <div class="font-display text-xl font-semibold tracking-tight leading-none">
         {SITE.name}
       </div>
@@ -20,10 +40,11 @@ const currentPath = Astro.url.pathname.replace(base, '') || '/';
     <nav class="flex items-center gap-1">
       {
         NAV.map(({ label, href }) => {
-          const isActive = currentPath.startsWith(href) && href !== '/';
+          const isActive = normalizedPath.startsWith(href) && href !== '/';
+          const localizedHref = lang === 'en' ? `/en${href}` : href;
           return (
             <a
-              href={`${base}${href}`}
+              href={`${base}${localizedHref}`}
               class:list={[
                 'px-3 py-2 text-sm rounded hover:bg-paper-soft transition-colors',
                 isActive ? 'text-accent font-medium' : 'text-ink-muted',
@@ -34,6 +55,16 @@ const currentPath = Astro.url.pathname.replace(base, '') || '/';
           );
         })
       }
+
+      <!-- Language switcher -->
+      <a
+        href={switchHref}
+        class="ml-1 px-2 py-1 text-xs font-mono rounded border border-subtle hover:bg-paper-soft hover:text-accent transition-colors text-ink-soft"
+        title={lang === 'id' ? 'Switch to English' : 'Beralih ke Indonesian'}
+      >
+        {switchLabel}
+      </a>
+
       <div class="ml-2">
         <ThemeToggle />
       </div>

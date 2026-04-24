@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import { SITE } from '../consts';
 
 export async function GET(context) {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('blog', ({ id, data }) =>
+    id.startsWith('id/') && !data.draft
+  );
 
   return rss({
     title: SITE.name,
@@ -15,9 +17,9 @@ export async function GET(context) {
         title: post.data.title,
         description: post.data.description,
         pubDate: post.data.publishedAt,
-        link: `/blog/${post.slug}/`,
+        link: `/blog/${post.slug.replace('id/', '')}/`,
         categories: [post.data.category, ...post.data.tags],
       })),
-    customData: `<language>en-us</language>`,
+    customData: `<language>id</language>`,
   });
 }
