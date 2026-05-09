@@ -26,7 +26,7 @@ const normalizedPath = currentPath.startsWith('/id/')
   : currentPath;
 ---
 
-<header class="border-b border-subtle">
+<header class="border-b border-subtle sticky top-0 z-40 backdrop-blur-md" style="background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);">
   <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
     <a href={lang === 'id' ? `${base}/id` : `${base}/`} class="group">
       <div class="font-display text-xl font-semibold tracking-tight leading-none">
