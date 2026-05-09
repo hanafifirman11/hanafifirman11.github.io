@@ -73,16 +73,16 @@ quadrantChart
     quadrant-2 "Free wins ✨"
     quadrant-3 "Junior plateau"
     quadrant-4 "Where seniors live 🏔️"
-    "Generate CRUD": [0.25, 0.85]
-    "Write README": [0.15, 0.95]
-    "Read 500-line class": [0.45, 0.78]
-    "Boilerplate tests": [0.3, 0.7]
-    "Design exploration": [0.7, 0.65]
-    "Code review at speed": [0.85, 0.55]
-    "Debug flaky test": [0.65, 0.18]
-    "Find memory leak": [0.92, 0.12]
-    "Pick the right queue": [0.85, 0.15]
-    "Architectural ADR": [0.95, 0.25]
+    "CRUD generation": [0.22, 0.85]
+    "README & docs": [0.12, 0.95]
+    "Onboarding read": [0.4, 0.78]
+    "Boilerplate tests": [0.28, 0.7]
+    "Design exploration": [0.65, 0.65]
+    "AI code review": [0.78, 0.55]
+    "Debug flaky test": [0.6, 0.2]
+    "Memory leak hunt": [0.78, 0.12]
+    "Queue choice": [0.7, 0.15]
+    "Architectural ADR": [0.82, 0.28]
 ```
 
 Top-right is real leverage — AI saves time on tasks that already required skill. Bottom-right is where seniors live — high skill, low time savings. That's where AI doesn't displace you. The whole game is to spend less time in the top-left (free wins, easy to commoditize) and more time in the bottom-right (uncopyable, where your judgment is the value).
