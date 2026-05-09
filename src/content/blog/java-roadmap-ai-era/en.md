@@ -73,7 +73,7 @@ flowchart TB
     Start(["You are here:<br/>Junior Spring Boot dev"])
 
     P1["Phase 1: Modern Java<br/>(Records, sealed, pattern matching,<br/>virtual threads, structured concurrency)"]
-    P2["Phase 2: Spring Boot 3.5+ depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
+    P2["Phase 2: Spring Boot 4 depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
     P3["Phase 3: AI-era workflow<br/>(Spec-first, AI code review,<br/>Claude Code / Cursor mastery)"]
     P4["Phase 4: Production literacy<br/>(Observability, performance,<br/>distributed systems debugging)"]
     P5["Phase 5: Architecture<br/>(Event-driven, CQRS, hexagonal,<br/>system design at scale)"]
@@ -117,7 +117,9 @@ Java moved fast in the last three years and most juniors are still writing 2018 
 
 ---
 
-## Phase 2: Spring Boot 3.5+ depth
+## Phase 2: Spring Boot 4 depth
+
+Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade is the first thing on your list — not because the upgrade is hard, but because most of what's interesting in 2026 ships on 4.
 
 You probably know Spring Web MVC, JPA, and how to write a `@RestController`. The next layer:
 
@@ -143,6 +145,15 @@ flowchart LR
     class Reactive,Cloud,Test,Obs adv
     class AI ai
 ```
+
+What's actually new in Spring Boot 4 worth your attention:
+
+- **HTTP Service Clients (interface-based).** Define an interface, get a client. Spring generates the implementation. Replaces most hand-written `RestClient` / `WebClient` boilerplate.
+- **Virtual thread integration for HTTP clients.** Synchronous-style code with async scaling characteristics, end to end.
+- **API versioning support.** First-class instead of bolted on.
+- **Null-safety with JSpecify.** `@Nullable` / `@NonNull` taken seriously across the framework. IDE catches issues at compile time.
+- **Modular codebase.** Smaller, more focused modules. Faster startup, smaller native images.
+- **`RestTestClient`.** Replaces a lot of `MockMvc` ceremony. Reads cleaner.
 
 A few opinions:
 

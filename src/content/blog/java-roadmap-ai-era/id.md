@@ -73,7 +73,7 @@ flowchart TB
     Start(["Posisimu sekarang:<br/>Junior Spring Boot dev"])
 
     P1["Phase 1: Modern Java<br/>(Records, sealed, pattern matching,<br/>virtual threads, structured concurrency)"]
-    P2["Phase 2: Spring Boot 3.5+ depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
+    P2["Phase 2: Spring Boot 4 depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
     P3["Phase 3: AI-era workflow<br/>(Spec-first, AI code review,<br/>Claude Code / Cursor mastery)"]
     P4["Phase 4: Production literacy<br/>(Observability, performance,<br/>distributed systems debugging)"]
     P5["Phase 5: Architecture<br/>(Event-driven, CQRS, hexagonal,<br/>system design at scale)"]
@@ -117,7 +117,9 @@ Java bergerak cepat tiga tahun terakhir dan kebanyakan junior masih nulis Java g
 
 ---
 
-## Phase 2: Spring Boot 3.5+ depth
+## Phase 2: Spring Boot 4 depth
+
+Spring Boot 4 (GA terbaru: 4.0.6) rilis di akhir 2025 di atas Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, dan Jackson 3. Kalau masih di 3.x, upgrade adalah hal pertama di to-do list — bukan karena upgrade-nya susah, tapi karena kebanyakan yang menarik di 2026 ship di 4.
 
 Kamu mungkin sudah paham Spring Web MVC, JPA, dan cara nulis `@RestController`. Layer berikutnya:
 
@@ -143,6 +145,15 @@ flowchart LR
     class Reactive,Cloud,Test,Obs adv
     class AI ai
 ```
+
+Yang benar-benar baru di Spring Boot 4 yang wajib diperhatikan:
+
+- **HTTP Service Clients (interface-based).** Definisikan interface, dapat client. Spring generate implementasinya. Mengganti kebanyakan boilerplate `RestClient` / `WebClient` hand-written.
+- **Virtual thread integration untuk HTTP client.** Kode bergaya synchronous dengan karakteristik scaling async, end-to-end.
+- **API versioning support.** First-class, bukan ditempel-tempel.
+- **Null-safety via JSpecify.** `@Nullable` / `@NonNull` diperlakukan serius di seluruh framework. IDE catch issue di compile time.
+- **Modular codebase.** Module lebih kecil dan fokus. Startup lebih cepat, native image lebih kecil.
+- **`RestTestClient`.** Mengganti banyak ceremony `MockMvc`. Lebih bersih dibaca.
 
 Beberapa pendapat:
 
