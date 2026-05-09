@@ -16,7 +16,7 @@ In [the previous article](/en/blog/n8n-self-hosted-kubernetes), I covered our n8
 
 A typical workflow requires us to scan an external directory, process new files, upload a response, and archive the original files to clean up *storage*:
 
-<div class="mermaid">
+```mermaid
 graph LR
     A["Cron every 15 minutes"] --> B["SFTP List /incoming/"]
     B --> C["Filter only new .csv files"]
@@ -28,7 +28,7 @@ graph LR
     H --> I["SFTP Upload report"]
     I --> J["Slack Notify team"]
     J --> K["Archive Move file"]
-</div>
+```
 
 ## Building the Workflow Logic
 

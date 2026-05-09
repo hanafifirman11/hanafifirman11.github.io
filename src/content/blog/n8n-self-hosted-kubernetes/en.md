@@ -30,7 +30,7 @@ n8n wins on UI clarity. Operations engineers (*ops*) and the *product* team can 
 
 We deploy n8n on Alibaba Cloud Container Service for Kubernetes (ACK). Rather than running databases inside the K8s *cluster*, we shift *stateful* components to *managed services* (ApsaraDB).
 
-<div class="mermaid">
+```mermaid
 %%{init: {'layout': 'elk'}}%%
 flowchart TB
  subgraph K8s["Kubernetes Cluster (ACK)"]
@@ -70,7 +70,7 @@ flowchart TB
     linkStyle 6 stroke:#facc15,fill:none
     linkStyle 7 stroke:#000000,fill:none
     linkStyle 8 stroke:#000000,fill:none
-</div>
+```
 
 ### Core Components
 

@@ -1,0 +1,332 @@
+---
+// Mermaid renderer with click-to-zoom lightbox.
+// - Renders standard markdown ` ```mermaid ` code fences
+// - Click any diagram → fullscreen pan/zoom lightbox
+// - Wheel/pinch zoom, drag pan, Esc to close, theme-aware
+---
+
+<style is:global>
+  /* Hide raw mermaid code blocks until JS swaps them to rendered SVG (prevents flash) */
+  .expressive-code:has(pre[data-language="mermaid"]),
+  pre[data-language="mermaid"]:not(:has(svg)),
+  pre:has(> code.language-mermaid) {
+    visibility: hidden;
+  }
+
+  /* Force dark text inside Mermaid diagrams regardless of page theme. */
+  [data-mermaid-code] svg,
+  [data-lightbox-content] svg {
+    color: #1f2937;
+  }
+  [data-mermaid-code] svg .nodeLabel,
+  [data-mermaid-code] svg .edgeLabel,
+  [data-mermaid-code] svg .cluster-label,
+  [data-mermaid-code] svg foreignObject div,
+  [data-lightbox-content] svg .nodeLabel,
+  [data-lightbox-content] svg .edgeLabel,
+  [data-lightbox-content] svg .cluster-label,
+  [data-lightbox-content] svg foreignObject div {
+    color: #1f2937 !important;
+    fill: #1f2937 !important;
+  }
+  [data-mermaid-code] svg text,
+  [data-lightbox-content] svg text {
+    fill: #1f2937;
+  }
+  [data-mermaid-code] svg .edgeLabel rect,
+  [data-mermaid-code] svg .edgeLabel .label-container,
+  [data-lightbox-content] svg .edgeLabel rect,
+  [data-lightbox-content] svg .edgeLabel .label-container {
+    fill: #ffffff !important;
+  }
+</style>
+
+<!-- Lightbox overlay -->
+<div id="mermaid-lightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.95);backdrop-filter:blur(6px);flex-direction:column;">
+  <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:10px 16px;background:rgba(15,23,42,0.85);border-bottom:1px solid rgba(255,255,255,0.08);z-index:10;">
+    <span id="mlb-title" style="font-family:'Inter Tight',system-ui,sans-serif;font-size:13px;color:#cbd5e1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Mermaid Diagram</span>
+    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+      <span id="mlb-zoom-level" style="font-family:monospace;font-size:11px;color:#94a3b8;margin-right:8px;min-width:42px;text-align:right;">100%</span>
+      <button id="mlb-zoom-out" title="Zoom out (−)" style="width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e2e8f0;font-size:16px;cursor:pointer;line-height:1;">−</button>
+      <button id="mlb-zoom-in" title="Zoom in (+)" style="width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e2e8f0;font-size:16px;cursor:pointer;line-height:1;">+</button>
+      <button id="mlb-reset" title="Reset (0)" style="width:42px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e2e8f0;font-size:10px;cursor:pointer;font-family:monospace;">1:1</button>
+      <button id="mlb-close" title="Close (Esc)" style="width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e2e8f0;font-size:16px;cursor:pointer;line-height:1;margin-left:6px;">✕</button>
+    </div>
+  </div>
+  <p style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.3);font-size:11px;font-family:monospace;pointer-events:none;white-space:nowrap;z-index:10;">scroll to zoom · drag to pan · Esc to close</p>
+  <div id="mlb-stage" style="flex:1 1 auto;min-height:0;display:flex;align-items:safe center;justify-content:safe center;overflow:auto;cursor:grab;">
+    <div id="mlb-content" style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 25px 60px rgba(0,0,0,0.5);flex-shrink:0;" data-lightbox-content></div>
+  </div>
+</div>
+
+<script type="module" is:inline>
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.2.1/dist/mermaid-layout-elk.esm.min.mjs';
+
+  mermaid.registerLayoutLoaders(elkLayouts);
+
+  let renderCounter = 0;
+
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'base';
+  }
+
+  async function renderMermaidBlocks() {
+    // Expressive-code renders ```mermaid as: <div class="expressive-code">…<pre data-language="mermaid"><code>…</code></pre></div>
+    // Plain markdown without expressive-code: <pre><code class="language-mermaid">…</code></pre>
+    // Legacy hand-written: <div class="mermaid">…</div>
+    const blocks = document.querySelectorAll('pre[data-language="mermaid"], code.language-mermaid, div.mermaid');
+    if (!blocks.length) return;
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: "'Inter Tight', system-ui, sans-serif",
+    });
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const borderColor = isDark ? '#334155' : '#e2e8f0';
+    const borderHover = '#fca5a5';
+    const boxBg = '#ffffff';
+
+    let i = 0;
+    for (const block of blocks) {
+      // Skip if already rendered
+      if (block.closest('[data-mermaid-code]')) continue;
+
+      // Determine target to replace based on which selector matched.
+      // Expressive-code wraps each line in <div class="ec-line"> — flat textContent loses newlines, so walk lines.
+      function extractCode(el) {
+        const lines = el.querySelectorAll('.ec-line');
+        if (lines.length > 0) {
+          return Array.from(lines).map(l => l.textContent || '').join('\n').trim();
+        }
+        return (el.textContent || '').trim();
+      }
+
+      let target = block;
+      let code = '';
+      if (block.tagName === 'PRE') {
+        code = extractCode(block);
+        const expressive = block.closest('.expressive-code');
+        target = expressive || block;
+      } else if (block.tagName === 'CODE') {
+        code = extractCode(block);
+        const pre = block.closest('pre');
+        if (!pre) continue;
+        const expressive = pre.closest('.expressive-code');
+        target = expressive || pre;
+      } else {
+        code = extractCode(block);
+      }
+      if (!target.parentNode) continue;
+
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'position:relative;margin:1.5rem 0;';
+
+      const box = document.createElement('div');
+      box.style.cssText = `display:flex;justify-content:center;align-items:center;width:100%;overflow:auto;border-radius:10px;border:1px solid ${borderColor};padding:1.25rem;background:${boxBg};color:#1f2937;cursor:zoom-in;transition:background 0.2s,border-color 0.15s;`;
+      box.addEventListener('mouseenter', () => box.style.borderColor = borderHover);
+      box.addEventListener('mouseleave', () => box.style.borderColor = borderColor);
+
+      wrapper.dataset.mermaidCode = code;
+      wrapper.dataset.mermaidIndex = String(i);
+
+      wrapper.appendChild(box);
+      target.parentNode.replaceChild(wrapper, target);
+
+      await renderOneDiagram(wrapper, box, code, i);
+      i++;
+    }
+  }
+
+  async function renderOneDiagram(wrapper, box, code, idx) {
+    const uid = `mermaid-svg-${idx}-${++renderCounter}`;
+    box.innerHTML = '';
+
+    try {
+      const { svg } = await mermaid.render(uid, code);
+      box.innerHTML = svg;
+
+      const svgEl = box.querySelector('svg');
+      if (svgEl) svgEl.style.cssText = 'max-width:100%;height:auto;display:block;';
+
+      let badge = wrapper.querySelector('.mermaid-zoom-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'mermaid-zoom-badge';
+        badge.textContent = '🔍 zoom';
+        badge.style.cssText = 'position:absolute;top:8px;right:8px;font-size:10px;font-family:monospace;color:#94a3b8;background:#f1f5f9;border:1px solid #e2e8f0;padding:2px 7px;border-radius:999px;pointer-events:none;';
+        wrapper.appendChild(badge);
+      }
+
+      box.onclick = () => { const s = box.querySelector('svg'); if (s) openLightbox(s); };
+    } catch (err) {
+      box.style.cursor = 'default';
+      box.innerHTML = `<div style="background:#fef2f2;color:#b91c1c;padding:1rem;border-radius:8px;border:1px solid #fecaca;font-size:0.875rem;font-family:monospace;white-space:pre;overflow:auto;width:100%;">Diagram syntax error:\n${code}</div>`;
+      console.error('[Mermaid] render error', err);
+    }
+  }
+
+  function bootstrap() {
+    renderMermaidBlocks().catch((err) => console.error('[Mermaid] render failed', err));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap, { once: true });
+  } else {
+    bootstrap();
+  }
+
+  // Re-render on theme toggle (data-theme attribute change on <html>)
+  const themeObserver = new MutationObserver(async (muts) => {
+    for (const m of muts) {
+      if (m.attributeName === 'data-theme') {
+        document.querySelectorAll('[data-mermaid-code]').forEach(async (wrapper) => {
+          const code = wrapper.dataset.mermaidCode;
+          const idx = parseInt(wrapper.dataset.mermaidIndex || '0', 10);
+          const box = wrapper.querySelector('div');
+          if (box && code) {
+            await renderOneDiagram(wrapper, box, code, idx);
+          }
+        });
+        break;
+      }
+    }
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // ── Lightbox ────────────────────────────────────────────────────────
+  const lightbox = document.getElementById('mermaid-lightbox');
+  const stage = document.getElementById('mlb-stage');
+  const content = document.getElementById('mlb-content');
+  const titleEl = document.getElementById('mlb-title');
+  const zoomLevelEl = document.getElementById('mlb-zoom-level');
+
+  let scale = 1;
+  let baseW = 0, baseH = 0;
+  let svgClone = null;
+
+  function applyScale() {
+    if (!svgClone) return;
+    svgClone.setAttribute('width', String(Math.round(baseW * scale)));
+    svgClone.setAttribute('height', String(Math.round(baseH * scale)));
+    if (zoomLevelEl) zoomLevelEl.textContent = Math.round(scale * 100) + '%';
+  }
+
+  function zoomBy(factor, focal) {
+    if (!stage || !svgClone) return;
+    const newScale = Math.min(Math.max(scale * factor, 0.1), 10);
+    if (newScale === scale) return;
+
+    const rect = stage.getBoundingClientRect();
+    const fx = focal ? focal.x - rect.left : rect.width / 2;
+    const fy = focal ? focal.y - rect.top : rect.height / 2;
+    const contentX = stage.scrollLeft + fx;
+    const contentY = stage.scrollTop + fy;
+    const ratio = newScale / scale;
+
+    scale = newScale;
+    applyScale();
+
+    requestAnimationFrame(() => {
+      stage.scrollLeft = contentX * ratio - fx;
+      stage.scrollTop = contentY * ratio - fy;
+    });
+  }
+
+  function openLightbox(svgSource, title) {
+    if (!lightbox || !content || !stage) return;
+    const clone = svgSource.cloneNode(true);
+
+    const vb = clone.getAttribute('viewBox');
+    if (vb) {
+      const parts = vb.trim().split(/[\s,]+/).map(Number);
+      baseW = parts[2] || 800;
+      baseH = parts[3] || 600;
+    } else {
+      const rect = svgSource.getBoundingClientRect();
+      baseW = Math.round(rect.width) || 800;
+      baseH = Math.round(rect.height) || 600;
+    }
+
+    const headerH = 56;
+    const maxW = window.innerWidth * 0.85;
+    const maxH = (window.innerHeight - headerH) * 0.85;
+    scale = Math.min(maxW / baseW, maxH / baseH, 2);
+    if (!isFinite(scale) || scale <= 0) scale = 1;
+
+    clone.style.cssText = 'display:block;';
+    svgClone = clone;
+    applyScale();
+
+    content.innerHTML = '';
+    content.appendChild(clone);
+
+    if (titleEl) titleEl.textContent = title || 'Mermaid Diagram';
+
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(() => {
+      stage.scrollLeft = Math.max(0, (stage.scrollWidth - stage.clientWidth) / 2);
+      stage.scrollTop = Math.max(0, (stage.scrollHeight - stage.clientHeight) / 2);
+    });
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+    svgClone = null;
+  }
+
+  if (lightbox && stage && content) {
+    document.getElementById('mlb-close')?.addEventListener('click', closeLightbox);
+    document.getElementById('mlb-zoom-in')?.addEventListener('click', () => zoomBy(1.3));
+    document.getElementById('mlb-zoom-out')?.addEventListener('click', () => zoomBy(1 / 1.3));
+    document.getElementById('mlb-reset')?.addEventListener('click', () => { scale = 1; applyScale(); });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === stage) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      zoomBy(e.deltaY < 0 ? 1.12 : 1 / 1.12, { x: e.clientX, y: e.clientY });
+    }, { passive: false });
+
+    let dragging = false, ox = 0, oy = 0, sl0 = 0, st0 = 0;
+    stage.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      dragging = true;
+      ox = e.clientX; oy = e.clientY;
+      sl0 = stage.scrollLeft; st0 = stage.scrollTop;
+      stage.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      stage.scrollLeft = sl0 - (e.clientX - ox);
+      stage.scrollTop = st0 - (e.clientY - oy);
+    });
+    window.addEventListener('mouseup', () => { dragging = false; stage.style.cursor = 'grab'; });
+
+    let lastPinchDist = 0;
+    stage.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) lastPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    }, { passive: true });
+    stage.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 2) return;
+      e.preventDefault();
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      const focal = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+      };
+      zoomBy(d / lastPinchDist, focal);
+      lastPinchDist = d;
+    }, { passive: false });
+  }
+</script>

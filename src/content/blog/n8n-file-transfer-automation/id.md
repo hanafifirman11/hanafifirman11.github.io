@@ -16,7 +16,7 @@ Di [artikel sebelumnya](/blog/n8n-self-hosted-kubernetes), saya membahas arsitek
 
 Alur kerja pada umumnya membutuhkan kita untuk menyisir direktori eksternal, memproses file baru, menunggah balasan, dan mengarsipkan file orisinal untuk merapikan *storage*:
 
-<div class="mermaid">
+```mermaid
 graph LR
     A["Cron setiap 15 menit"] --> B["SFTP List /incoming/"]
     B --> C["Filter hanya .csv baru"]
@@ -28,7 +28,7 @@ graph LR
     H --> I["SFTP Upload report"]
     I --> J["Slack Notify team"]
     J --> K["Archive Move file"]
-</div>
+```
 
 ## Membangun Logika Workflow
 
