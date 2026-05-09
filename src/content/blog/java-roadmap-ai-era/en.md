@@ -160,29 +160,34 @@ You probably know Spring Web MVC, JPA, and how to write a `@RestController`. The
 Picture it as a stack — the layers below carry the layers above. You don't get to skip the bottom and start at the top.
 
 ```mermaid
-block-beta
-  columns 4
+flowchart TB
+    subgraph Apps["🎯 Application capabilities"]
+        direction LR
+        AI["🤖 Spring AI<br/>ChatClient · RAG"]
+        Web["🌐 Web/REST<br/>MVC · WebFlux · Service Clients"]
+        Data["💾 Data<br/>JPA · R2DBC · Hibernate 7"]
+        Cloud["☁️ Spring Cloud<br/>OpenFeign · Resilience4j"]
+    end
 
-  AI["🤖 Spring AI<br/>ChatClient · RAG · vector stores"]:1
-  Web["🌐 Web/REST<br/>MVC · WebFlux · Service Clients"]:1
-  Data["💾 Data<br/>JPA · R2DBC · Hibernate 7"]:1
-  Cloud["☁️ Spring Cloud<br/>OpenFeign · Resilience4j"]:1
+    subgraph Cross["🛠 Cross-cutting concerns"]
+        direction LR
+        Test["🧪 Testing<br/>JUnit 6 · Testcontainers · RestTestClient"]
+        Obs["📡 Observability<br/>Micrometer · OpenTelemetry · structured logs"]
+    end
 
-  Test["🧪 Testing — JUnit 6 · Mockito · Testcontainers · RestTestClient"]:2
-  Obs["📡 Observability — Micrometer · OpenTelemetry · structured logs"]:2
+    Frame["🌱 Spring Framework 7 · Spring Boot 4 · Spring Security 7"]
+    JVM["☕ Java 25 LTS · Virtual Threads · GraalVM native"]
 
-  Framework["Spring Framework 7 · Spring Boot 4 · Spring Security 7"]:4
+    Apps --> Cross --> Frame --> JVM
 
-  JVM["☕ Java 25 LTS · Virtual Threads · GraalVM native"]:4
-
-  classDef apps stroke:#818cf8,fill:#eef2ff,color:#000
-  classDef shared stroke:#0ea5e9,fill:#e0f2fe,color:#000
-  classDef base stroke:#10b981,fill:#d1fae5,color:#000
-  classDef jvm stroke:#f59e0b,fill:#fef3c7,color:#000
-  class AI,Web,Data,Cloud apps
-  class Test,Obs shared
-  class Framework base
-  class JVM jvm
+    classDef apps stroke:#818cf8,fill:#eef2ff,color:#000
+    classDef shared stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef base stroke:#10b981,fill:#d1fae5,color:#000
+    classDef jvm stroke:#f59e0b,fill:#fef3c7,color:#000
+    class AI,Web,Data,Cloud apps
+    class Test,Obs shared
+    class Frame base
+    class JVM jvm
 ```
 
 What's actually new in Spring Boot 4 worth your attention:
