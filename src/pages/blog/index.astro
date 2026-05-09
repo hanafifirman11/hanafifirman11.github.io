@@ -8,7 +8,7 @@ const lang = 'en';
 const t = useTranslations(lang);
 
 const allPosts = await getCollection('blog', ({ id, data }) =>
-  id.startsWith('en/') && !data.draft
+  id.endsWith('/en.md') && !data.draft
 );
 
 const posts = allPosts.sort(
@@ -59,7 +59,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </h2>
             {postsByYear[year].map((post) => (
               <PostCard
-                href={`${base}/blog/${post.slug.replace('en/', '')}`}
+                href={`${base}/blog/${post.slug.replace(/\/en$/, '')}`}
                 title={post.data.title}
                 description={post.data.description}
                 publishedAt={post.data.publishedAt}

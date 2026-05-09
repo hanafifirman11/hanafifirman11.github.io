@@ -4,10 +4,10 @@ import PostLayout from '../../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ id, data }) =>
-    id.startsWith('id/') && !data.draft
+    id.endsWith('/id.md') && !data.draft
   );
   return posts.map((post) => ({
-    params: { slug: post.slug.replace('id/', '') },
+    params: { slug: post.slug.replace(/\/id$/, '') },
     props: { post },
   }));
 }

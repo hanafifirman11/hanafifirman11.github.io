@@ -7,7 +7,7 @@ import { useTranslations } from '../i18n/utils';
 const lang = 'en';
 const t = useTranslations(lang);
 
-const posts = (await getCollection('blog', ({ id, data }) => id.startsWith('en/') && !data.draft))
+const posts = (await getCollection('blog', ({ id, data }) => id.endsWith('/en.md') && !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
   .slice(0, 4);
 
@@ -77,7 +77,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <div>
           {posts.map((post) => (
             <PostCard
-              href={`${base}/blog/${post.slug.replace('en/', '')}`}
+              href={`${base}/blog/${post.slug.replace(/\/en$/, '')}`}
               title={post.data.title}
               description={post.data.description}
               publishedAt={post.data.publishedAt}

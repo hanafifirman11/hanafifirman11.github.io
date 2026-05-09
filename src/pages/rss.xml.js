@@ -4,7 +4,7 @@ import { SITE } from '../consts';
 
 export async function GET(context) {
   const posts = await getCollection('blog', ({ id, data }) =>
-    id.startsWith('id/') && !data.draft
+    id.endsWith('/en.md') && !data.draft
   );
 
   return rss({
@@ -17,9 +17,9 @@ export async function GET(context) {
         title: post.data.title,
         description: post.data.description,
         pubDate: post.data.publishedAt,
-        link: `/blog/${post.slug.replace('id/', '')}/`,
+        link: `/blog/${post.slug.replace(/\/en$/, '')}/`,
         categories: [post.data.category, ...post.data.tags],
       })),
-    customData: `<language>id</language>`,
+    customData: `<language>en</language>`,
   });
 }
