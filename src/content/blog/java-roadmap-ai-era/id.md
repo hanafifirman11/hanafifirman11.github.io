@@ -62,47 +62,81 @@ Spesifik soal apa yang jadi lebih cepat. Wins-nya nyata, tapi tidak rata:
 
 **Pola-nya:** AI compress bagian yang jawabannya ada di training data. AI tidak compress bagian yang butuh reasoning di bawah ketidakpastian tentang sistem *kamu*.
 
-Jadi tugasmu di 2026 adalah lebih sedikit waktu untuk bagian murah, lebih banyak untuk bagian mahal. Itu saja. Itu roadmap-nya.
+Kalau di-plot di dua sumbu — berapa banyak waktu yang dihemat AI vs seberapa skill yang dibutuhkan task itu — bentuknya seperti ini:
+
+```mermaid
+quadrantChart
+    title Di mana AI benar-benar membantu (dan di mana senior masih hidup)
+    x-axis "Skill yang dibutuhkan →"
+    y-axis "Waktu yang dihemat AI →"
+    quadrant-1 "Real leverage 🚀"
+    quadrant-2 "Free wins ✨"
+    quadrant-3 "Junior plateau"
+    quadrant-4 "Where seniors live 🏔️"
+    "Generate CRUD": [0.25, 0.85]
+    "Tulis README": [0.15, 0.95]
+    "Baca class 500 baris": [0.45, 0.78]
+    "Boilerplate test": [0.3, 0.7]
+    "Design exploration": [0.7, 0.65]
+    "Code review at speed": [0.85, 0.55]
+    "Debug flaky test": [0.65, 0.18]
+    "Cari memory leak": [0.92, 0.12]
+    "Pilih queue tepat": [0.85, 0.15]
+    "ADR arsitektur": [0.95, 0.25]
+```
+
+Pojok kanan-atas adalah leverage nyata — AI hemat waktu di task yang sudah butuh skill. Pojok kanan-bawah adalah tempat senior hidup — skill tinggi, waktu yang dihemat sedikit. Di situlah AI tidak menggeser kamu. Permainan-nya: lebih sedikit waktu di pojok kiri-atas (gampang dikomoditisasi), lebih banyak di pojok kanan-bawah (susah ditiru, judgment kamu yang jadi nilainya).
+
+Jadi tugasmu di 2026 mudah disebut, susah dilakukan: **lebih sedikit waktu untuk bagian murah, lebih banyak untuk bagian mahal.**
 
 ---
 
 ## Roadmap
 
+Lupakan tangga linier. Cara kamu sebenarnya berkembang lebih mirip ini — cabang-cabang yang saling memberi makan, bukan fase yang harus selesai sebelum unlock yang berikutnya:
+
 ```mermaid
-flowchart TB
-    Start(["Posisimu sekarang:<br/>Junior Spring Boot dev"])
-
-    P1["Phase 1: Modern Java<br/>(Records, sealed, pattern matching,<br/>virtual threads, structured concurrency)"]
-    P2["Phase 2: Spring Boot 4 depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
-    P3["Phase 3: AI-era workflow<br/>(Spec-first, AI code review,<br/>Claude Code / Cursor mastery)"]
-    P4["Phase 4: Production literacy<br/>(Observability, performance,<br/>distributed systems debugging)"]
-    P5["Phase 5: Architecture<br/>(Event-driven, CQRS, hexagonal,<br/>system design at scale)"]
-
-    End(["Senior di era AI:<br/>The validator, the architect,<br/>the human in the loop"])
-
-    Start --> P1 --> P2 --> P3 --> P4 --> P5 --> End
-
-    classDef start stroke:#94a3b8,fill:#f1f5f9,color:#000
-    classDef java stroke:#f59e0b,fill:#fef3c7,color:#000
-    classDef spring stroke:#10b981,fill:#d1fae5,color:#000
-    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
-    classDef prod stroke:#0ea5e9,fill:#e0f2fe,color:#000
-    classDef arch stroke:#a78bfa,fill:#f5f3ff,color:#000
-    class Start,End start
-    class P1 java
-    class P2 spring
-    class P3 ai
-    class P4 prod
-    class P5 arch
+mindmap
+  root((Java dev<br/>worth hiring<br/>di 2026))
+    🪨 Fondasi yang tidak berubah
+      JVM internals & GC
+      Concurrency model
+      SQL & query plan
+      Distributed systems
+    🚀 Modern Java
+      Records & sealed
+      Pattern matching
+      Virtual threads
+      Structured concurrency
+    🌱 Spring Boot 4
+      HTTP Service Clients
+      Spring AI
+      Testcontainers day 1
+      OTel + Micrometer
+    🤖 Kerja bareng AI
+      Spec sebelum code
+      Review at AI speed
+      Test literacy
+      Prompt engineering
+    🔥 Production survival
+      Tracing + metrics
+      JFR & flame graph
+      Resilience patterns
+      Operational chops
+    🏛️ Trade-off yang bisa kamu bela
+      Event-driven
+      Hexagonal
+      Bounded contexts
+      ADR
 ```
 
-Lima fase, terurut berdasarkan apa yang unlock apa. Tidak harus berurutan ketat, tapi reactive Spring Boot tidak masuk akal sebelum kamu paham virtual threads, dan arsitektur tidak masuk akal sebelum kamu lihat production gagal.
+Kamu tidak menyelesaikan "modern Java" lalu mulai "Spring Boot 4". Kamu loop. Kamu masuk dalam ke virtual threads, lalu sadar perlu fix observability, lalu sadar arsitekturnya salah, lalu balik ke basic Java dengan mata baru. Cabang-cabang itu saling menguatkan.
 
-Tiap fase nantinya jadi post terpisah. Skim dulu di sini; kita masuk dalam di tempat lain.
+Tiap cabang nantinya jadi post terpisah. Skim dulu di sini; kita masuk dalam di tempat lain.
 
 ---
 
-## Phase 1: Modern Java is the table stakes
+## Phase 1 — Berhenti nulis Java gaya 2018
 
 Java bergerak cepat tiga tahun terakhir dan kebanyakan junior masih nulis Java gaya 2018. Java 25 LTS adalah baseline sekarang. Feature yang dulu "advanced" sekarang default:
 
@@ -117,33 +151,38 @@ Java bergerak cepat tiga tahun terakhir dan kebanyakan junior masih nulis Java g
 
 ---
 
-## Phase 2: Spring Boot 4 depth
+## Phase 2 — Spring Boot 4, dengan benar
 
 Spring Boot 4 (GA terbaru: 4.0.6) rilis di akhir 2025 di atas Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, dan Jackson 3. Kalau masih di 3.x, upgrade adalah hal pertama di to-do list — bukan karena upgrade-nya susah, tapi karena kebanyakan yang menarik di 2026 ship di 4.
 
 Kamu mungkin sudah paham Spring Web MVC, JPA, dan cara nulis `@RestController`. Layer berikutnya:
 
+Bayangkan sebagai stack — layer di bawah menopang layer di atas. Kamu tidak bisa skip yang bawah dan langsung mulai di atas.
+
 ```mermaid
-flowchart LR
-    Core["Spring Boot Core<br/>(MVC, JPA, security)"]
-    Reactive["Reactive<br/>(WebFlux, R2DBC,<br/>kalau virtual threads<br/>belum cukup)"]
-    Cloud["Spring Cloud<br/>(OpenFeign, Resilience4j,<br/>config server)"]
-    Test["Testing<br/>(JUnit 6, Mockito,<br/>Testcontainers,<br/>RestTestClient)"]
-    Obs["Observability<br/>(Micrometer, OTel,<br/>structured logging)"]
-    AI["Spring AI<br/>(ChatClient, RAG,<br/>vector stores)"]
+block-beta
+  columns 4
 
-    Core --> Reactive
-    Core --> Cloud
-    Core --> Test
-    Core --> Obs
-    Core --> AI
+  AI["🤖 Spring AI<br/>ChatClient · RAG · vector stores"]:1
+  Web["🌐 Web/REST<br/>MVC · WebFlux · Service Clients"]:1
+  Data["💾 Data<br/>JPA · R2DBC · Hibernate 7"]:1
+  Cloud["☁️ Spring Cloud<br/>OpenFeign · Resilience4j"]:1
 
-    classDef core stroke:#10b981,fill:#d1fae5,color:#000
-    classDef adv stroke:#0ea5e9,fill:#e0f2fe,color:#000
-    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
-    class Core core
-    class Reactive,Cloud,Test,Obs adv
-    class AI ai
+  Test["🧪 Testing — JUnit 6 · Mockito · Testcontainers · RestTestClient"]:2
+  Obs["📡 Observability — Micrometer · OpenTelemetry · structured logs"]:2
+
+  Framework["Spring Framework 7 · Spring Boot 4 · Spring Security 7"]:4
+
+  JVM["☕ Java 25 LTS · Virtual Threads · GraalVM native"]:4
+
+  classDef apps stroke:#818cf8,fill:#eef2ff,color:#000
+  classDef shared stroke:#0ea5e9,fill:#e0f2fe,color:#000
+  classDef base stroke:#10b981,fill:#d1fae5,color:#000
+  classDef jvm stroke:#f59e0b,fill:#fef3c7,color:#000
+  class AI,Web,Data,Cloud apps
+  class Test,Obs shared
+  class Framework base
+  class JVM jvm
 ```
 
 Yang benar-benar baru di Spring Boot 4 yang wajib diperhatikan:
@@ -164,24 +203,42 @@ Beberapa pendapat:
 
 ---
 
-## Phase 3: AI-era workflow
+## Phase 3 — Kerja bareng AI tanpa kehilangan otak
 
 Ini layer baru. Kebanyakan junior tidak sadar ini skill tersendiri. Beda antara yang pakai AI dengan baik vs yang pakai dengan buruk, di-sketsa sebagai workflow comparison:
 
 ```mermaid
-flowchart TB
-    subgraph Bad["❌ Vibe coding (jebakan junior)"]
-        B1["Dapat ticket"] --> B2["Buka Cursor"] --> B3["'tolong tulis feature X'"] --> B4["Klik accept"] --> B5["Tests pass"] --> B6["Ship"] --> B7["3 minggu kemudian: prod incident"]
+flowchart LR
+    subgraph Bad["🪦 Death loop vibe-coding"]
+        direction LR
+        B1(["📋 ticket"]) --> B2["💬 'tolong fix ini'"]
+        B2 --> B3["✨ accept all"]
+        B3 --> B4["✅ test green"]
+        B4 --> B5["🚢 ship"]
+        B5 --> B6["🔥 dipanggil jam 3 pagi"]
+        B6 -.->|ticket sama lagi| B1
     end
-    subgraph Good["✓ Spec-first (senior era AI)"]
-        G1["Dapat ticket"] --> G2["Baca pattern code existing"] --> G3["Tulis spec / acceptance criteria"] --> G4["Generate skeleton dengan constraints"] --> G5["Review skeleton — STOP"] --> G6["Generate per layer + tests"] --> G7["Code review kode AI-nya"] --> G8["Ship dengan confidence"]
+    subgraph Good["🎯 Spec-first compounding loop"]
+        direction LR
+        G1(["📋 ticket"]) --> G2["📖 baca existing"]
+        G2 --> G3["📝 spec dulu"]
+        G3 --> G4["🧱 skeleton"]
+        G4 --> G5{{"🛑 review<br/>SKELETON"}}
+        G5 --> G6["🎨 layer-by-layer"]
+        G6 --> G7["👀 review kode AI"]
+        G7 --> G8["🚀 ship"]
+        G8 -.->|knowledge nempel| G1
     end
 
     classDef bad stroke:#dc2626,fill:#fee2e2,color:#000
     classDef good stroke:#10b981,fill:#d1fae5,color:#000
-    class B1,B2,B3,B4,B5,B6,B7 bad
-    class G1,G2,G3,G4,G5,G6,G7,G8 good
+    classDef gate stroke:#f59e0b,fill:#fef3c7,color:#000
+    class B1,B2,B3,B4,B5,B6 bad
+    class G1,G2,G3,G4,G6,G7,G8 good
+    class G5 gate
 ```
+
+Perhatikan garis putus-putus. Vibe coding loop *balik ke ticket yang sama*; spec-first loop balik dengan *knowledge codebase yang lebih banyak*. Kedua siklus compound — yang satu melawan kamu, yang lain bekerja untuk kamu.
 
 Skill di dalam Phase 3:
 
@@ -197,7 +254,7 @@ Skill di dalam Phase 3:
 
 ---
 
-## Phase 4: Production literacy
+## Phase 4 — Bertahan hidup di production
 
 Kode di production berperilaku berbeda dari kode di test. Skill-nya adalah membaca beda itu.
 
@@ -210,7 +267,7 @@ Kode di production berperilaku berbeda dari kode di test. Skill-nya adalah memba
 
 ---
 
-## Phase 5: Architecture
+## Phase 5 — Trade-off yang bisa kamu bela
 
 Sampai di sini, kamu sudah harus bisa bikin keputusan opinionated. Daftar tidak lengkap:
 
@@ -227,27 +284,29 @@ Sinyal kamu senior di era AI bukan tools yang dipakai — tapi trade-off yang bi
 
 ## 90-day playbook
 
-Kalau mau starting point konkret, ini 12 minggu. Pilih satu item per minggu. Ship sesuatu di akhir tiap minggu.
+Talk is cheap. Ini kalender — 12 minggu, satu artefak yang di-ship per minggu. Buka aplikasi calendar sekarang kalau kamu serius.
 
-**Minggu 1–4 — Modern Java fluency**
-- Convert DTO existing ke records
-- Ganti satu state machine dengan sealed classes + pattern matching
-- Refactor satu service ke virtual threads
-- Coba `StructuredTaskScope` di parallel API call
+```mermaid
+timeline
+    title 90 hari dari junior ke "next level"
+    section Minggu 1-4 · Modern Java
+      Wk 1 : Convert DTO ke records
+      Wk 2 : Sealed + pattern matching untuk satu state machine
+      Wk 3 : Refactor satu service ke virtual threads
+      Wk 4 : StructuredTaskScope di parallel API call
+    section Minggu 5-8 · Spring 4 & AI workflow
+      Wk 5 : Ganti H2 dengan Testcontainers
+      Wk 6 : Micrometer + Grafana dashboard
+      Wk 7 : Ship satu Spring AI feature end-to-end
+      Wk 8 : Tulis CLAUDE.md dan benar-benar pakai
+    section Minggu 9-12 · Production & architecture
+      Wk 9 : JFR profile + fix satu bottleneck
+      Wk 10 : OpenTelemetry tracing across 2 service
+      Wk 11 : Refactor satu bounded context ke hexagonal
+      Wk 12 : Tulis ADR pertamamu
+```
 
-**Minggu 5–8 — Spring depth + AI workflow**
-- Tambah Testcontainers ke project, ganti H2
-- Tambah Micrometer + Grafana dashboard
-- Build satu Spring AI feature end-to-end (chat atau RAG)
-- Tulis CLAUDE.md / SPEC.md untuk codebase. Pakai.
-
-**Minggu 9–12 — Production + architecture**
-- Profile service dengan JFR, temukan satu bottleneck, fix
-- Tambah OpenTelemetry tracing across dua service
-- Refactor satu bounded context jadi struktur hexagonal
-- Tulis ADR (Architecture Decision Record) untuk satu trade-off yang kamu ambil
-
-Kalau disiplin, dalam 90 hari kamu punya artefak yang measurable dan keluar dari tier "saya cuma nulis CRUD pakai AI."
+Dua belas commit. Dua belas PR description. Tiap satu adalah hal yang bisa kamu tunjuk di interview setahun lagi: "ini yang gue pelajari kuartal itu." Itu sudah lebih banyak dari portfolio kebanyakan engineer.
 
 ---
 

@@ -62,47 +62,81 @@ Be specific about what becomes faster. The wins are real, but uneven:
 
 **The pattern:** AI compresses the parts where the answer exists in some training data somewhere. It doesn't compress the parts that require reasoning under uncertainty about *your* system.
 
-So your job in 2026 is to spend less time on the cheap parts and more on the expensive parts. That's it. That's the roadmap.
+Plotted on two axes — how much time AI saves you vs. how much skill the task requires — it looks like this:
+
+```mermaid
+quadrantChart
+    title Where AI actually helps (and where seniors still live)
+    x-axis "Skill required →"
+    y-axis "Time saved by AI →"
+    quadrant-1 "Real leverage 🚀"
+    quadrant-2 "Free wins ✨"
+    quadrant-3 "Junior plateau"
+    quadrant-4 "Where seniors live 🏔️"
+    "Generate CRUD": [0.25, 0.85]
+    "Write README": [0.15, 0.95]
+    "Read 500-line class": [0.45, 0.78]
+    "Boilerplate tests": [0.3, 0.7]
+    "Design exploration": [0.7, 0.65]
+    "Code review at speed": [0.85, 0.55]
+    "Debug flaky test": [0.65, 0.18]
+    "Find memory leak": [0.92, 0.12]
+    "Pick the right queue": [0.85, 0.15]
+    "Architectural ADR": [0.95, 0.25]
+```
+
+Top-right is real leverage — AI saves time on tasks that already required skill. Bottom-right is where seniors live — high skill, low time savings. That's where AI doesn't displace you. The whole game is to spend less time in the top-left (free wins, easy to commoditize) and more time in the bottom-right (uncopyable, where your judgment is the value).
+
+So your job in 2026 is simple to state, hard to do: **spend less time on the cheap parts, more time on the expensive parts.**
 
 ---
 
 ## The roadmap
 
+Forget the linear ladder. The way you actually grow looks more like this — branches that feed each other, not phases you finish before unlocking the next:
+
 ```mermaid
-flowchart TB
-    Start(["You are here:<br/>Junior Spring Boot dev"])
-
-    P1["Phase 1: Modern Java<br/>(Records, sealed, pattern matching,<br/>virtual threads, structured concurrency)"]
-    P2["Phase 2: Spring Boot 4 depth<br/>(Reactive, observability, security,<br/>Spring AI, testing)"]
-    P3["Phase 3: AI-era workflow<br/>(Spec-first, AI code review,<br/>Claude Code / Cursor mastery)"]
-    P4["Phase 4: Production literacy<br/>(Observability, performance,<br/>distributed systems debugging)"]
-    P5["Phase 5: Architecture<br/>(Event-driven, CQRS, hexagonal,<br/>system design at scale)"]
-
-    End(["Senior in AI era:<br/>The validator, the architect,<br/>the human in the loop"])
-
-    Start --> P1 --> P2 --> P3 --> P4 --> P5 --> End
-
-    classDef start stroke:#94a3b8,fill:#f1f5f9,color:#000
-    classDef java stroke:#f59e0b,fill:#fef3c7,color:#000
-    classDef spring stroke:#10b981,fill:#d1fae5,color:#000
-    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
-    classDef prod stroke:#0ea5e9,fill:#e0f2fe,color:#000
-    classDef arch stroke:#a78bfa,fill:#f5f3ff,color:#000
-    class Start,End start
-    class P1 java
-    class P2 spring
-    class P3 ai
-    class P4 prod
-    class P5 arch
+mindmap
+  root((Java dev<br/>worth hiring<br/>in 2026))
+    🪨 Foundations that don't change
+      JVM internals & GC
+      Concurrency model
+      SQL & query plans
+      Distributed systems
+    🚀 Modern Java
+      Records & sealed
+      Pattern matching
+      Virtual threads
+      Structured concurrency
+    🌱 Spring Boot 4
+      HTTP Service Clients
+      Spring AI
+      Testcontainers day 1
+      OTel + Micrometer
+    🤖 Working with AI
+      Spec before code
+      Review at AI speed
+      Test literacy
+      Prompt engineering
+    🔥 Production survival
+      Tracing + metrics
+      JFR & flame graphs
+      Resilience patterns
+      Operational chops
+    🏛️ Trade-offs you defend
+      Event-driven
+      Hexagonal
+      Bounded contexts
+      ADRs
 ```
 
-Five phases, ordered by what unlocks what. You don't have to do them in strict order, but reactive Spring Boot doesn't make sense before you understand virtual threads, and architecture doesn't make sense before you've seen production fail.
+You don't finish "modern Java" then start "Spring Boot 4." You loop. You go deep on virtual threads, then realize you need to fix observability, then notice the architecture is wrong, then come back to Java basics with new eyes. The branches reinforce each other.
 
-Each phase is a future post. Skim them here; we'll go deep elsewhere.
+Each branch is a future post. Skim it here; we'll go deep elsewhere.
 
 ---
 
-## Phase 1: Modern Java is the table stakes
+## Phase 1 — Stop writing 2018 Java
 
 Java moved fast in the last three years and most juniors are still writing 2018 Java. Java 25 LTS is the current baseline. The features that used to be "advanced" are now the default:
 
@@ -117,33 +151,38 @@ Java moved fast in the last three years and most juniors are still writing 2018 
 
 ---
 
-## Phase 2: Spring Boot 4 depth
+## Phase 2 — Spring Boot 4, properly
 
 Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade is the first thing on your list — not because the upgrade is hard, but because most of what's interesting in 2026 ships on 4.
 
 You probably know Spring Web MVC, JPA, and how to write a `@RestController`. The next layer:
 
+Picture it as a stack — the layers below carry the layers above. You don't get to skip the bottom and start at the top.
+
 ```mermaid
-flowchart LR
-    Core["Spring Boot Core<br/>(MVC, JPA, security)"]
-    Reactive["Reactive<br/>(WebFlux, R2DBC,<br/>when virtual threads<br/>aren't enough)"]
-    Cloud["Spring Cloud<br/>(OpenFeign, Resilience4j,<br/>config server)"]
-    Test["Testing<br/>(JUnit 6, Mockito,<br/>Testcontainers,<br/>RestTestClient)"]
-    Obs["Observability<br/>(Micrometer, OTel,<br/>structured logging)"]
-    AI["Spring AI<br/>(ChatClient, RAG,<br/>vector stores)"]
+block-beta
+  columns 4
 
-    Core --> Reactive
-    Core --> Cloud
-    Core --> Test
-    Core --> Obs
-    Core --> AI
+  AI["🤖 Spring AI<br/>ChatClient · RAG · vector stores"]:1
+  Web["🌐 Web/REST<br/>MVC · WebFlux · Service Clients"]:1
+  Data["💾 Data<br/>JPA · R2DBC · Hibernate 7"]:1
+  Cloud["☁️ Spring Cloud<br/>OpenFeign · Resilience4j"]:1
 
-    classDef core stroke:#10b981,fill:#d1fae5,color:#000
-    classDef adv stroke:#0ea5e9,fill:#e0f2fe,color:#000
-    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
-    class Core core
-    class Reactive,Cloud,Test,Obs adv
-    class AI ai
+  Test["🧪 Testing — JUnit 6 · Mockito · Testcontainers · RestTestClient"]:2
+  Obs["📡 Observability — Micrometer · OpenTelemetry · structured logs"]:2
+
+  Framework["Spring Framework 7 · Spring Boot 4 · Spring Security 7"]:4
+
+  JVM["☕ Java 25 LTS · Virtual Threads · GraalVM native"]:4
+
+  classDef apps stroke:#818cf8,fill:#eef2ff,color:#000
+  classDef shared stroke:#0ea5e9,fill:#e0f2fe,color:#000
+  classDef base stroke:#10b981,fill:#d1fae5,color:#000
+  classDef jvm stroke:#f59e0b,fill:#fef3c7,color:#000
+  class AI,Web,Data,Cloud apps
+  class Test,Obs shared
+  class Framework base
+  class JVM jvm
 ```
 
 What's actually new in Spring Boot 4 worth your attention:
@@ -164,24 +203,42 @@ A few opinions:
 
 ---
 
-## Phase 3: The AI-era workflow
+## Phase 3 — Working with AI without losing your brain
 
 This is the new layer. Most juniors don't realize this is a skill in itself. Here's the difference between someone who uses AI well vs. someone who uses it poorly, sketched as a workflow comparison:
 
 ```mermaid
-flowchart TB
-    subgraph Bad["❌ Vibe coding (junior trap)"]
-        B1["Get ticket"] --> B2["Open Cursor"] --> B3["'write me a feature for X'"] --> B4["Hit accept"] --> B5["Tests pass"] --> B6["Ship"] --> B7["3 weeks later: prod incident"]
+flowchart LR
+    subgraph Bad["🪦 The vibe-coding death loop"]
+        direction LR
+        B1(["📋 ticket"]) --> B2["💬 'fix it bro'"]
+        B2 --> B3["✨ accept all"]
+        B3 --> B4["✅ green tests"]
+        B4 --> B5["🚢 ship"]
+        B5 --> B6["🔥 3am page"]
+        B6 -.->|same ticket again| B1
     end
-    subgraph Good["✓ Spec-first (AI-era senior)"]
-        G1["Get ticket"] --> G2["Read existing code patterns"] --> G3["Write spec / acceptance criteria"] --> G4["Generate skeleton with constraints"] --> G5["Review skeleton — STOP"] --> G6["Generate per layer + tests"] --> G7["Code review the AI's code"] --> G8["Ship with confidence"]
+    subgraph Good["🎯 The spec-first compounding loop"]
+        direction LR
+        G1(["📋 ticket"]) --> G2["📖 read existing"]
+        G2 --> G3["📝 spec it"]
+        G3 --> G4["🧱 skeleton"]
+        G4 --> G5{{"🛑 review<br/>SKELETON"}}
+        G5 --> G6["🎨 layer-by-layer"]
+        G6 --> G7["👀 review AI's code"]
+        G7 --> G8["🚀 ship"]
+        G8 -.->|knowledge stays| G1
     end
 
     classDef bad stroke:#dc2626,fill:#fee2e2,color:#000
     classDef good stroke:#10b981,fill:#d1fae5,color:#000
-    class B1,B2,B3,B4,B5,B6,B7 bad
-    class G1,G2,G3,G4,G5,G6,G7,G8 good
+    classDef gate stroke:#f59e0b,fill:#fef3c7,color:#000
+    class B1,B2,B3,B4,B5,B6 bad
+    class G1,G2,G3,G4,G6,G7,G8 good
+    class G5 gate
 ```
+
+Notice the dotted lines. Vibe coding loops *back to the same ticket*; spec-first loops back with *more knowledge of the codebase*. Both cycles compound — one against you, the other for you.
 
 The skills inside Phase 3:
 
@@ -197,7 +254,7 @@ The skills inside Phase 3:
 
 ---
 
-## Phase 4: Production literacy
+## Phase 4 — Surviving production
 
 Code in production behaves differently from code in your tests. The skill is reading that difference.
 
@@ -210,7 +267,7 @@ Code in production behaves differently from code in your tests. The skill is rea
 
 ---
 
-## Phase 5: Architecture
+## Phase 5 — Trade-offs you can defend
 
 By the time you're here, you should be making opinionated calls. A non-exhaustive list:
 
@@ -227,27 +284,29 @@ The signal that you're senior in the AI era isn't the tools you use — it's the
 
 ## The 90-day playbook
 
-If you want a concrete starting point, here are 12 weeks. Pick one item per week. Ship something at the end of each.
+Talk is cheap. Here's the calendar — twelve weeks, one shipped artefact per week. Open your calendar app right now if you're serious.
 
-**Weeks 1–4 — Modern Java fluency**
-- Convert your existing DTOs to records
-- Replace one state machine with sealed classes + pattern matching
-- Refactor one service to use virtual threads
-- Try `StructuredTaskScope` on a parallel API call
+```mermaid
+timeline
+    title 90 days from junior to "next level"
+    section Weeks 1-4 · Modern Java
+      Wk 1 : Convert DTOs to records
+      Wk 2 : Sealed + pattern matching for one state machine
+      Wk 3 : Refactor one service to virtual threads
+      Wk 4 : StructuredTaskScope on a parallel API call
+    section Weeks 5-8 · Spring 4 & AI workflow
+      Wk 5 : Replace H2 with Testcontainers
+      Wk 6 : Micrometer + Grafana dashboard
+      Wk 7 : Ship one Spring AI feature end-to-end
+      Wk 8 : Write CLAUDE.md and actually use it
+    section Weeks 9-12 · Production & architecture
+      Wk 9 : JFR profile + fix one bottleneck
+      Wk 10 : OpenTelemetry tracing across 2 services
+      Wk 11 : Refactor one bounded context to hexagonal
+      Wk 12 : Write your first ADR
+```
 
-**Weeks 5–8 — Spring depth + AI workflow**
-- Add Testcontainers to your project, replace H2
-- Add Micrometer + a Grafana dashboard
-- Build one Spring AI feature end-to-end (chat or RAG)
-- Write a CLAUDE.md / SPEC.md for your codebase. Use it.
-
-**Weeks 9–12 — Production + architecture**
-- Profile your service with JFR, find one bottleneck, fix it
-- Add OpenTelemetry tracing across two services
-- Refactor one bounded context into a hexagonal structure
-- Write an ADR (Architecture Decision Record) for one trade-off you made
-
-If you're disciplined about this, in 90 days you have measurable artifacts and you've left the "I just write CRUD with AI" tier.
+Twelve commits. Twelve PR descriptions. Each one a thing you can point to in a job interview a year from now and say "this is what I learned that quarter." That beats most engineers' entire portfolios.
 
 ---
 
