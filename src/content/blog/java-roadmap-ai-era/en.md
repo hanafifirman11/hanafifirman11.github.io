@@ -6,49 +6,49 @@ category: ai-engineering
 tags: ["java", "spring-boot", "career", "ai-engineering", "roadmap"]
 ---
 
-If you can already build a Spring Boot CRUD app, hit "Generate" in Claude Code, and ship a feature — congratulations, you're in the same bucket as everyone else who tried Java for two months. That bar got commoditized. AI didn't lower it; it moved.
+Honestly? If you can already build a Spring Boot CRUD app, hit "Generate" in Claude Code, and ship a feature, you're in the same bucket as everyone else who picked up Java a couple of months ago. That bar got commoditized. The AI just moved it higher.
 
-This is a roadmap for junior Java developers who already know the basics and want to know **what to learn next** to stay valuable in 2026. It assumes you've shipped a few Spring Boot apps, know your way around an `application.yml`, and don't get scared by a stack trace. What follows is what separates "can finish a ticket" from "is the engineer the team actually wants in the room when the architecture decision is being made."
+This roadmap is for junior Java developers who already know the basics and want to figure out what to learn next to stay valuable in 2026. I'm assuming you've shipped a few Spring Boot apps, you know your way around an `application.yml`, and a stack trace doesn't make you panic. What I want to talk about is the gap between "can finish a ticket" and "the engineer the team actually wants in the room when an architecture decision is being made."
 
-This is **part 1 of a series**. Future posts will go deep on each phase. For now, the goal is the map.
+This is part 1 of a series. Future posts will go deep on each phase. For now I just want to get the map down.
 
 ---
 
 ## The new bar: what changed in 2026
 
-Three things changed at the same time:
+A few things shifted at roughly the same time.
 
-1. **Boilerplate disappeared.** Generating a `@Service` class with constructor injection, four CRUD endpoints, and a paginated list isn't a skill anymore. Claude Code or Cursor produces it in 30 seconds, faster than you can think of the field names.
+First, boilerplate basically disappeared as a job. Generating a `@Service` class with constructor injection, four CRUD endpoints, and a paginated list isn't really a skill anymore. Claude Code or Cursor will produce it in 30 seconds, faster than you can come up with the field names.
 
-2. **Reading other people's code became cheap.** Onboarding to a 200k-line legacy codebase used to take three weeks. With Serena + a competent prompt, you get architectural intuition in a day. The slow part is no longer reading.
+Second, reading other people's code got cheap. Onboarding into a 200k-line legacy codebase used to be a three-week affair. With Serena and a halfway-competent prompt, you'll have architectural intuition in a day. The slow part isn't the reading anymore.
 
-3. **Validation didn't get cheaper.** Knowing whether a piece of code is actually correct — handles concurrency right, doesn't leak resources, doesn't degrade under load, doesn't break the existing contract — still costs the same human effort it always did.
+Third, validation stayed exactly as expensive as before. Working out whether a piece of code actually behaves correctly under concurrency, whether it leaks resources, whether it degrades under load, whether it quietly breaks an existing contract — that still takes the same human hours it always did.
 
-That last point is the entire game. **Generation got 10× faster. Validation didn't.** The engineers who matter in 2026 are the ones who can validate fast.
+That third point is what really matters. Generation got maybe 10× faster. Validation didn't move at all. So the engineers who matter in 2026 are the ones who can validate fast.
 
 ---
 
 ## What still matters (and matters more than ever)
 
-These are the foundations that AI doesn't touch. If anything, AI raises the cost of not knowing them — because you can ship broken code 10× faster.
+These are the foundations AI just doesn't touch. If anything, AI raises the cost of not knowing them, because now you can ship broken code 10× faster.
 
-**JVM internals.** Garbage collection behavior, memory model, escape analysis. The day you have a 99th-percentile latency spike in production, no AI is going to debug a G1 pause for you if you don't know what a G1 pause is.
+**JVM internals.** Garbage collection behavior, memory model, escape analysis. The day you get a 99th-percentile latency spike in production, no AI is going to debug a G1 pause for you if you don't even know what a G1 pause is.
 
-**Concurrency.** Virtual threads (Loom) are now table stakes — they're not "advanced." But virtual threads don't make race conditions disappear. Knowing the Java Memory Model, `volatile`, `synchronized`, and the difference between `CompletableFuture.thenApply` and `thenApplyAsync` is what stops you from shipping a bug AI happily generated.
+**Concurrency.** Virtual threads (Loom) are baseline now. They're not "advanced" anymore. But virtual threads don't make race conditions disappear. Knowing the Java Memory Model, `volatile`, `synchronized`, and the difference between `CompletableFuture.thenApply` and `thenApplyAsync` is what stops you from shipping a bug that AI happily generated for you.
 
-**SQL and database internals.** Indexes, query plans, isolation levels, `N+1` problems. Hibernate generates queries — beautiful, sometimes catastrophic queries. You need to read EXPLAIN.
+**SQL and database internals.** Indexes, query plans, isolation levels, the classic N+1. Hibernate generates beautiful queries. Sometimes catastrophic ones. You need to be able to read EXPLAIN.
 
-**Distributed systems fundamentals.** CAP, idempotency, retries, deduplication, exactly-once illusions. Spring Cloud and Kafka let you build things; understanding lets you debug them.
+**Distributed systems fundamentals.** CAP, idempotency, retries, deduplication, exactly-once illusions. Spring Cloud and Kafka let you build things. Understanding is what lets you debug them when they go wrong.
 
-**System design.** Trade-offs between consistency and availability, when to use a queue vs a database vs a cache, how to scope a bounded context. AI can sketch options. It cannot decide for you.
+**System design.** Trade-offs between consistency and availability, when a queue is the right answer vs a database vs a cache, how to scope a bounded context. AI is fine at sketching options. The choice still has to be yours.
 
-If you skip this layer, AI becomes a footgun. You'll ship code you can't defend in code review.
+Skip this layer and AI becomes a footgun. You'll be shipping code you can't defend in review.
 
 ---
 
 ## What AI actually compresses
 
-Be specific about what becomes faster. The wins are real, but uneven:
+It helps to be specific about which parts get faster, because the wins are real but very uneven:
 
 | Task | Time before AI | Time with AI | Compression |
 |---|---|---|---|
@@ -60,9 +60,9 @@ Be specific about what becomes faster. The wins are real, but uneven:
 | Find a memory leak in prod | 4 hours | 4 hours | ~1× (no help) |
 | Decide which queue to use | 1 day | 1 day | ~1× (no help) |
 
-**The pattern:** AI compresses the parts where the answer exists in some training data somewhere. It doesn't compress the parts that require reasoning under uncertainty about *your* system.
+The pattern is fairly obvious in retrospect. AI compresses the parts where the answer is sitting in some training data somewhere. It doesn't compress the parts that need reasoning under uncertainty about *your* specific system.
 
-Plotted on two axes — how much time AI saves you vs. how much skill the task requires — it looks like this:
+Plotted on two axes (how much time AI saves you vs. how much skill the task takes), it looks like this:
 
 ```mermaid
 quadrantChart
@@ -85,15 +85,15 @@ quadrantChart
     "Architectural ADR": [0.82, 0.28]
 ```
 
-Top-right is real leverage — AI saves time on tasks that already required skill. Bottom-right is where seniors live — high skill, low time savings. That's where AI doesn't displace you. The whole game is to spend less time in the top-left (free wins, easy to commoditize) and more time in the bottom-right (uncopyable, where your judgment is the value).
+Top-right is the real leverage zone. AI saves time on tasks that already needed skill. Bottom-right is where seniors live: high skill, low time savings, AI can't really displace you there. The whole point of the next few years is to spend less time in the top-left (free wins, easy to commoditize) and more time in the bottom-right (the uncopyable part, where your judgment is the value).
 
-So your job in 2026 is simple to state, hard to do: **spend less time on the cheap parts, more time on the expensive parts.**
+Easy to say, hard to actually do: spend less time on the cheap parts, more time on the expensive parts.
 
 ---
 
 ## The roadmap
 
-Forget the linear ladder. The way you actually grow looks more like this — branches that feed each other, not phases you finish before unlocking the next:
+Forget the linear ladder. The way people actually grow looks more like this: branches that feed each other, not phases you finish before unlocking the next one.
 
 ```mermaid
 mindmap
@@ -130,34 +130,34 @@ mindmap
       ADRs
 ```
 
-You don't finish "modern Java" then start "Spring Boot 4." You loop. You go deep on virtual threads, then realize you need to fix observability, then notice the architecture is wrong, then come back to Java basics with new eyes. The branches reinforce each other.
+Nobody actually finishes "modern Java" and then starts "Spring Boot 4." You loop. You go deep on virtual threads, then realize you need to fix observability, then notice the architecture is wrong, then come back to Java basics with fresh eyes. The branches keep reinforcing each other.
 
-Each branch is a future post. Skim it here; we'll go deep elsewhere.
+Each branch will turn into its own post eventually. For now just skim, we'll go deep elsewhere.
 
 ---
 
 ## Phase 1 — Stop writing 2018 Java
 
-Java moved fast in the last three years and most juniors are still writing 2018 Java. Java 25 LTS is the current baseline. The features that used to be "advanced" are now the default:
+Java has moved fast in the last three years, and most juniors are still writing it like it's 2018. Java 25 LTS is the current baseline. Features that used to count as "advanced" are now just default:
 
-- **Records** — replace 90% of your DTOs and value objects. Immutable by default, `equals`/`hashCode` for free.
-- **Sealed classes + pattern matching** — algebraic data types. Use them for state machines, result types, and exhaustive switch statements that actually compile-check.
-- **Virtual threads (Loom)** — `Thread.startVirtualThread(...)` or `Executors.newVirtualThreadPerTaskExecutor()`. The reason most "must use reactive" advice from 2020 is now wrong.
-- **Structured concurrency** (preview, JEP 505 in Java 25) — `try (var scope = new StructuredTaskScope.ShutdownOnFailure())`. Treats a group of concurrent tasks as a single unit. Replace most of your manual `CompletableFuture` orchestration.
-- **Scoped values** — replacement for `ThreadLocal` that works correctly with virtual threads.
-- **Pattern matching for switch** — including type patterns and deconstruction. Stops you from writing `if (x instanceof Y y)` cascades.
+- **Records** can replace 90% of your DTOs and value objects. Immutable by default, `equals`/`hashCode` for free.
+- **Sealed classes plus pattern matching** give you algebraic data types. Useful for state machines, result types, exhaustive switch statements that actually compile-check.
+- **Virtual threads (Loom)**: `Thread.startVirtualThread(...)` or `Executors.newVirtualThreadPerTaskExecutor()`. The reason most "you must use reactive" advice from 2020 has aged badly.
+- **Structured concurrency** (preview, JEP 505 in Java 25). `try (var scope = new StructuredTaskScope.ShutdownOnFailure())`. Treats a group of concurrent tasks as a single unit. Replaces most of your manual `CompletableFuture` choreography.
+- **Scoped values**, the replacement for `ThreadLocal` that actually works correctly with virtual threads.
+- **Pattern matching for switch**, including type patterns and deconstruction. Means you can stop writing `if (x instanceof Y y)` cascades.
 
-**Why this matters in the AI era:** AI generates whatever style your codebase exhibits. If your codebase is full of pre-Java-17 patterns, AI will generate more pre-Java-17 patterns. Your seniority is partly measured by the modernity of the patterns you steer the codebase toward.
+A while back I reviewed a PR from a junior on my team. Whole thing was Java 8 patterns, even though the project was already on Java 21. When I asked why, the answer was: "the AI generated it that way." Sure enough, the codebase was 80% legacy style. AI just mirrors what it sees. So if your codebase is full of pre-Java-17 patterns, AI will keep generating pre-Java-17 patterns. Like it or not, your seniority is partly measured by how modern the patterns you steer the codebase toward actually are.
 
 ---
 
 ## Phase 2 — Spring Boot 4, properly
 
-Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade is the first thing on your list — not because the upgrade is hard, but because most of what's interesting in 2026 ships on 4.
+Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade should be the first thing on your list. Not because the upgrade itself is hard, but because most of what's interesting in 2026 lives on 4.
 
-You probably know Spring Web MVC, JPA, and how to write a `@RestController`. The next layer:
+You probably already know Spring Web MVC, JPA, and how to write a `@RestController`. The next layer up looks like this.
 
-Picture it as a stack — the layers below carry the layers above. You don't get to skip the bottom and start at the top.
+Picture it as a stack: the layers below carry the layers above. You don't get to skip the bottom and start at the top.
 
 ```mermaid
 flowchart TB
@@ -199,18 +199,18 @@ What's actually new in Spring Boot 4 worth your attention:
 - **Modular codebase.** Smaller, more focused modules. Faster startup, smaller native images.
 - **`RestTestClient`.** Replaces a lot of `MockMvc` ceremony. Reads cleaner.
 
-A few opinions:
+A few opinions you're free to disagree with:
 
-- **Reactive is no longer the default answer.** With virtual threads, plain MVC scales to thousands of concurrent connections without callback hell. Use WebFlux when you genuinely have backpressure or streaming requirements. Otherwise stay with MVC.
-- **Testcontainers should be on day one.** H2 and embedded Postgres lie about behavior. Real Postgres in a container catches real bugs.
-- **Observability is non-negotiable.** Add Micrometer + OpenTelemetry from the start. The first time you debug a production issue without traces, you'll remember why.
-- **Spring AI is now part of the platform.** `ChatClient`, structured output, RAG via `VectorStore`. If your team doesn't have at least one feature backed by an LLM, you're behind.
+- Reactive isn't the default answer anymore. With virtual threads, plain MVC will scale to thousands of concurrent connections without you ever touching callback hell. WebFlux still has a place if you genuinely have backpressure or streaming requirements. Otherwise just stick with MVC.
+- Testcontainers should honestly be on day one. H2 and embedded Postgres lie about behavior. Real Postgres in a container catches real bugs.
+- Observability isn't optional. Get Micrometer and OpenTelemetry in from the start. The first time you debug a production issue without traces you'll remember why people kept telling you to.
+- Spring AI is part of the platform now. `ChatClient`, structured output, RAG via `VectorStore`. If your team doesn't have at least one feature backed by an LLM in 2026, you're already behind.
 
 ---
 
 ## Phase 3 — Working with AI without losing your brain
 
-This is the new layer. Most juniors don't realize this is a skill in itself. Here's the difference between someone who uses AI well vs. someone who uses it poorly, sketched as a workflow comparison:
+This is the layer that didn't exist five years ago. Most juniors don't even register it as a skill, but it absolutely is one. The difference between someone who uses AI well and someone who uses it badly looks something like this:
 
 ```mermaid
 flowchart LR
@@ -243,53 +243,53 @@ flowchart LR
     class G5 gate
 ```
 
-Notice the dotted lines. Vibe coding loops *back to the same ticket*; spec-first loops back with *more knowledge of the codebase*. Both cycles compound — one against you, the other for you.
+Look at the dotted lines. Vibe coding loops you back to the same ticket. Spec-first loops you back with more knowledge of the codebase than you started with. Both cycles compound. One works against you, the other works for you.
 
 The skills inside Phase 3:
 
-**Spec-first development.** Before you write a single prompt, you write a CLAUDE.md / SPEC.md describing the constraints, conventions, and references. Then you generate. The quality of AI output is directly proportional to the spec quality.
+**Spec-first development.** Before you write a single prompt, write a CLAUDE.md or SPEC.md that describes the constraints, conventions, and references. Then generate. The quality of the AI output tracks closely with the quality of the spec you give it.
 
-**Code review at AI speed.** You're not the author anymore. You're the reviewer. That changes everything. You need to spot subtle bugs, weak tests, hidden N+1 queries, and patterns that don't match your codebase — at the rate AI produces them.
+**Code review at AI speed.** You're not really the author anymore. You're the reviewer. That changes everything about how you work. You have to spot subtle bugs, weak tests, hidden N+1 queries, patterns that don't match your codebase, and you have to do it at the rate AI produces them.
 
-**Test literacy.** AI generates passing tests. That's a problem. A passing test that doesn't exercise the failure mode is worse than no test, because it gives false confidence. You need to read what was tested vs. what was *not* tested.
+**Test literacy.** AI tends to generate passing tests, and that's actually a problem. A passing test that doesn't exercise the failure mode is worse than no test at all, because it gives you false confidence. You have to read what was tested *and* what wasn't.
 
-**Prompt engineering for code.** Specifically: how to provide context (Serena), how to constrain output, how to do checkpoint-based generation, when to use a Skill vs. an Agent.
+**Prompt engineering for code.** Specifically: how to provide context (Serena helps a lot), how to constrain output, how to do checkpoint-based generation, when to use a Skill versus an Agent.
 
-**AI governance.** What you don't send to AI: customer PII, credentials, internal patents, competitor-sensitive architecture. This is non-negotiable in fintech, health, government.
+**AI governance.** What you don't send to AI: customer PII, credentials, internal patents, competitor-sensitive architecture. In fintech, health, or government, this isn't a debate.
 
 ---
 
 ## Phase 4 — Surviving production
 
-Code in production behaves differently from code in your tests. The skill is reading that difference.
+Code in production behaves nothing like code in your tests. The skill here is being able to read that difference.
 
-- **Tracing & metrics.** OpenTelemetry across services. Custom Micrometer metrics for business KPIs. Distributed tracing in Jaeger / Tempo / Datadog.
-- **Performance.** JFR (Java Flight Recorder) for profiling, async-profiler for flame graphs, GC log analysis. The first time you fix a 99th-percentile latency by tuning `-XX:G1MaxNewSizePercent`, you graduate.
-- **Resilience patterns.** Circuit breakers, bulkheads, timeouts at every external call, idempotency keys for retries, deduplication windows.
-- **Operational chops.** Reading logs across pods, querying Prometheus, writing a useful runbook. Not glamorous; pays the bills.
+- **Tracing and metrics.** OpenTelemetry across services. Custom Micrometer metrics for business KPIs. Distributed tracing in Jaeger, Tempo, or Datadog.
+- **Performance.** JFR (Java Flight Recorder) for profiling, async-profiler for flame graphs, GC log analysis. The first time you fix a p99 latency issue by tuning `-XX:G1MaxNewSizePercent`, you've crossed a threshold.
+- **Resilience patterns.** Circuit breakers, bulkheads, timeouts on every external call, idempotency keys for retries, deduplication windows.
+- **Operational skills.** Reading logs across pods, querying Prometheus, writing a runbook somebody else can actually use. Not glamorous, but this is what pays the bills.
 
-**This is the layer where AI helps least.** Production debugging is reasoning under uncertainty about a specific system. Generic answers don't apply. You'll spend a lot of time here, and that's the point — it's the layer that's hardest to commoditize.
+This is the layer where AI helps least. Production debugging is reasoning under uncertainty about one specific system. Generic answers don't apply. You'll spend a lot of time here, and honestly that's the point. It's the layer that's hardest to commoditize.
 
 ---
 
 ## Phase 5 — Trade-offs you can defend
 
-By the time you're here, you should be making opinionated calls. A non-exhaustive list:
+By the time you're here you should be making opinionated calls. A non-exhaustive list:
 
-- **Event-driven architecture.** Kafka, outbox pattern, sagas, idempotent consumers, CDC (Debezium). When events vs. when REST.
-- **CQRS** — when to split read/write models, when not to (most of the time, not).
-- **Hexagonal / ports-and-adapters.** Why business logic shouldn't import Spring annotations. Why your `@Service` is a code smell at scale.
-- **Bounded contexts.** Conway's Law. When a microservice split is a real boundary vs. a distributed monolith.
-- **API design.** REST vs. gRPC vs. GraphQL — actual trade-offs, not opinions copied from a blog.
-- **Data modeling.** Event sourcing isn't always right. Append-only logs aren't always right. Boring CRUD with a clear schema is often the right answer.
+- **Event-driven architecture.** Kafka, outbox pattern, sagas, idempotent consumers, CDC (Debezium). When you reach for events vs when you reach for REST.
+- **CQRS.** When to split read and write models, when not to (most of the time, not).
+- **Hexagonal / ports-and-adapters.** Why business logic shouldn't import Spring annotations. Why your `@Service` becomes a code smell at scale.
+- **Bounded contexts.** Conway's Law. When a microservice split is a real boundary versus a distributed monolith dressed up.
+- **API design.** REST vs gRPC vs GraphQL. Actual trade-offs, not opinions copy-pasted from a blog post.
+- **Data modeling.** Event sourcing isn't always the answer. Append-only logs aren't always the answer. Boring CRUD with a clear schema is honestly the right call more often than people admit.
 
-The signal that you're senior in the AI era isn't the tools you use — it's the trade-offs you can articulate without looking them up.
+The signal that you're senior in the AI era is the trade-offs you can articulate without googling, not the tools you've used.
 
 ---
 
 ## The 90-day playbook
 
-Talk is cheap. Here's the calendar — twelve weeks, one shipped artefact per week. Open your calendar app right now if you're serious.
+Talk is cheap, so here's a calendar. Twelve weeks, one shipped artefact per week. If you're actually serious about this, open your calendar app right now.
 
 ```mermaid
 timeline
@@ -311,38 +311,38 @@ timeline
       Wk 12 : Write your first ADR
 ```
 
-Twelve commits. Twelve PR descriptions. Each one a thing you can point to in a job interview a year from now and say "this is what I learned that quarter." That beats most engineers' entire portfolios.
+Twelve commits, twelve PR descriptions. Each one becomes something you can point to in an interview a year from now: "this is what I learned that quarter." That's already more than what most engineers can show.
 
 ---
 
 ## Anti-patterns to avoid
 
-These are the ways juniors get stuck in 2026. AI exposes them faster than they used to be exposed.
+These are the ways juniors get stuck in 2026, and AI exposes them faster than the old way ever did.
 
-**Vibe coding.** Generating without reading. Shipping without understanding. The first prod incident will teach you, but at high cost.
+**Vibe coding.** Generating without reading, shipping without understanding. The first prod incident will teach you, expensively.
 
-**Skipping tests because AI got it right.** AI gets it 95% right and the 5% is exactly where bugs live. Tests aren't ceremonial; they're how you bound the trust.
+**Skipping tests because the AI got it right.** It gets it 95% right, and the 5% is exactly where the bugs live. Tests aren't a formality, they're how you bound how much you trust the AI's output.
 
-**Believing AI-generated tests are real coverage.** They often test the implementation, not the contract. They often only test happy paths. Read them; don't just count the passing dots.
+**Believing AI-generated tests are real coverage.** They often test the implementation rather than the contract, and they often only cover the happy path. Read them. Don't just count the passing dots.
 
-**Stack-jumping every quarter.** Quarkus, Micronaut, Helidon are interesting; mastering one (Spring Boot) makes you employable. Diversify after, not before.
+**Stack-jumping every quarter.** Quarkus, Micronaut, Helidon are all interesting. Mastering one (Spring Boot, in your case) is what makes you employable. Diversify later, not before.
 
-**Ignoring observability.** "It worked locally." This phrase ages out very quickly when you carry the pager.
+**Ignoring observability.** "It worked locally." That sentence has a very short shelf life once you're holding the pager.
 
-**Treating AI as authority.** AI hallucinates Spring annotations, makes up Hibernate methods, invents JEP numbers. Verify against official docs. Always.
+**Treating AI as an authority.** It hallucinates Spring annotations, invents Hibernate methods, makes up JEP numbers. Verify against the official docs. Always.
 
 ---
 
 ## What you become
 
-A junior Java dev in 2021 became valuable by being able to write code. A junior Java dev in 2026 becomes valuable by being able to **validate code, instrument it, defend it in review, and articulate the trade-offs that led to it.**
+A junior Java dev in 2021 was valuable for being able to write code. A junior Java dev in 2026 is valuable for being able to validate code, instrument it, defend it in review, and articulate the trade-offs that led to it being shaped that way.
 
-The role shifted from author to editor-architect-validator. The skills compound. The bar is higher, but the leverage is also higher: a competent dev with AI ships what a 5-person team shipped two years ago.
+The role moved from author to something more like editor-architect-validator. The skills stack on each other. The bar is higher, sure, but so is the leverage. A competent dev with AI today ships what a five-person team used to ship a couple of years ago.
 
-That's the opportunity. Don't fall into the trap of thinking AI is doing the work for you. AI is doing the *typing* for you. The work — the judgment — is still yours.
+That's the opportunity. Just don't fall into the trap of thinking AI is doing the work for you. It's doing the *typing*. The work, meaning the judgment, is still on you.
 
 ---
 
-This was the map. The next posts in this series go deep on each phase: starting with **Phase 1: Modern Java fluency** (records, sealed classes, virtual threads, structured concurrency in production patterns).
+That's the map. The next posts in this series go deep on each phase, starting with Phase 1: Modern Java fluency (records, sealed classes, virtual threads, structured concurrency in real production patterns).
 
-If you want a single piece of advice to take away: **stop generating code you wouldn't be willing to defend in code review tomorrow.** That one constraint will guide every other decision.
+If you only take one thing away from this whole article: stop generating code you wouldn't be willing to defend in code review tomorrow. That single constraint ends up guiding pretty much every other decision.
