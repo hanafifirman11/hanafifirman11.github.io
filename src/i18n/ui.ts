@@ -3,7 +3,7 @@ export const languages = {
   en: 'English',
 };
 
-export const defaultLang = 'id';
+export const defaultLang = 'en';
 
 export const ui = {
   id: {
@@ -31,7 +31,7 @@ export const ui = {
     'blog.eyebrow': 'Writing',
     'blog.h1': 'Essays & notes',
     'blog.description':
-      'A running log of what I\'m learning — mostly about architecture, AI in engineering workflows, and the quiet trade-offs that shape real systems.',
+      "A running log of what I'm learning — mostly about architecture, AI in engineering workflows, and the quiet trade-offs that shape real systems.",
     'blog.empty': 'No posts yet. The first one is being drafted.',
     'blog.allPosts': 'All posts →',
     'blog.recentWriting': 'Recent writing',
@@ -41,6 +41,28 @@ export const ui = {
     'post.backToAllWriting': '← Back to all writing',
     'post.discussion': 'Diskusi',
     'post.updated': 'Updated',
+
+    // About page
+    'about.eyebrow': 'Tentang Saya',
+    'about.h1.line1': 'Scaling Systems,',
+    'about.h1.line2': 'Exploring Trails',
+    'about.section.education': 'Pendidikan',
+    'about.section.whySite': 'Mengapa Situs Ini',
+    'about.section.contact': 'Hubungi Saya',
+    'about.contact.desc': 'Tertarik untuk berkolaborasi, konsultasi arsitektur, atau sekadar ngobrol soal teknologi dan kopi? Jangan ragu untuk menghubungi saya.',
+
+    // Portfolio page
+    'portfolio.eyebrow': 'Portfolio',
+    'portfolio.h1': 'Portofolio Terpilih',
+    'portfolio.desc': 'Perjalanan dari Java Programmer hingga Solutions Architect, membangun infrastruktur pembayaran skala besar. Berikut pengalaman kerja, proyek, dan keahlian teknis saya.',
+    'portfolio.section.experience': 'Pengalaman Kerja',
+    'portfolio.section.projects': 'Proyek',
+    'portfolio.projects.desc': 'Kontribusi open source, inisiatif engineering internal, dan proyek pribadi.',
+    'portfolio.section.skills': 'Teknologi & Keahlian',
+    'portfolio.skills.desc': 'Kumpulan teknologi, alat, dan metodologi yang saya gunakan sehari-hari.',
+    'portfolio.tab.opensource': '🔓 Open Source',
+    'portfolio.tab.notable': '🏢 Notable Work',
+    'portfolio.tab.personal': '🧪 Personal',
 
     // Footer
     'footer.builtWith': 'Built with Astro.',
@@ -70,7 +92,7 @@ export const ui = {
     'blog.eyebrow': 'Writing',
     'blog.h1': 'Essays & notes',
     'blog.description':
-      'A running log of what I\'m learning — mostly about architecture, AI in engineering workflows, and the quiet trade-offs that shape real systems.',
+      "A running log of what I'm learning — mostly about architecture, AI in engineering workflows, and the quiet trade-offs that shape real systems.",
     'blog.empty': 'No posts yet. The first one is being drafted.',
     'blog.allPosts': 'All posts →',
     'blog.recentWriting': 'Recent writing',
@@ -80,6 +102,28 @@ export const ui = {
     'post.backToAllWriting': '← Back to all writing',
     'post.discussion': 'Discussion',
     'post.updated': 'Updated',
+
+    // About page
+    'about.eyebrow': 'About Me',
+    'about.h1.line1': 'Scaling Systems,',
+    'about.h1.line2': 'Exploring Trails',
+    'about.section.education': 'Education',
+    'about.section.whySite': 'Why this site',
+    'about.section.contact': 'Get in Touch',
+    'about.contact.desc': 'Interested in collaboration, architecture consulting, or just a conversation about technology and coffee? Feel free to reach out.',
+
+    // Portfolio page
+    'portfolio.eyebrow': 'Portfolio',
+    'portfolio.h1': 'Selected work',
+    'portfolio.desc': 'A journey from Java Programmer to Solutions Architect, building payment infrastructure at scale. Below are my work experience, projects, and technical expertise.',
+    'portfolio.section.experience': 'Work Experience',
+    'portfolio.section.projects': 'Projects',
+    'portfolio.projects.desc': 'Open source contributions, internal engineering initiatives, and personal builds.',
+    'portfolio.section.skills': 'Tech Stack & Skills',
+    'portfolio.skills.desc': 'A curated collection of technologies, tools, and methodologies I work with daily.',
+    'portfolio.tab.opensource': '🔓 Open Source',
+    'portfolio.tab.notable': '🏢 Notable Work',
+    'portfolio.tab.personal': '🧪 Personal',
 
     // Footer
     'footer.builtWith': 'Built with Astro.',

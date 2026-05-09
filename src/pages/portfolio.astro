@@ -1,30 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/utils';
+
+const lang = 'en';
+const t = useTranslations(lang);
 ---
 
 <BaseLayout
-  title="Portfolio"
-  description="Work experience, projects, and technical skills — Solutions Architect with 11+ years building payment infrastructure at scale."
-  lang="id"
+  title={t('portfolio.eyebrow')}
+  description={t('portfolio.desc')}
+  lang={lang}
 >
   <section class="max-w-4xl mx-auto px-6 py-12 md:py-16 animate-rise">
     <header class="mb-12 pb-8 border-b border-subtle">
       <p class="font-mono text-xs uppercase tracking-[0.2em] text-ink-soft mb-4">
-        Portfolio
+        {t('portfolio.eyebrow')}
       </p>
       <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-4">
-        Selected work
+        {t('portfolio.h1')}
       </h1>
       <p class="text-lg text-ink-muted leading-relaxed">
-        A journey from Java Programmer to Solutions Architect, building payment infrastructure at scale.
-        Below are my work experience, projects, and technical expertise.
+        {t('portfolio.desc')}
       </p>
     </header>
 
     <!-- ========== EXPERIENCE ========== -->
     <section class="mb-20">
       <h2 class="font-mono text-sm text-ink-soft mb-8 pb-2 border-b border-subtle">
-        Work Experience
+        {t('portfolio.section.experience')}
       </h2>
       <div class="timeline">
 
@@ -209,15 +212,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <!-- ========== PROJECTS ========== -->
     <section class="mb-20">
       <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
-        Projects
+        {t('portfolio.section.projects')}
       </h2>
-      <p class="text-ink-muted mb-6">Open source contributions, internal engineering initiatives, and personal builds.</p>
+      <p class="text-ink-muted mb-6">{t('portfolio.projects.desc')}</p>
 
       <!-- Tabs -->
       <div class="project-tabs" id="projectTabs">
-        <button class="project-tab active" data-tab="opensource">🔓 Open Source</button>
-        <button class="project-tab" data-tab="notable">🏢 Notable Work</button>
-        <button class="project-tab" data-tab="personal">🧪 Personal</button>
+        <button class="project-tab active" data-tab="opensource">{t('portfolio.tab.opensource')}</button>
+        <button class="project-tab" data-tab="notable">{t('portfolio.tab.notable')}</button>
+        <button class="project-tab" data-tab="personal">{t('portfolio.tab.personal')}</button>
       </div>
 
       <!-- Panel: Open Source -->
@@ -476,9 +479,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <!-- ========== SKILLS ========== -->
     <section>
       <h2 class="font-mono text-sm text-ink-soft mb-6 pb-2 border-b border-subtle">
-        Tech Stack & Skills
+        {t('portfolio.section.skills')}
       </h2>
-      <p class="text-ink-muted mb-8">A curated collection of technologies, tools, and methodologies I work with daily.</p>
+      <p class="text-ink-muted mb-8">{t('portfolio.skills.desc')}</p>
 
       <div class="skills-grid">
 

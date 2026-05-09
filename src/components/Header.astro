@@ -7,28 +7,28 @@ interface Props {
   lang?: 'id' | 'en';
 }
 
-const { lang = 'id' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentPath = Astro.url.pathname.replace(base, '') || '/';
 
 // Build the equivalent path in the other language
-const targetLang = lang === 'id' ? 'en' : 'id';
+const targetLang = lang === 'en' ? 'id' : 'en';
 const switchPath = getLocalizedPath(currentPath, targetLang);
 const switchHref = `${base}${switchPath}`;
-const switchLabel = lang === 'id' ? 'EN' : 'ID';
+const switchLabel = lang === 'en' ? 'ID' : 'EN';
 
-// For nav active detection — strip /en prefix for English pages
-const normalizedPath = currentPath.startsWith('/en/')
+// For nav active detection — strip /id prefix for Indonesian pages
+const normalizedPath = currentPath.startsWith('/id/')
   ? currentPath.slice(3)
-  : currentPath === '/en'
+  : currentPath === '/id'
   ? '/'
   : currentPath;
 ---
 
 <header class="border-b border-subtle">
   <div class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-    <a href={lang === 'en' ? `${base}/en` : `${base}/`} class="group">
+    <a href={lang === 'id' ? `${base}/id` : `${base}/`} class="group">
       <div class="font-display text-xl font-semibold tracking-tight leading-none">
         {SITE.name}
       </div>
@@ -41,7 +41,7 @@ const normalizedPath = currentPath.startsWith('/en/')
       {
         NAV.map(({ label, href }) => {
           const isActive = normalizedPath.startsWith(href) && href !== '/';
-          const localizedHref = lang === 'en' ? `/en${href}` : href;
+          const localizedHref = lang === 'id' ? `/id${href}` : href;
           return (
             <a
               href={`${base}${localizedHref}`}
@@ -60,7 +60,7 @@ const normalizedPath = currentPath.startsWith('/en/')
       <a
         href={switchHref}
         class="ml-1 px-2 py-1 text-xs font-mono rounded border border-subtle hover:bg-paper-soft hover:text-accent transition-colors text-ink-soft"
-        title={lang === 'id' ? 'Switch to English' : 'Beralih ke Indonesian'}
+        title={lang === 'en' ? 'Beralih ke Bahasa Indonesia' : 'Switch to English'}
       >
         {switchLabel}
       </a>

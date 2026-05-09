@@ -28,7 +28,7 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   i18n: {
-    defaultLocale: 'id',
+    defaultLocale: 'en',
     locales: ['id', 'en'],
     routing: { prefixDefaultLocale: false },
   },

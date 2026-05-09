@@ -4,10 +4,10 @@ import PostLayout from '../../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ id, data }) =>
-    id.startsWith('en/') && !data.draft
+    id.startsWith('id/') && !data.draft
   );
   return posts.map((post) => ({
-    params: { slug: post.slug.replace('en/', '') },
+    params: { slug: post.slug.replace('id/', '') },
     props: { post },
   }));
 }
@@ -23,7 +23,7 @@ const { Content } = await post.render();
   updatedAt={post.data.updatedAt}
   category={post.data.category}
   tags={post.data.tags}
-  lang="en"
+  lang="id"
 >
   <Content />
 </PostLayout>

@@ -4,8 +4,8 @@ export type Lang = 'id' | 'en';
 
 export function getLangFromUrl(url: URL): Lang {
   const [, first] = url.pathname.split('/');
-  if (first === 'en') return 'en';
-  return 'id';
+  if (first === 'id') return 'id';
+  return 'en';
 }
 
 export function useTranslations(lang: Lang) {
@@ -16,28 +16,24 @@ export function useTranslations(lang: Lang) {
 
 /**
  * Given the current pathname and target lang, return the equivalent path.
+ * Default lang is English (no prefix); Indonesian is prefixed with /id.
  * Examples:
- *   /blog/some-post  en  →  /en/blog/some-post
- *   /en/blog/some-post  id  →  /blog/some-post
- *   /about  en  →  /en/about
- *   /  en  →  /en
- *   /en  id  →  /
+ *   /blog/some-post  id  →  /id/blog/some-post
+ *   /id/blog/some-post  en  →  /blog/some-post
+ *   /about  id  →  /id/about
+ *   /  id  →  /id
+ *   /id  en  →  /
  */
 export function getLocalizedPath(pathname: string, targetLang: Lang): string {
-  // Strip trailing slash except root
   const clean = pathname.replace(/\/$/, '') || '/';
 
-  if (targetLang === 'en') {
-    // Current is already /en/... — no change needed
-    if (clean.startsWith('/en')) return clean;
-    // Root → /en
-    if (clean === '/') return '/en';
-    // /foo/bar → /en/foo/bar
-    return `/en${clean}`;
+  if (targetLang === 'id') {
+    if (clean.startsWith('/id')) return clean;
+    if (clean === '/') return '/id';
+    return `/id${clean}`;
   } else {
-    // targetLang === 'id' — strip /en prefix
-    if (clean === '/en') return '/';
-    if (clean.startsWith('/en/')) return clean.slice(3);
+    if (clean === '/id') return '/';
+    if (clean.startsWith('/id/')) return clean.slice(3);
     return clean;
   }
 }
