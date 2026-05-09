@@ -17,6 +17,26 @@ Ketika engineer memberikan prompt yang spesifik dengan konteks yang jelas, outpu
 
 Bayangkan kamu hire seorang kontraktor untuk renovasi rumah. Semakin detail brief yang kamu berikan — material, ukuran, constraint anggaran, preferensi estetika — semakin sedikit revisi yang diperlukan. AI bekerja dengan logika yang sama.
 
+4 skenario di artikel ini mencakup spektrum yang mungkin kamu hadapi:
+
+```mermaid
+flowchart TD
+    Start{{"Lagi di situasi apa?"}}
+    Start --> Q1{"Codebase existing<br/>atau project baru?"}
+    Q1 -->|Project baru| A["A. Greenfield<br/>(mulai dari nol)"]
+    Q1 -->|Existing| Q2{"Tambah feature,<br/>fix bug, atau<br/>memahami kode?"}
+    Q2 -->|Feature baru| B["B. Tambah feature"]
+    Q2 -->|Bug| C["C. Bug fix"]
+    Q2 -->|Tidak tau kode-nya ngapain| D["D. Reverse engineering"]
+
+    classDef q stroke:#f59e0b,fill:#fef3c7,color:#000
+    classDef scenario stroke:#818cf8,fill:#eef2ff,color:#000
+    class Start,Q1,Q2 q
+    class A,B,C,D scenario
+```
+
+Tiap skenario butuh format spec yang berbeda — itulah kenapa prompt one-size-fits-all menghasilkan output yang inkonsisten.
+
 ---
 
 ## CLAUDE.md: Kontrak Permanen dengan AI

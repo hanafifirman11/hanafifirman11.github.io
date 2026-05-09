@@ -17,6 +17,26 @@ When an engineer provides a specific prompt with clear context, AI output is alm
 
 Imagine hiring a contractor for home renovation. The more detailed the brief you provide — materials, dimensions, budget constraints, aesthetic preferences — the fewer revisions are needed. AI works with the same logic.
 
+The 4 scenarios in this article cover the spectrum:
+
+```mermaid
+flowchart TD
+    Start{{"What's the situation?"}}
+    Start --> Q1{"Existing codebase<br/>or new project?"}
+    Q1 -->|New project| A["A. Greenfield<br/>(start from blank)"]
+    Q1 -->|Existing| Q2{"Adding feature,<br/>fixing bug, or<br/>understanding code?"}
+    Q2 -->|New feature| B["B. Add feature"]
+    Q2 -->|Bug| C["C. Bug fix"]
+    Q2 -->|Don't know what code does| D["D. Reverse engineering"]
+
+    classDef q stroke:#f59e0b,fill:#fef3c7,color:#000
+    classDef scenario stroke:#818cf8,fill:#eef2ff,color:#000
+    class Start,Q1,Q2 q
+    class A,B,C,D scenario
+```
+
+Each scenario needs a different spec format — that's why one-size-fits-all prompts produce inconsistent output.
+
 ---
 
 ## CLAUDE.md: A Permanent Contract with AI

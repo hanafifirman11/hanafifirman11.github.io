@@ -58,8 +58,18 @@ Perbedaan ini bukan marginal — ini yang membedakan antara Claude Code yang "ok
 
 ## Bagaimana Serena Bekerja
 
-```
-Codebase  →  LSP (Language Server)  →  Serena MCP Server  →  Claude Code
+```mermaid
+flowchart LR
+    Codebase[("Codebase<br/>(file proyek kamu)")] --> LSP["LSP<br/>Language Server<br/>(pyright, gopls, jdtls...)"]
+    LSP --> Serena["Serena MCP Server<br/>(tools symbol-aware)"]
+    Serena --> Claude["Claude Code"]
+
+    classDef src stroke:#94a3b8,fill:#f1f5f9,color:#000
+    classDef tool stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
+    class Codebase src
+    class LSP,Serena tool
+    class Claude ai
 ```
 
 Serena mengekspos beberapa tools utama yang bisa dipakai Claude:

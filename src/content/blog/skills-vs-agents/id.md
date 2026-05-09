@@ -104,9 +104,22 @@ Pertanyaan kunci yang selalu kami pakai:
 
 > **"Apakah output-nya berbeda per project/framework/stack, DAN perlu di-discover secara interaktif?"**
 
-```
-Ya → Skill
-Tidak → Agent
+```mermaid
+flowchart TD
+    Q1{"Output beda<br/>per project / framework /<br/>tech stack?"}
+    Q1 -->|Tidak, sama tiap kali| Agent1["Agent<br/>(autonomous, fire-and-forget)"]
+    Q1 -->|Ya, tergantung konteks| Q2{"Butuh multi-turn Q&amp;A<br/>atau ingat<br/>jawaban sebelumnya?"}
+    Q2 -->|Ya| Skill["Skill<br/>(interaktif, conversational)"]
+    Q2 -->|Tidak, fully specified upfront| Q3{"Perlu tool isolation<br/>atau jalan paralel?"}
+    Q3 -->|Ya| Agent2["Agent"]
+    Q3 -->|Tidak| Skill2["Skill"]
+
+    classDef skill stroke:#10b981,fill:#d1fae5,color:#000
+    classDef agent stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef q stroke:#f59e0b,fill:#fef3c7,color:#000
+    class Skill,Skill2 skill
+    class Agent1,Agent2 agent
+    class Q1,Q2,Q3 q
 ```
 
 Tabel perbandingan untuk kasus yang lebih spesifik:

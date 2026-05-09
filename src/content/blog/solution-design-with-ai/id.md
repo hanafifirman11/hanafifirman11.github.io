@@ -33,6 +33,24 @@ Di DOKU, setiap fitur baru yang signifikan membutuhkan solution design yang terd
 
 Proses yang kami jalankan:
 
+```mermaid
+flowchart LR
+    PID["PRD / PID"] --> Read["Claude Code reads<br/>codebase via Serena"]
+    Read --> Seq["Generate sequence diagram<br/>(happy path → errors)"]
+    Seq --> C4["Generate C4<br/>Component Diagram"]
+    C4 --> Validate["Validate against<br/>existing patterns"]
+    Validate --> Review{"Senior review?"}
+    Review -->|approved| Impl["Implementation"]
+    Review -->|revise| Seq
+
+    classDef ai stroke:#818cf8,fill:#eef2ff,color:#000
+    classDef human stroke:#10b981,fill:#d1fae5,color:#000
+    classDef start stroke:#94a3b8,fill:#f1f5f9,color:#000
+    class Read,Seq,C4,Validate ai
+    class Review,Impl human
+    class PID start
+```
+
 1. Claude Code membaca codebase yang relevan via Serena (targeted, bukan semua file)
 2. PRD/PID diberikan sebagai konteks
 3. Generate sequence diagram — happy path dulu, lalu negative scenarios
@@ -151,6 +169,49 @@ API --> Client : 503 ERR_BANK_001\n{message: "Banking system unavailable"}
 ```
 
 Draft ini dihasilkan dari satu prompt dengan template di atas. Yang biasanya perlu direvisi: business-specific edge cases dan timeout value yang sesuai dengan SLA aktual.
+
+Flow yang sama, di-render live sebagai Mermaid (PlantUML tidak ter-render di sini):
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Mobile Client
+    participant API as Payment API
+    participant RE as Risk Engine
+    participant Bank as Core Banking
+    participant DB as Payment DB
+
+    rect rgb(232, 245, 233)
+    Note over Client,DB: Happy Path
+    Client->>API: POST /transfer {amount, destination, token}
+    API->>RE: evaluateRisk(req)
+    Note right of RE: 5s timeout
+    RE-->>API: {riskScore: LOW, approved: true}
+    API->>Bank: initiateTransfer(req)
+    Bank-->>API: {transactionId, status: PENDING}
+    API->>DB: save(transaction)
+    API-->>Client: 200 {transactionId, status: PENDING}
+    end
+
+    rect rgb(254, 226, 226)
+    Note over Client,DB: Error: Risk Score High
+    Client->>API: POST /transfer
+    API->>RE: evaluateRisk(req)
+    RE-->>API: {riskScore: HIGH, approved: false}
+    API-->>Client: 403 ERR_RISK_001
+    end
+
+    rect rgb(254, 243, 199)
+    Note over Client,DB: Error: Core Banking Timeout
+    Client->>API: POST /transfer
+    API->>RE: evaluateRisk(req)
+    RE-->>API: {approved: true}
+    API->>Bank: initiateTransfer(req)
+    Bank--xAPI: timeout (30s)
+    API->>DB: save(transaction, status: FAILED)
+    API-->>Client: 503 ERR_BANK_001
+    end
+```
 
 ---
 

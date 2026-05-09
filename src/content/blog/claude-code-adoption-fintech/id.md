@@ -67,6 +67,13 @@ Dari Analytics dashboard Claude Team kami:
 | Suggestion accept rate | 99.5% |
 | Active members | 5 dari 10 |
 
+```mermaid
+pie showData
+  title Suggestion accept rate (1 bulan, 5 engineer aktif)
+  "Accepted" : 99.5
+  "Rejected" : 0.5
+```
+
 Angka 99.5% accept rate ini yang paling menarik. Artinya dari setiap 200 suggestion yang diberikan Claude Code, hanya 1 yang ditolak engineer.
 
 Apakah ini berarti Claude Code selalu benar? Tidak.

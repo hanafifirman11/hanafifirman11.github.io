@@ -53,8 +53,23 @@ Ini pekerjaan yang valuable tapi bukan tempat engineer seharusnya menghabiskan s
 
 Di DOKU, kami membangun workflow yang melibatkan AI dari tahap paling awal:
 
-```
-PRD  →  PID  →  Solution Design  →  Spec  →  Code  →  Tests
+```mermaid
+flowchart LR
+    PRD["PRD<br/>apa yang dibangun"]
+    PID["PID<br/>cara kerjanya"]
+    SD["Solution Design<br/>C4, sequence, NFR"]
+    Spec["Spec<br/>kontrak per-feature"]
+    Code["Code"]
+    Tests["Tests"]
+
+    PRD --> PID --> SD --> Spec --> Code --> Tests
+
+    classDef product stroke:#a78bfa,fill:#f5f3ff,color:#000
+    classDef arch stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef build stroke:#10b981,fill:#d1fae5,color:#000
+    class PRD,PID product
+    class SD,Spec arch
+    class Code,Tests build
 ```
 
 Bukan sekadar melempar prompt ke AI dan mengharap hasilnya bagus. Tapi workflow terstruktur di mana setiap tahap punya tool yang tepat dan cara interaksi yang berbeda.

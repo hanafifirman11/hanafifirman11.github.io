@@ -104,9 +104,22 @@ The key question we always use:
 
 > **"Does the output differ per project/framework/stack, AND does it need to be discovered interactively?"**
 
-```
-Yes → Skill
-No → Agent
+```mermaid
+flowchart TD
+    Q1{"Output differs<br/>per project / framework /<br/>tech stack?"}
+    Q1 -->|No, same every time| Agent1["Agent<br/>(autonomous, fire-and-forget)"]
+    Q1 -->|Yes, depends on context| Q2{"Needs multi-turn Q&amp;A<br/>or memory of<br/>previous answers?"}
+    Q2 -->|Yes| Skill["Skill<br/>(interactive, conversational)"]
+    Q2 -->|No, fully specified upfront| Q3{"Needs tool isolation<br/>or runs in parallel?"}
+    Q3 -->|Yes| Agent2["Agent"]
+    Q3 -->|No| Skill2["Skill"]
+
+    classDef skill stroke:#10b981,fill:#d1fae5,color:#000
+    classDef agent stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef q stroke:#f59e0b,fill:#fef3c7,color:#000
+    class Skill,Skill2 skill
+    class Agent1,Agent2 agent
+    class Q1,Q2,Q3 q
 ```
 
 Comparison table for more specific cases:

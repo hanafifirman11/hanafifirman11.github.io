@@ -53,8 +53,23 @@ This is valuable work, but it's not where engineers should be spending most of t
 
 At DOKU, we've built a workflow that involves AI from the very earliest stages:
 
-```
-PRD  →  PID  →  Solution Design  →  Spec  →  Code  →  Tests
+```mermaid
+flowchart LR
+    PRD["PRD<br/>what will be built"]
+    PID["PID<br/>how it works"]
+    SD["Solution Design<br/>C4, sequence, NFR"]
+    Spec["Spec<br/>per-feature contract"]
+    Code["Code"]
+    Tests["Tests"]
+
+    PRD --> PID --> SD --> Spec --> Code --> Tests
+
+    classDef product stroke:#a78bfa,fill:#f5f3ff,color:#000
+    classDef arch stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef build stroke:#10b981,fill:#d1fae5,color:#000
+    class PRD,PID product
+    class SD,Spec arch
+    class Code,Tests build
 ```
 
 Not just throwing prompts at AI and hoping the output is good. But a structured workflow where each stage has the right tool and a different interaction pattern.

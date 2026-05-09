@@ -87,6 +87,14 @@ Ketika kamu tahu format apa yang kamu butuhkan, definisikan secara eksplisit.
 
 Referensi kasar untuk planning sesi kerja:
 
+```mermaid
+xychart-beta
+    title "Token cost per aktivitas (estimasi kasar)"
+    x-axis ["Skill call", "Service class", "Read 1 file", "RE 1 feature", "Debug session", "Whole project"]
+    y-axis "Tokens" 0 --> 60000
+    bar [500, 2000, 4000, 7500, 20000, 50000]
+```
+
 | Aktivitas | Estimasi Token | Catatan |
 |---|---|---|
 | Baca 1 file Java besar (500 baris) | ~4,000 | Pertimbangkan Serena |

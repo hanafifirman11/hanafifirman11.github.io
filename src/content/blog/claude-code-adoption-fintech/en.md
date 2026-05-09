@@ -67,6 +67,13 @@ From our Claude Team analytics dashboard:
 | Suggestion accept rate | 99.5% |
 | Active members | 5 out of 10 |
 
+```mermaid
+pie showData
+  title Suggestion accept rate (1 month, 5 active engineers)
+  "Accepted" : 99.5
+  "Rejected" : 0.5
+```
+
 The 99.5% accept rate is the most interesting number. It means that out of every 200 suggestions Claude Code gave, only 1 was rejected by an engineer.
 
 Does this mean Claude Code is always correct? No.

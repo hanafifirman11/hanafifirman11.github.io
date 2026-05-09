@@ -45,6 +45,29 @@ Why is this better? Because a wrong direction detected at Level 1 (skeleton) has
 
 This is the workflow we consistently use:
 
+```mermaid
+flowchart TB
+    S1["1. Set Context<br/>(solution design + CLAUDE.md)"]
+    S2["2. Generate Skeleton<br/>(signatures only)"]
+    S3{{"3. Review Skeleton — STOP<br/>fix HERE, not later"}}
+    S4["4. Generate per Layer<br/>repo → service → controller"]
+    S5["5. Generate Tests<br/>unit + integration alongside"]
+
+    S1 --> S2 --> S3
+    S3 -->|approved| S4
+    S3 -->|fix| S2
+    S4 --> S5
+
+    classDef context stroke:#94a3b8,fill:#f1f5f9,color:#000
+    classDef gen stroke:#818cf8,fill:#eef2ff,color:#000
+    classDef checkpoint stroke:#f59e0b,fill:#fef3c7,color:#000
+    classDef test stroke:#10b981,fill:#d1fae5,color:#000
+    class S1 context
+    class S2,S4 gen
+    class S3 checkpoint
+    class S5 test
+```
+
 **Step 1: Set Context**
 
 Provide the solution design + constraints + reference to relevant existing code. This input determines the quality of all subsequent output.
