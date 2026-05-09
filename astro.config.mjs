@@ -34,8 +34,10 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      themes: ['github-dark', 'github-light'],
-      themeCssSelector: (theme) => `[data-theme='${theme.name.includes('dark') ? 'dark' : 'light'}']`,
+      // Light is the default theme (first in array). Dark activates via [data-theme='dark'] on <html>.
+      themes: ['github-light', 'github-dark'],
+      themeCssSelector: (theme) =>
+        theme.name === 'github-dark' ? "[data-theme='dark']" : false,
       styleOverrides: {
         borderRadius: '6px',
         codeFontFamily: "'JetBrains Mono', ui-monospace, monospace",

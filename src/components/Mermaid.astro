@@ -121,6 +121,15 @@
       }
       if (!target.parentNode) continue;
 
+      // The .expressive-code wrapper inlines <link rel="stylesheet"> + <script> tags
+      // for the whole page's code-block styling. Removing the wrapper would orphan
+      // them — relocate to <head> first so other code blocks keep their styles.
+      target.querySelectorAll('link[rel="stylesheet"], script[type="module"]').forEach((node) => {
+        const href = node.getAttribute('href') || node.getAttribute('src');
+        if (href && document.head.querySelector(`[href="${href}"], [src="${href}"]`)) return;
+        document.head.appendChild(node);
+      });
+
       const wrapper = document.createElement('div');
       wrapper.style.cssText = 'position:relative;margin:1.5rem 0;';
 
