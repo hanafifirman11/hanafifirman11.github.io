@@ -83,6 +83,37 @@ The "Queue Mode" architecture splits n8n into several pod types:
 5. **Managed Redis:** Acts as the *message broker* (BullMQ) between Main, Webhook, and Worker.
 6. **NAS (Network Attached Storage):** Used as a `ReadWriteMany` *Persistent Volume*. Its primary function is sharing the `binaryData` folder across all pods, enabling large *files* to be processed without entering the database.
 
+### Queue Mode in Action
+
+The key insight of Queue Mode: **the Webhook pod doesn't wait for execution to finish**. It enqueues the job and returns 200 OK instantly — Workers pick it up asynchronously. This is what lets us handle traffic spikes without blocking incoming requests.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Webhook as n8n Webhook Pod
+    participant Redis as Redis (BullMQ)
+    participant Worker as n8n Worker Pod
+    participant PG as PostgreSQL
+    participant Main as n8n Main Pod
+    participant User
+
+    Client->>Webhook: POST /webhook/abc
+    Webhook->>Redis: enqueue job
+    Webhook-->>Client: 200 OK (instant ack)
+
+    Note over Redis,Worker: Decoupled — webhook<br/>doesn't wait for execution
+
+    Worker->>Redis: poll job
+    Redis-->>Worker: job payload
+    Worker->>Worker: execute workflow
+    Worker->>PG: write execution result
+    Worker->>Redis: mark complete
+
+    User->>Main: open dashboard
+    Main->>PG: read execution status
+    Main-->>User: render execution history
+```
+
 ## Helm Values Configuration
 
 Here is a snippet of *Helm values* for the *Production* environment, enabling Queue mode and connecting it to external components:
@@ -141,10 +172,40 @@ After this platform went live in *production*, we observed several management ar
 ### 1. Credential Encryption
 n8n encrypts all sensitive data (such as API Keys, database passwords) using `N8N_ENCRYPTION_KEY`. If this *environment variable* value is lost, all *credentials* become locked and must be re-entered. In an *enterprise* environment, we don't store it as *plain text* — we store it in an external secret manager like **HashiCorp Vault**, which is then automatically injected into Kubernetes Secrets.
 
+```mermaid
+flowchart LR
+    Vault["HashiCorp Vault<br/>(master secrets)"] -->|External Secrets Operator| K8sSecret["K8s Secret"]
+    K8sSecret -->|env var| Pod["n8n Pod<br/>N8N_ENCRYPTION_KEY"]
+    Pod -->|encrypt at rest| PG[("PostgreSQL<br/>credentials table")]
+
+    classDef vault stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef k8s stroke:#818cf8,fill:#eef2ff,color:#000
+    classDef db stroke:#a78bfa,fill:#f5f3ff,color:#000
+    class Vault vault
+    class K8sSecret,Pod k8s
+    class PG db
+```
+
 ### 2. Execution Pruning
 Without *pruning*, the `execution_entity` table in the PostgreSQL database can balloon to tens of GB, slowing down n8n execution overall. Via `EXECUTIONS_DATA_MAX_AGE=72`, we delete data older than 3 days. For long-term auditing, there's a separate node in the *workflow* that ships logs to an external system (such as Datadog or ELK).
 
 ### 3. Staging Environments and CI/CD
 All Helm installations go through a GitLab CI *pipeline*. We separate testing stages into SIT, UAT, Sandbox, and Production. *Workflows* are designed in SIT, exported as `.json`, then imported incrementally until they reach Production.
+
+```mermaid
+flowchart LR
+    Dev["Workflow draft<br/>local export .json"] --> SIT
+    SIT["SIT<br/>integration test"] -->|GitLab CI| UAT
+    UAT["UAT<br/>business test"] -->|GitLab CI| SBX
+    SBX["Sandbox<br/>prod-like, isolated"] -->|manual approve| PROD
+    PROD["Production"]
+
+    classDef env stroke:#a78bfa,fill:#f5f3ff,color:#000
+    classDef prod stroke:#10b981,fill:#d1fae5,color:#000
+    classDef start stroke:#94a3b8,fill:#f1f5f9,color:#000
+    class Dev start
+    class SIT,UAT,SBX env
+    class PROD prod
+```
 
 In the next article, I'll cover the main case study: how we use this n8n cluster to manage and automate the *file transfer (SFTP)* process with third parties.

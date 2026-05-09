@@ -83,6 +83,37 @@ Arsitektur "Queue Mode" membagi n8n menjadi beberapa tipe pod:
 5. **Managed Redis:** Bertindak sebagai *message broker* (BullMQ) di antara Main, Webhook, dan Worker.
 6. **NAS (Network Attached Storage):** Digunakan sebagai *Persistent Volume* mode `ReadWriteMany`. Fungsi utamanya adalah berbagi folder `binaryData` ke semua pod, memungkinkan *file* raksasa diproses tanpa masuk ke dalam database.
 
+### Queue Mode dalam Aksi
+
+Insight kunci dari Queue Mode: **Webhook pod tidak menunggu eksekusi selesai**. Ia hanya menaruh job ke antrean dan langsung balas 200 OK — Worker yang akan ambil dan jalankan secara asinkron. Inilah yang memungkinkan kita menangani *spike traffic* tanpa memblokir incoming request.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Webhook as n8n Webhook Pod
+    participant Redis as Redis (BullMQ)
+    participant Worker as n8n Worker Pod
+    participant PG as PostgreSQL
+    participant Main as n8n Main Pod
+    participant User
+
+    Client->>Webhook: POST /webhook/abc
+    Webhook->>Redis: enqueue job
+    Webhook-->>Client: 200 OK (instant ack)
+
+    Note over Redis,Worker: Decoupled — webhook<br/>tidak menunggu eksekusi
+
+    Worker->>Redis: poll job
+    Redis-->>Worker: job payload
+    Worker->>Worker: jalankan workflow
+    Worker->>PG: tulis hasil eksekusi
+    Worker->>Redis: tandai selesai
+
+    User->>Main: buka dashboard
+    Main->>PG: baca status eksekusi
+    Main-->>User: tampilkan history
+```
+
 ## Helm Values Configuration
 
 Berikut adalah potongan *Helm values* untuk environment *Production*, yang mengaktifkan Queue mode dan menyambungkannya ke komponen eksternal:
@@ -141,10 +172,40 @@ Setelah platform ini aktif di *production*, kami mengamati beberapa area pengelo
 ### 1. Enkripsi Credential
 n8n mengenkripsi semua data sensitif (seperti API Keys, password database) menggunakan `N8N_ENCRYPTION_KEY`. Jika nilai *environment variable* ini hilang, seluruh *credential* macet dan harus diulang. Di lingkungan *enterprise*, kami tidak menyimpannya dalam bentuk *plain text*, melainkan menyimpannya di pengelola rahasia eksternal seperti **HashiCorp Vault**, yang kemudian diinjeksi secara otomatis ke Kubernetes Secret.
 
+```mermaid
+flowchart LR
+    Vault["HashiCorp Vault<br/>(master secret)"] -->|External Secrets Operator| K8sSecret["K8s Secret"]
+    K8sSecret -->|env var| Pod["n8n Pod<br/>N8N_ENCRYPTION_KEY"]
+    Pod -->|enkripsi at rest| PG[("PostgreSQL<br/>tabel credentials")]
+
+    classDef vault stroke:#0ea5e9,fill:#e0f2fe,color:#000
+    classDef k8s stroke:#818cf8,fill:#eef2ff,color:#000
+    classDef db stroke:#a78bfa,fill:#f5f3ff,color:#000
+    class Vault vault
+    class K8sSecret,Pod k8s
+    class PG db
+```
+
 ### 2. Execution Pruning
 Tanpa *pruning*, tabel `execution_entity` pada database PostgreSQL dapat membengkak menjadi puluhan GB yang melambatkan eksekusi n8n secara keseluruhan. Melalui variabel `EXECUTIONS_DATA_MAX_AGE=72`, kami menghapus data yang lebih lama dari 3 hari. Untuk audit jangka panjang, ada node terpisah dalam *workflow* yang menembak log ke sistem eksternal (seperti Datadog atau ELK).
 
 ### 3. Lingkungan *Staging* dan CI/CD
 Semua instalasi Helm melalui *pipeline* GitLab CI. Kita memisahkan tahap pengujian menjadi SIT, UAT, Sandbox, dan Production. *Workflow* didesain di SIT, diekspor sebagai `.json`, lalu diimpor secara bertahap sampai masuk ke ranah Production.
+
+```mermaid
+flowchart LR
+    Dev["Draft workflow<br/>export .json lokal"] --> SIT
+    SIT["SIT<br/>integration test"] -->|GitLab CI| UAT
+    UAT["UAT<br/>business test"] -->|GitLab CI| SBX
+    SBX["Sandbox<br/>prod-like, terisolasi"] -->|approve manual| PROD
+    PROD["Production"]
+
+    classDef env stroke:#a78bfa,fill:#f5f3ff,color:#000
+    classDef prod stroke:#10b981,fill:#d1fae5,color:#000
+    classDef start stroke:#94a3b8,fill:#f1f5f9,color:#000
+    class Dev start
+    class SIT,UAT,SBX env
+    class PROD prod
+```
 
 Dalam artikel selanjutnya, saya akan membahas studi kasus utamanya: bagaimana kita menggunakan klaster n8n ini untuk mengelola dan mengotomasi proses *file transfer (SFTP)* dengan pihak ketiga.
