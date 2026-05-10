@@ -9,9 +9,9 @@ draft: false
 
 There's a behavior in Claude Code that not everyone notices: the fuller the context window, the lower the quality of its output.
 
-This isn't a weakness that can be patched — it's a fundamental property of how LLMs work. As the context window approaches its limit, the model starts "forgetting" details from the beginning of the conversation, its focus becomes diluted, and output becomes more generic.
+This isn't a weakness that can be patched, it's a fundamental property of how LLMs work. As the context window approaches its limit, the model starts "forgetting" details from the beginning of the conversation, its focus becomes diluted, and output becomes more generic.
 
-For short sessions this isn't an issue. But for long debugging sessions, or for analyzing large codebases, it becomes immediately apparent — Claude starts giving less precise answers, forgetting constraints that were already provided, or repeating suggestions it already gave.
+For short sessions this isn't an issue. But for long debugging sessions, or for analyzing large codebases, it becomes immediately apparent, Claude starts giving less precise answers, forgetting constraints that were already provided, or repeating suggestions it already gave.
 
 Token efficiency isn't just about saving costs. It's about keeping output quality consistent throughout a working session.
 
@@ -41,7 +41,7 @@ The same principle applies to output: if you don't need a long explanation, requ
 
 Already covered in a previous article, but worth repeating because it's the most impactful: Serena saves 60–80% of tokens for code analysis tasks.
 
-Without Serena, reading one 500-line Java file = ~4,000 tokens. With Serena and targeted symbol lookup, analyzing a specific method can be just ~400 tokens. If you do 10 such operations in one session, the difference is 36,000 tokens — almost an entire session.
+Without Serena, reading one 500-line Java file = ~4,000 tokens. With Serena and targeted symbol lookup, analyzing a specific method can be just ~400 tokens. If you do 10 such operations in one session, the difference is 36,000 tokens, almost an entire session.
 
 **2. CLAUDE.md for Project Conventions**
 
@@ -60,13 +60,13 @@ When to use `/compact`:
 - When Claude starts "forgetting" details provided at the beginning
 - Before moving to a new and different task within the same session
 
-Don't wait until the context window is full — `/compact` is most effective when done proactively.
+Don't wait until the context window is full, `/compact` is most effective when done proactively.
 
 **4. Skills for Repetitive Tasks**
 
 Every skill invocation has an overhead of ~500 tokens for its system prompt. That sounds like a lot, but compare it to the alternative: writing the same context manually in every prompt for repeating tasks.
 
-For tasks repeated exactly the same way multiple times (generating test suites, scaffolding integration layers), a skill is always more efficient than a manual prompt — and the results are more consistent.
+For tasks repeated exactly the same way multiple times (generating test suites, scaffolding integration layers), a skill is always more efficient than a manual prompt, and the results are more consistent.
 
 **5. Explicit Output Format**
 
@@ -74,8 +74,8 @@ This is the easiest to implement and most often forgotten.
 
 | Prompt | Tokens used |
 |---|---|
-| "Explain how this service works" | High — Claude will write a long explanation |
-| "Explain this service in 3 bullet points" | Low — output is bounded |
+| "Explain how this service works" | High, Claude will write a long explanation |
+| "Explain this service in 3 bullet points" | Low, output is bounded |
 | "Return only the method signature, no explanation" | Minimal |
 | "Create a table: method name \| purpose \| return type" | Structured and concise |
 
@@ -106,7 +106,7 @@ xychart-beta
 | Long debugging session | ~20,000+ | Use `/compact` periodically |
 | Reverse engineer 1 feature | ~5,000–10,000 | With Serena |
 
-These numbers aren't exact — they depend on code complexity and prompt length. But they're useful as a reference for deciding when to `/compact` or when to scope down the analysis.
+These numbers aren't exact, they depend on code complexity and prompt length. But they're useful as a reference for deciding when to `/compact` or when to scope down the analysis.
 
 ---
 
@@ -122,7 +122,7 @@ Three questions to answer before starting:
 **During prompting:**
 - [ ] Question specific enough, not open-ended?
 - [ ] Output format defined if there's a preference?
-- [ ] For repetitive tasks — is there a skill that can be used?
+- [ ] For repetitive tasks, is there a skill that can be used?
 
 ---
 
@@ -135,24 +135,24 @@ These are signals that it's time for `/compact` or even a fresh session:
 - Responses become more generic and less specific to your codebase
 - Claude repeats clarification questions that were already answered
 
-When this happens, drop the ego of "it would be a waste to lose the context" — `/compact` or a fresh session will produce output that's far better.
+When this happens, drop the ego of "it would be a waste to lose the context", `/compact` or a fresh session will produce output that's far better.
 
 ---
 
 ## Conclusion
 
-Token efficiency isn't premature optimization — it's quality assurance for AI output. A lean context window produces more precise and more consistent responses.
+Token efficiency isn't premature optimization, it's quality assurance for AI output. A lean context window produces more precise and more consistent responses.
 
 The five most impactful strategies, ordered by impact:
 
-1. **Serena** — biggest effect, 60–80% reduction for code analysis
-2. **CLAUDE.md** — eliminates unnecessary context repetition
-3. **/compact** — maintains quality in long sessions
-4. **Skills** — efficiency for repetitive tasks
-5. **Explicit output format** — easy to implement, immediately noticeable
+1. **Serena**: biggest effect, 60–80% reduction for code analysis
+2. **CLAUDE.md**: eliminates unnecessary context repetition
+3. **/compact**: maintains quality in long sessions
+4. **Skills**: efficiency for repetitive tasks
+5. **Explicit output format**: easy to implement, immediately noticeable
 
-The last article in this series: **Skills vs Agents** — two different-purpose extensibility mechanisms in Claude Code, and a framework for deciding when to use which.
+The last article in this series: **Skills vs Agents**: two different-purpose extensibility mechanisms in Claude Code, and a framework for deciding when to use which.
 
 ---
 
-*This article is part of the **AI-Assisted Software Development** series — field experience using Claude Code in a payment fintech engineering team.*
+*This article is part of the **AI-Assisted Software Development** series, field experience using Claude Code in a payment fintech engineering team.*

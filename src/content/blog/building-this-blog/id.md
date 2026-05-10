@@ -16,19 +16,19 @@ Yang saya butuhkan sederhana:
 
 - Tempat nulis artikel teknis tentang arsitektur dan AI engineering
 - Bisa embed diagram, code snippet, dan sesekali komponen interaktif
-- Loading cepat — pembaca teknis nggak sabar sama site yang lambat
-- Total biaya operasional minimal — ini hobi, bukan bisnis
+- Loading cepat, pembaca teknis nggak sabar sama site yang lambat
+- Total biaya operasional minimal, ini hobi, bukan bisnis
 - Saya yang kontrol domain, konten, dan data
 
 ## Alternatif yang saya pertimbangkan
 
 Tiga opsi utama yang saya evaluasi:
 
-**Platform siap pakai** (Medium, Hashnode, Dev.to) — cepat setup, ada audience built-in. Tapi saya nggak suka platform yang bisa ubah algoritma atau monetisasi unilateral. Lock-in risk-nya nggak sebanding buat content yang niatnya long-lived.
+**Platform siap pakai** (Medium, Hashnode, Dev.to), cepat setup, ada audience built-in. Tapi saya nggak suka platform yang bisa ubah algoritma atau monetisasi unilateral. Lock-in risk-nya nggak sebanding buat content yang niatnya long-lived.
 
-**WordPress self-hosted** — powerful, matang, ekosistem plugin besar. Tapi butuh hosting bayar, database, dan maintenance rutin. Buat blog personal, overhead-nya nggak sepadan.
+**WordPress self-hosted**: powerful, matang, ekosistem plugin besar. Tapi butuh hosting bayar, database, dan maintenance rutin. Buat blog personal, overhead-nya nggak sepadan.
 
-**Static site generator** — gratis, cepat, full control. Butuh commit via Git, tapi ini nggak jadi masalah karena saya developer.
+**Static site generator**: gratis, cepat, full control. Butuh commit via Git, tapi ini nggak jadi masalah karena saya developer.
 
 Pilihan saya jatuh ke static site generator, spesifiknya Astro.
 
@@ -46,13 +46,13 @@ export default defineConfig({
 
 Astro punya beberapa properti yang pas buat use case saya:
 
-1. **Zero JS by default** — output-nya HTML statis. Interaktivitas dibuat opt-in via "islands". Buat blog teks-heavy, ini berarti Lighthouse score 95+ tanpa effort.
+1. **Zero JS by default**: output-nya HTML statis. Interaktivitas dibuat opt-in via "islands". Buat blog teks-heavy, ini berarti Lighthouse score 95+ tanpa effort.
 
-2. **MDX support yang rapi** — saya bisa nulis Markdown dengan React/Vue/Svelte component di dalamnya kalau butuh.
+2. **MDX support yang rapi**: saya bisa nulis Markdown dengan React/Vue/Svelte component di dalamnya kalau butuh.
 
-3. **Content collections** — frontmatter artikel divalidasi pakai Zod schema. Ini catch typo di field penting sebelum build.
+3. **Content collections**: frontmatter artikel divalidasi pakai Zod schema. Ini catch typo di field penting sebelum build.
 
-4. **Build speed reasonable** — untuk 100+ artikel, build masih di bawah beberapa detik.
+4. **Build speed reasonable**: untuk 100+ artikel, build masih di bawah beberapa detik.
 
 ## Apa yang saya korbankan
 
@@ -66,18 +66,18 @@ Setiap keputusan arsitektur punya biaya, dan ini jujur-jujuran:
 
 ## Deployment: GitHub Pages
 
-Hosting di GitHub Pages — gratis, SSL otomatis (via Let's Encrypt), CI/CD via GitHub Actions. Total biaya: cuma domain (kalau pakai custom domain), sekitar Rp 200rb/tahun.
+Hosting di GitHub Pages, gratis, SSL otomatis (via Let's Encrypt), CI/CD via GitHub Actions. Total biaya: cuma domain (kalau pakai custom domain), sekitar Rp 200rb/tahun.
 
-Dibandingkan setup enterprise yang saya kerjakan sehari-hari — dengan load balancer, multiple availability zone, dan gateway berlapis — ini arsitektur yang sangat sederhana. Dan itu memang intinya. **Kompleksitas harus earned, bukan default.**
+Dibandingkan setup enterprise yang saya kerjakan sehari-hari, dengan load balancer, multiple availability zone, dan gateway berlapis, ini arsitektur yang sangat sederhana. Dan itu memang intinya. **Kompleksitas harus earned, bukan default.**
 
 ## Apa yang akan saya ubah nanti
 
 Beberapa evolusi yang saya antisipasi, tapi belum saya bangun sekarang:
 
-- **Custom domain** (`hanafifirman.dev`) — begitu saya konsisten nulis beberapa minggu.
-- **Komentar via Giscus** — kalau ada pembaca yang butuh diskusi.
-- **Page untuk `/lab`** — showcase POC yang saya kerjakan.
-- **Newsletter** — kalau ada cukup subscribers yang minta.
+- **Custom domain** (`hanafifirman.dev`), begitu saya konsisten nulis beberapa minggu.
+- **Komentar via Giscus**: kalau ada pembaca yang butuh diskusi.
+- **Page untuk `/lab`**: showcase POC yang saya kerjakan.
+- **Newsletter**: kalau ada cukup subscribers yang minta.
 
 Semua ini bisa ditambahkan nanti tanpa migrasi besar. Itulah salah satu keuntungan dari foundation yang simple.
 

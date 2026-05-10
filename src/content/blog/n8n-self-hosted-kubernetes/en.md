@@ -85,7 +85,7 @@ The "Queue Mode" architecture splits n8n into several pod types:
 
 ### Queue Mode in Action
 
-The key insight of Queue Mode: **the Webhook pod doesn't wait for execution to finish**. It enqueues the job and returns 200 OK instantly — Workers pick it up asynchronously. This is what lets us handle traffic spikes without blocking incoming requests.
+The key insight of Queue Mode: **the Webhook pod doesn't wait for execution to finish**. It enqueues the job and returns 200 OK instantly, Workers pick it up asynchronously. This is what lets us handle traffic spikes without blocking incoming requests.
 
 ```mermaid
 sequenceDiagram
@@ -101,7 +101,7 @@ sequenceDiagram
     Webhook->>Redis: enqueue job
     Webhook-->>Client: 200 OK (instant ack)
 
-    Note over Redis,Worker: Decoupled — webhook<br/>doesn't wait for execution
+    Note over Redis,Worker: Decoupled, webhook<br/>doesn't wait for execution
 
     Worker->>Redis: poll job
     Redis-->>Worker: job payload
@@ -170,7 +170,7 @@ webhook:
 After this platform went live in *production*, we observed several management areas requiring special attention:
 
 ### 1. Credential Encryption
-n8n encrypts all sensitive data (such as API Keys, database passwords) using `N8N_ENCRYPTION_KEY`. If this *environment variable* value is lost, all *credentials* become locked and must be re-entered. In an *enterprise* environment, we don't store it as *plain text* — we store it in an external secret manager like **HashiCorp Vault**, which is then automatically injected into Kubernetes Secrets.
+n8n encrypts all sensitive data (such as API Keys, database passwords) using `N8N_ENCRYPTION_KEY`. If this *environment variable* value is lost, all *credentials* become locked and must be re-entered. In an *enterprise* environment, we don't store it as *plain text*, we store it in an external secret manager like **HashiCorp Vault**, which is then automatically injected into Kubernetes Secrets.
 
 ```mermaid
 flowchart LR

@@ -1,15 +1,15 @@
 ---
 title: "Skills vs Agents di Claude Code: Beda, dan Kapan Pakai Mana"
-description: "Skills dan Agents adalah dua mekanisme extensibility di Claude Code yang sering dikira sama. Perbedaannya fundamental — dan salah pilih berarti tool yang salah untuk job yang salah."
+description: "Skills dan Agents adalah dua mekanisme extensibility di Claude Code yang sering dikira sama. Perbedaannya fundamental, dan salah pilih berarti tool yang salah untuk job yang salah."
 publishedAt: 2026-04-23
 category: ai-engineering
 tags: ["ai", "claude-code", "agents", "skills", "mcp", "engineering"]
 draft: false
 ---
 
-Ketika pertama kali membaca dokumentasi Claude Code, Skills dan Agents terlihat seperti dua nama untuk hal yang sama — keduanya "meng-extend" kemampuan Claude, keduanya bisa dikonfigurasi per project, keduanya bisa dipanggil saat sesi kerja.
+Ketika pertama kali membaca dokumentasi Claude Code, Skills dan Agents terlihat seperti dua nama untuk hal yang sama, keduanya "meng-extend" kemampuan Claude, keduanya bisa dikonfigurasi per project, keduanya bisa dipanggil saat sesi kerja.
 
-Kenyataannya, keduanya bekerja dengan cara yang fundamental berbeda. Dan menggunakan yang salah untuk task yang salah menghasilkan experience yang frustrasi — entah karena AI tidak "ingat" konteks yang sudah diberikan, atau karena task yang seharusnya autonomous malah terus minta konfirmasi.
+Kenyataannya, keduanya bekerja dengan cara yang fundamental berbeda. Dan menggunakan yang salah untuk task yang salah menghasilkan experience yang frustrasi, entah karena AI tidak "ingat" konteks yang sudah diberikan, atau karena task yang seharusnya autonomous malah terus minta konfirmasi.
 
 ---
 
@@ -17,9 +17,9 @@ Kenyataannya, keduanya bekerja dengan cara yang fundamental berbeda. Dan menggun
 
 Cara paling mudah memahami perbedaannya: **di mana mereka berjalan dan apa yang mereka ingat**.
 
-**Skill** berjalan di dalam conversation yang sama. Dia bisa melihat seluruh history conversation — semua yang sudah dibahas, semua yang sudah dijawab, semua konteks yang sudah diberikan. Dia multi-turn: bisa tanya beberapa pertanyaan, ingat jawabannya, dan generate output berdasarkan jawaban-jawaban tersebut.
+**Skill** berjalan di dalam conversation yang sama. Dia bisa melihat seluruh history conversation, semua yang sudah dibahas, semua yang sudah dijawab, semua konteks yang sudah diberikan. Dia multi-turn: bisa tanya beberapa pertanyaan, ingat jawabannya, dan generate output berdasarkan jawaban-jawaban tersebut.
 
-**Agent** berjalan di context window yang terpisah dan terisolasi. Dia tidak melihat conversation history. Dia menerima satu task, bekerja secara autonomous, dan mengembalikan hasil. Setelah selesai, dia tidak "ingat" apapun — instance-nya berakhir.
+**Agent** berjalan di context window yang terpisah dan terisolasi. Dia tidak melihat conversation history. Dia menerima satu task, bekerja secara autonomous, dan mengembalikan hasil. Setelah selesai, dia tidak "ingat" apapun, instance-nya berakhir.
 
 Visualisasi sederhana:
 
@@ -55,9 +55,9 @@ Skill adalah pilihan yang tepat ketika:
 
 **Contoh Skills yang kami punya:**
 
-`rem-bank-connector` — Sebelum generate, skill ini tanya: framework (WebFlux/MVC/Play), Java version, package base, auth pattern yang dipakai. Lalu generate boilerplate yang konsisten dengan integrasi bank lain yang sudah ada di codebase.
+`rem-bank-connector`, Sebelum generate, skill ini tanya: framework (WebFlux/MVC/Play), Java version, package base, auth pattern yang dipakai. Lalu generate boilerplate yang konsisten dengan integrasi bank lain yang sudah ada di codebase.
 
-`service-test-generator` — Generate Cucumber scenarios + Testcontainers setup dari spesifikasi atau CSV. Skill ini tanya pattern test yang dipakai di project sebelum generate, sehingga output langsung fit dengan infrastruktur test yang ada.
+`service-test-generator`, Generate Cucumber scenarios + Testcontainers setup dari spesifikasi atau CSV. Skill ini tanya pattern test yang dipakai di project sebelum generate, sehingga output langsung fit dengan infrastruktur test yang ada.
 
 ---
 
@@ -65,15 +65,15 @@ Skill adalah pilihan yang tepat ketika:
 
 Agent adalah pilihan yang tepat ketika:
 
-**Task autonomous dan well-defined.** Generate CRUD untuk entity `Transaction` dengan field [X, Y, Z] — ini task yang bisa fully specified upfront. Agent menerima instruksi, bekerja, selesai. Tidak perlu bolak-balik tanya.
+**Task autonomous dan well-defined.** Generate CRUD untuk entity `Transaction` dengan field [X, Y, Z], ini task yang bisa fully specified upfront. Agent menerima instruksi, bekerja, selesai. Tidak perlu bolak-balik tanya.
 
 **Input bisa fully specified di awal.** Tidak ada discovery yang perlu dilakukan. Semua informasi yang dibutuhkan bisa diberikan di task description.
 
-**Perlu tool isolation.** Agent bisa dibatasi hanya menggunakan tools tertentu — misalnya hanya bisa baca file, tidak bisa write. Ini berguna untuk task yang perlu constraint keamanan, atau untuk menghindari Agent secara tidak sengaja memodifikasi hal yang tidak seharusnya.
+**Perlu tool isolation.** Agent bisa dibatasi hanya menggunakan tools tertentu, misalnya hanya bisa baca file, tidak bisa write. Ini berguna untuk task yang perlu constraint keamanan, atau untuk menghindari Agent secara tidak sengaja memodifikasi hal yang tidak seharusnya.
 
 **Bisa run parallel.** Karena Agent berjalan di context terpisah, multiple agents bisa dijalankan secara parallel untuk task yang independent. Ini tidak bisa dilakukan dengan Skill.
 
-**Cara define Agent:** Buat file `.md` di `.claude/agents/` — tidak perlu installation. Cukup commit ke repository, semua yang clone repo tersebut sudah punya Agent yang sama.
+**Cara define Agent:** Buat file `.md` di `.claude/agents/`, tidak perlu installation. Cukup commit ke repository, semua yang clone repo tersebut sudah punya Agent yang sama.
 
 Contoh:
 
@@ -150,9 +150,9 @@ Karena sering ditanya perbandingannya, ini overview singkat dari ekosistem yang 
 | Project instructions file | CLAUDE.md | AGENTS.md | GEMINI.md |
 | Tool restriction per agent | ✅ | ❌ | ❌ |
 
-MCP adalah common ground — semua tiga tool mendukungnya. Tapi untuk Skills (interactive Q&A plugin) dan tool restriction per agent, Claude Code saat ini punya ekosistem yang paling mature.
+MCP adalah common ground, semua tiga tool mendukungnya. Tapi untuk Skills (interactive Q&A plugin) dan tool restriction per agent, Claude Code saat ini punya ekosistem yang paling mature.
 
-Ini bukan pernyataan bahwa Claude Code "terbaik" secara absolut — ekosistem AI coding tools bergerak cepat dan situasi bisa berubah. Tapi untuk tim yang investasi di Skills dan Agents ecosystem, Claude Code punya fondasi yang paling kuat saat ini.
+Ini bukan pernyataan bahwa Claude Code "terbaik" secara absolut, ekosistem AI coding tools bergerak cepat dan situasi bisa berubah. Tapi untuk tim yang investasi di Skills dan Agents ecosystem, Claude Code punya fondasi yang paling kuat saat ini.
 
 ---
 
@@ -163,18 +163,18 @@ Untuk SA atau Tech Lead yang ingin membangun internal Skills dan Agents library:
 **Build a Skill when:**
 - Output berbeda per project (framework, stack, konvensi)
 - Butuh discovery Q&A sebelum generate
-- Tim perlu consistency — semua engineer generate dengan pattern yang sama
+- Tim perlu consistency, semua engineer generate dengan pattern yang sama
 - Akan di-share via registry ke multiple project
 
 **Build an Agent when:**
 - Task repetitif dengan input yang well-defined
-- Bisa fully autonomous — tidak butuh konfirmasi
+- Bisa fully autonomous, tidak butuh konfirmasi
 - Perlu tool isolation untuk keamanan
 - Bisa diparallelkan dengan agent lain
 
-Teams share Agents dengan commit `.claude/agents/` ke project repository — langsung available untuk semua yang clone repo tersebut.
+Teams share Agents dengan commit `.claude/agents/` ke project repository, langsung available untuk semua yang clone repo tersebut.
 
-Teams share Skills via git registry — engineer install dengan satu command, update otomatis ketika ada versi baru.
+Teams share Skills via git registry, engineer install dengan satu command, update otomatis ketika ada versi baru.
 
 ---
 
@@ -186,7 +186,7 @@ Ini adalah artikel terakhir dari seri **AI-Assisted Software Development**. Kala
 
 PRD yang baik → PID yang detail → Solution design yang solid → Spec yang eksplisit → Code generation yang incremental. Setiap tahap saling bergantung. Shortcut di satu tahap akan membayar mahal di tahap berikutnya.
 
-Skills dan Agents adalah cara untuk mengkodifikasi pengetahuan ini — mengubah "cara kita bekerja" dari dokumen yang tidak dibaca menjadi tool yang dipakai setiap hari.
+Skills dan Agents adalah cara untuk mengkodifikasi pengetahuan ini, mengubah "cara kita bekerja" dari dokumen yang tidak dibaca menjadi tool yang dipakai setiap hari.
 
 Selamat mencoba, dan semoga useful.
 

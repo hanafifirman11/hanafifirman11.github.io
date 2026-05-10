@@ -8,7 +8,7 @@ tags: [n8n, automation, sftp, file-transfer, integration]
 
 Di dalam sistem *enterprise*, alur data jarang sekali semulus API *real-time*. Metode pengiriman file statis seperti CSV via SFTP secara terpusat *(batch processing)* masih menjadi standar industri, terutama untuk lembaga finansial.
 
-Ketika *workflow* masih berjumlah sedikit, *cron job* dan bash script sederhana sudah cukup menjawab masalah. Namun seiring dengan pertumbuhan puluhan kolaborator data eksternal — dengan variasi *retry logic*, pembersihan data (*parsing*), hingga validasi isi baris per baris — manajemen naskah (*script management*) berubah menjadi pekerjaan meresahkan.
+Ketika *workflow* masih berjumlah sedikit, *cron job* dan bash script sederhana sudah cukup menjawab masalah. Namun seiring dengan pertumbuhan puluhan kolaborator data eksternal, dengan variasi *retry logic*, pembersihan data (*parsing*), hingga validasi isi baris per baris, manajemen naskah (*script management*) berubah menjadi pekerjaan meresahkan.
 
 Di [artikel sebelumnya](/blog/n8n-self-hosted-kubernetes), saya membahas arsitektur n8n kita di kubernetes. Artikel ini berfokus pada apa yang sebenarnya kita bangun di atas platform tersebut: **File Transfer Automation**.
 

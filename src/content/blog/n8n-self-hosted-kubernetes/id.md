@@ -85,7 +85,7 @@ Arsitektur "Queue Mode" membagi n8n menjadi beberapa tipe pod:
 
 ### Queue Mode dalam Aksi
 
-Insight kunci dari Queue Mode: **Webhook pod tidak menunggu eksekusi selesai**. Ia hanya menaruh job ke antrean dan langsung balas 200 OK — Worker yang akan ambil dan jalankan secara asinkron. Inilah yang memungkinkan kita menangani *spike traffic* tanpa memblokir incoming request.
+Insight kunci dari Queue Mode: **Webhook pod tidak menunggu eksekusi selesai**. Ia hanya menaruh job ke antrean dan langsung balas 200 OK, Worker yang akan ambil dan jalankan secara asinkron. Inilah yang memungkinkan kita menangani *spike traffic* tanpa memblokir incoming request.
 
 ```mermaid
 sequenceDiagram
@@ -101,7 +101,7 @@ sequenceDiagram
     Webhook->>Redis: enqueue job
     Webhook-->>Client: 200 OK (instant ack)
 
-    Note over Redis,Worker: Decoupled — webhook<br/>tidak menunggu eksekusi
+    Note over Redis,Worker: Decoupled, webhook<br/>tidak menunggu eksekusi
 
     Worker->>Redis: poll job
     Redis-->>Worker: job payload

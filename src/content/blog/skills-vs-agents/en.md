@@ -1,15 +1,15 @@
 ---
 title: "Skills vs Agents in Claude Code: Different, and When to Use Which"
-description: "Skills and Agents are two extensibility mechanisms in Claude Code that are often mistaken for the same thing. The difference is fundamental — and choosing wrong means the wrong tool for the wrong job."
+description: "Skills and Agents are two extensibility mechanisms in Claude Code that are often mistaken for the same thing. The difference is fundamental, and choosing wrong means the wrong tool for the wrong job."
 publishedAt: 2026-04-23
 category: ai-engineering
 tags: ["ai", "claude-code", "agents", "skills", "mcp", "engineering"]
 draft: false
 ---
 
-When first reading the Claude Code documentation, Skills and Agents look like two names for the same thing — both "extend" Claude's capabilities, both can be configured per project, both can be invoked during a work session.
+When first reading the Claude Code documentation, Skills and Agents look like two names for the same thing, both "extend" Claude's capabilities, both can be configured per project, both can be invoked during a work session.
 
-In reality, the two work in fundamentally different ways. And using the wrong one for the wrong task produces a frustrating experience — either because AI doesn't "remember" context that was already provided, or because a task that should be autonomous keeps asking for confirmation.
+In reality, the two work in fundamentally different ways. And using the wrong one for the wrong task produces a frustrating experience, either because AI doesn't "remember" context that was already provided, or because a task that should be autonomous keeps asking for confirmation.
 
 ---
 
@@ -17,9 +17,9 @@ In reality, the two work in fundamentally different ways. And using the wrong on
 
 The easiest way to understand the difference: **where they run and what they remember**.
 
-**A Skill** runs inside the same conversation. It can see the entire conversation history — everything already discussed, everything already answered, all context already provided. It's multi-turn: it can ask several questions, remember the answers, and generate output based on those answers.
+**A Skill** runs inside the same conversation. It can see the entire conversation history, everything already discussed, everything already answered, all context already provided. It's multi-turn: it can ask several questions, remember the answers, and generate output based on those answers.
 
-**An Agent** runs in a separate, isolated context window. It doesn't see the conversation history. It receives one task, works autonomously, and returns a result. When done, it "remembers" nothing — its instance ends.
+**An Agent** runs in a separate, isolated context window. It doesn't see the conversation history. It receives one task, works autonomously, and returns a result. When done, it "remembers" nothing, its instance ends.
 
 Simple visualization:
 
@@ -55,9 +55,9 @@ A Skill is the right choice when:
 
 **Example Skills we have:**
 
-`rem-bank-connector` — Before generating, this skill asks: framework (WebFlux/MVC/Play), Java version, base package, auth pattern used. Then generates boilerplate consistent with other bank integrations already in the codebase.
+`rem-bank-connector`, Before generating, this skill asks: framework (WebFlux/MVC/Play), Java version, base package, auth pattern used. Then generates boilerplate consistent with other bank integrations already in the codebase.
 
-`service-test-generator` — Generates Cucumber scenarios + Testcontainers setup from a spec or CSV. This skill asks about the test patterns used in the project before generating, so the output fits directly with the existing test infrastructure.
+`service-test-generator`, Generates Cucumber scenarios + Testcontainers setup from a spec or CSV. This skill asks about the test patterns used in the project before generating, so the output fits directly with the existing test infrastructure.
 
 ---
 
@@ -65,15 +65,15 @@ A Skill is the right choice when:
 
 An Agent is the right choice when:
 
-**The task is autonomous and well-defined.** Generate CRUD for a `Transaction` entity with fields [X, Y, Z] — this is a task that can be fully specified upfront. Agent receives the instructions, works, finishes. No back-and-forth needed.
+**The task is autonomous and well-defined.** Generate CRUD for a `Transaction` entity with fields [X, Y, Z], this is a task that can be fully specified upfront. Agent receives the instructions, works, finishes. No back-and-forth needed.
 
 **Input can be fully specified upfront.** No discovery is needed. All required information can be provided in the task description.
 
-**Tool isolation is needed.** An Agent can be restricted to only use certain tools — for example, read-only file access, no writes. This is useful for tasks that need security constraints, or to prevent an Agent from accidentally modifying things it shouldn't.
+**Tool isolation is needed.** An Agent can be restricted to only use certain tools, for example, read-only file access, no writes. This is useful for tasks that need security constraints, or to prevent an Agent from accidentally modifying things it shouldn't.
 
 **Can run in parallel.** Because an Agent runs in a separate context, multiple agents can run in parallel for independent tasks. This can't be done with a Skill.
 
-**How to define an Agent:** Create a `.md` file in `.claude/agents/` — no installation required. Just commit to the repository, and everyone who clones the repo already has the same Agent.
+**How to define an Agent:** Create a `.md` file in `.claude/agents/`, no installation required. Just commit to the repository, and everyone who clones the repo already has the same Agent.
 
 Example:
 
@@ -150,9 +150,9 @@ Since I'm often asked for this comparison, here's a brief overview of the broade
 | Project instructions file | CLAUDE.md | AGENTS.md | GEMINI.md |
 | Tool restriction per agent | ✅ | ❌ | ❌ |
 
-MCP is common ground — all three tools support it. But for Skills (interactive Q&A plugin) and tool restriction per agent, Claude Code currently has the most mature ecosystem.
+MCP is common ground, all three tools support it. But for Skills (interactive Q&A plugin) and tool restriction per agent, Claude Code currently has the most mature ecosystem.
 
-This isn't a claim that Claude Code is "best" in absolute terms — the AI coding tools ecosystem moves fast and the situation can change. But for teams investing in a Skills and Agents ecosystem, Claude Code has the strongest foundation right now.
+This isn't a claim that Claude Code is "best" in absolute terms, the AI coding tools ecosystem moves fast and the situation can change. But for teams investing in a Skills and Agents ecosystem, Claude Code has the strongest foundation right now.
 
 ---
 
@@ -163,18 +163,18 @@ For SAs or Tech Leads who want to build an internal Skills and Agents library:
 **Build a Skill when:**
 - Output differs per project (framework, stack, conventions)
 - Discovery Q&A is needed before generating
-- The team needs consistency — all engineers generate with the same patterns
+- The team needs consistency, all engineers generate with the same patterns
 - Will be shared via registry to multiple projects
 
 **Build an Agent when:**
 - Repetitive task with well-defined input
-- Can be fully autonomous — no confirmation needed
+- Can be fully autonomous, no confirmation needed
 - Needs tool isolation for security
 - Can be parallelized with other agents
 
-Teams share Agents by committing `.claude/agents/` to the project repository — immediately available to everyone who clones the repo.
+Teams share Agents by committing `.claude/agents/` to the project repository, immediately available to everyone who clones the repo.
 
-Teams share Skills via git registry — engineers install with one command, auto-updates when a new version is available.
+Teams share Skills via git registry, engineers install with one command, auto-updates when a new version is available.
 
 ---
 
@@ -186,7 +186,7 @@ This is the final article in the **AI-Assisted Software Development** series. If
 
 Good PRD → detailed PID → solid solution design → explicit spec → incremental code generation. Each stage depends on the previous one. Shortcuts at one stage will pay an expensive price at the next.
 
-Skills and Agents are a way to codify this knowledge — turning "how we work" from unread documents into tools that are used every day.
+Skills and Agents are a way to codify this knowledge, turning "how we work" from unread documents into tools that are used every day.
 
 Good luck, and I hope it's useful.
 

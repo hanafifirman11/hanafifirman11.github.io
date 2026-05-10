@@ -13,9 +13,9 @@ Ada satu prinsip yang berlaku konsisten di AI-assisted development:
 
 Ini bukan metafora. Ini pengamatan empiris dari ratusan sesi Claude Code di codebase production kami.
 
-Ketika engineer memberikan prompt yang spesifik dengan konteks yang jelas, output AI hampir selalu layak sebagai starting point yang solid. Ketika prompt-nya ambigu dan tanpa konteks, AI akan menebak — dan tebakan AI tentang stack teknologi, pattern yang dipakai, atau business logic spesifik hampir selalu salah.
+Ketika engineer memberikan prompt yang spesifik dengan konteks yang jelas, output AI hampir selalu layak sebagai starting point yang solid. Ketika prompt-nya ambigu dan tanpa konteks, AI akan menebak, dan tebakan AI tentang stack teknologi, pattern yang dipakai, atau business logic spesifik hampir selalu salah.
 
-Bayangkan kamu hire seorang kontraktor untuk renovasi rumah. Semakin detail brief yang kamu berikan — material, ukuran, constraint anggaran, preferensi estetika — semakin sedikit revisi yang diperlukan. AI bekerja dengan logika yang sama.
+Bayangkan kamu hire seorang kontraktor untuk renovasi rumah. Semakin detail brief yang kamu berikan, material, ukuran, constraint anggaran, preferensi estetika, semakin sedikit revisi yang diperlukan. AI bekerja dengan logika yang sama.
 
 4 skenario di artikel ini mencakup spektrum yang mungkin kamu hadapi:
 
@@ -35,7 +35,7 @@ flowchart TD
     class A,B,C,D scenario
 ```
 
-Tiap skenario butuh format spec yang berbeda — itulah kenapa prompt one-size-fits-all menghasilkan output yang inkonsisten.
+Tiap skenario butuh format spec yang berbeda, itulah kenapa prompt one-size-fits-all menghasilkan output yang inkonsisten.
 
 ---
 
@@ -43,7 +43,7 @@ Tiap skenario butuh format spec yang berbeda — itulah kenapa prompt one-size-f
 
 Sebelum masuk ke 4 skenario, ada satu setup yang perlu dilakukan sekali dan berlaku permanen untuk seluruh project: **CLAUDE.md**.
 
-CLAUDE.md adalah file yang dibaca Claude Code di awal setiap sesi. Isinya adalah konteks project yang tidak perlu diulang setiap kali prompt — tech stack, konvensi kode, pattern yang dipakai, dan hal-hal yang tidak boleh dilakukan AI tanpa persetujuan eksplisit.
+CLAUDE.md adalah file yang dibaca Claude Code di awal setiap sesi. Isinya adalah konteks project yang tidak perlu diulang setiap kali prompt, tech stack, konvensi kode, pattern yang dipakai, dan hal-hal yang tidak boleh dilakukan AI tanpa persetujuan eksplisit.
 
 Contoh CLAUDE.md untuk project Spring Boot kami:
 
@@ -55,12 +55,12 @@ Contoh CLAUDE.md untuk project Spring Boot kami:
 
 ## Conventions
 - Gunakan DatabaseClient (bukan Spring Data repositories)
-- Constructor injection only — jangan @Autowired field injection
+- Constructor injection only, jangan @Autowired field injection
 - Semua public service method harus punya unit test
 
 ## Do Not
 - Jangan tambahkan dependency baru tanpa persetujuan eksplisit
-- Jangan gunakan Pageable — gunakan Flux<T> streaming
+- Jangan gunakan Pageable, gunakan Flux<T> streaming
 - Jangan ubah API contract yang sudah ada tanpa diskusi
 
 ## Reference Patterns
@@ -70,7 +70,7 @@ Contoh CLAUDE.md untuk project Spring Boot kami:
 
 Dengan CLAUDE.md, Claude Code tidak perlu diberi tahu setiap sesi bahwa project ini pakai WebFlux bukan MVC, atau bahwa kita tidak pakai Spring Data repositories. Konteks ini persisten.
 
-Ini menghemat token yang signifikan dan — yang lebih penting — mengurangi kemungkinan Claude menghasilkan kode dengan pattern yang salah.
+Ini menghemat token yang signifikan dan, yang lebih penting, mengurangi kemungkinan Claude menghasilkan kode dengan pattern yang salah.
 
 ---
 
@@ -83,7 +83,7 @@ Project baru dari nol adalah skenario yang paling open-ended, dan karena itu pal
 - Stack dan versi yang eksplisit: Java 21, Spring Boot 3.x, PostgreSQL 15, Kafka 3.x
 - Folder structure dan package layout yang diinginkan
 - Konvensi naming, error handling, dan logging format
-- Module list dengan prioritas — apa yang dibangun pertama
+- Module list dengan prioritas, apa yang dibangun pertama
 
 **Prompt pattern yang efektif:**
 
@@ -102,14 +102,14 @@ com.company.service
 
 Conventions:
 - Reactive: WebFlux + R2DBC
-- No Spring Data repositories — gunakan DatabaseClient
+- No Spring Data repositories, gunakan DatabaseClient
 - Constructor injection only
 
-Step 1: Setup skeleton — buat struktur folder dan class kosong.
+Step 1: Setup skeleton, buat struktur folder dan class kosong.
 JANGAN mulai implementasi business logic dulu.
 ```
 
-Kunci di sini adalah **"Step 1"** dan **"JANGAN mulai implementasi"**. Kalau tidak ada instruksi ini, Claude cenderung langsung generate kode implementation — yang terlihat produktif tapi berbahaya karena arah yang salah baru ketahuan setelah banyak kode ditulis.
+Kunci di sini adalah **"Step 1"** dan **"JANGAN mulai implementasi"**. Kalau tidak ada instruksi ini, Claude cenderung langsung generate kode implementation, yang terlihat produktif tapi berbahaya karena arah yang salah baru ketahuan setelah banyak kode ditulis.
 
 Review skeleton dulu, konfirmasi arahnya benar, baru lanjut ke implementasi.
 
@@ -152,7 +152,7 @@ Sebelum generate kode: tunjukkan change plan dulu.
 Saya akan konfirmasi sebelum kamu mulai edit file.
 ```
 
-Instruksi **"tunjukkan change plan dulu"** adalah yang paling penting di skenario ini. Claude akan list semua file yang akan dimodifikasi dan perubahan apa yang akan dilakukan — ini kesempatan untuk catch wrong assumptions sebelum kode ditulis.
+Instruksi **"tunjukkan change plan dulu"** adalah yang paling penting di skenario ini. Claude akan list semua file yang akan dimodifikasi dan perubahan apa yang akan dilakukan, ini kesempatan untuk catch wrong assumptions sebelum kode ditulis.
 
 ---
 
@@ -200,7 +200,7 @@ Saya akan konfirmasi hypothesis sebelum kamu propose fix.
 
 ## Skenario D: Reverse Engineering
 
-Ini skenario yang paling underrated — dan sangat berguna untuk tim yang punya legacy codebase.
+Ini skenario yang paling underrated, dan sangat berguna untuk tim yang punya legacy codebase.
 
 Situasinya: ada kode yang sudah berjalan bertahun-tahun, tidak ada dokumentasi, engineer yang menulis sudah tidak ada, dan kamu perlu memahami bagaimana cara kerjanya sebelum melakukan refactoring atau menambahkan fitur.
 
@@ -210,7 +210,7 @@ Situasinya: ada kode yang sudah berjalan bertahun-tahun, tidak ada dokumentasi, 
 - Security audit
 - Membuat dokumentasi yang tidak pernah ada
 
-**Prompt 1 — Architecture overview:**
+**Prompt 1, Architecture overview:**
 ```
 Gunakan Serena untuk navigasi project ini.
 Berikan arsitektur overview:
@@ -220,14 +220,14 @@ Berikan arsitektur overview:
 - Dependency external yang penting
 ```
 
-**Prompt 2 — Trace satu fitur:**
+**Prompt 2, Trace satu fitur:**
 ```
 Trace alur [nama fitur] dari entry point sampai ke database.
 Format: sequence diagram PlantUML.
 Sertakan class name dan method name yang aktual dari codebase.
 ```
 
-**Prompt 3 — Security audit:**
+**Prompt 3, Security audit:**
 ```
 Review [NamaService] untuk potensi masalah keamanan:
 - SQL injection
@@ -238,7 +238,7 @@ Review [NamaService] untuk potensi masalah keamanan:
 Format: list temuan dengan severity dan lokasi kode spesifik.
 ```
 
-Output dari reverse engineering ini menjadi dokumentasi yang sebelumnya tidak ada — dan bisa langsung masuk ke repository sebagai bagian dari onboarding documentation.
+Output dari reverse engineering ini menjadi dokumentasi yang sebelumnya tidak ada, dan bisa langsung masuk ke repository sebagai bagian dari onboarding documentation.
 
 ---
 
@@ -250,7 +250,7 @@ Dari pengalaman kami, ini yang paling sering menyebabkan AI generate kode yang t
 
 **Tidak ada referensi ke kode existing.** Kalau project sudah punya pattern yang established, selalu tunjukkan satu contoh ke AI. "Ikuti pattern yang sama seperti di PaymentService" menghasilkan output yang jauh lebih konsisten dengan codebase.
 
-**Langsung minta semua sekaligus.** Minta AI generate seluruh feature sekaligus hampir selalu menghasilkan kode yang tidak konsisten. Incremental jauh lebih baik — skeleton dulu, review, baru implementasi layer per layer.
+**Langsung minta semua sekaligus.** Minta AI generate seluruh feature sekaligus hampir selalu menghasilkan kode yang tidak konsisten. Incremental jauh lebih baik, skeleton dulu, review, baru implementasi layer per layer.
 
 **Tidak memberi constraint.** Tanpa constraint eksplisit, AI membuat asumsi. Di sistem payment, asumsi yang salah bisa berujung ke financial loss atau compliance issue.
 
@@ -264,8 +264,8 @@ Spec yang baik adalah investasi terbaik dalam AI-assisted development. Waktu yan
 
 CLAUDE.md adalah fondasi yang cukup dibuat sekali. Empat skenario spec di atas adalah framework yang bisa langsung dipakai untuk hampir semua situasi development yang ditemui sehari-hari.
 
-Artikel berikutnya: **structured code generation** — kenapa skeleton harus selalu datang sebelum implementasi, dan bagaimana checkpoint-based generation menghasilkan kode yang lebih konsisten dan lebih mudah di-review.
+Artikel berikutnya: **structured code generation**: kenapa skeleton harus selalu datang sebelum implementasi, dan bagaimana checkpoint-based generation menghasilkan kode yang lebih konsisten dan lebih mudah di-review.
 
 ---
 
-*Artikel ini bagian dari seri **AI-Assisted Software Development** — pengalaman lapangan menggunakan Claude Code di tim engineering payment fintech.*
+*Artikel ini bagian dari seri **AI-Assisted Software Development**: pengalaman lapangan menggunakan Claude Code di tim engineering payment fintech.*

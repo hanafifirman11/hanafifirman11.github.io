@@ -8,7 +8,7 @@ tags: [n8n, automation, sftp, file-transfer, integration]
 
 In *enterprise* systems, data flows are rarely as smooth as a real-time API. Static file delivery methods like CSV via centralized SFTP *(batch processing)* remain an industry standard, especially for financial institutions.
 
-When workflows are few, *cron jobs* and simple bash scripts are sufficient. But as dozens of external data collaborators grow — each with variations in *retry logic*, data cleansing (*parsing*), and row-by-row validation — *script management* becomes an uncomfortable chore.
+When workflows are few, *cron jobs* and simple bash scripts are sufficient. But as dozens of external data collaborators grow, each with variations in *retry logic*, data cleansing (*parsing*), and row-by-row validation, *script management* becomes an uncomfortable chore.
 
 In [the previous article](/en/blog/n8n-self-hosted-kubernetes), I covered our n8n architecture on Kubernetes. This article focuses on what we actually built on top of that platform: **File Transfer Automation**.
 
@@ -75,7 +75,7 @@ return [
 ];
 ```
 
-This split allows clean *(valid)* data to continue flowing to the Database, while *error rows* are collected to build a response message narrative downstream — without freezing (*crashing*) execution midway.
+This split allows clean *(valid)* data to continue flowing to the Database, while *error rows* are collected to build a response message narrative downstream, without freezing (*crashing*) execution midway.
 
 ### 3. Database Insert Optimization
 Valid data is then inserted using the **PostgreSQL Node**. The most fundamental safety measure we apply is the `ON CONFLICT` function *(idempotency)*:

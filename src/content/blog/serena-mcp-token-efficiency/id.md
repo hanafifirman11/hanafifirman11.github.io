@@ -1,6 +1,6 @@
 ---
 title: "Serena + MCP: Cara AI Baca Codebase Tanpa Boros Token"
-description: "Tanpa Serena, Claude membaca file satu per satu seperti orang baca buku tanpa daftar isi. Dengan Serena, Claude navigasi codebase secara semantik — hemat 60–80% token."
+description: "Tanpa Serena, Claude membaca file satu per satu seperti orang baca buku tanpa daftar isi. Dengan Serena, Claude navigasi codebase secara semantik, hemat 60–80% token."
 publishedAt: 2026-04-23
 category: ai-engineering
 tags: ["ai", "claude-code", "serena", "mcp", "token-efficiency"]
@@ -13,7 +13,7 @@ Ada pertanyaan yang sering muncul ketika engineer pertama kali pakai Claude Code
 
 Jawabannya hampir selalu sama: Claude tidak tahu *di mana harus melihat*.
 
-Tanpa tool yang tepat, Claude akan membaca file satu per satu, memuat seluruh isi file meskipun yang dibutuhkan hanya satu method, dan menghabiskan context window dengan konten yang tidak relevan. Seperti orang yang disuruh cari satu paragraf di sebuah buku — tapi tidak dikasih daftar isi dan harus baca dari halaman pertama.
+Tanpa tool yang tepat, Claude akan membaca file satu per satu, memuat seluruh isi file meskipun yang dibutuhkan hanya satu method, dan menghabiskan context window dengan konten yang tidak relevan. Seperti orang yang disuruh cari satu paragraf di sebuah buku, tapi tidak dikasih daftar isi dan harus baca dari halaman pertama.
 
 Serena adalah solusi untuk masalah ini.
 
@@ -23,7 +23,7 @@ Serena adalah solusi untuk masalah ini.
 
 Sebelum masuk ke Serena, perlu pahami dulu fondasi teknisnya: **Model Context Protocol (MCP)**.
 
-MCP adalah open protocol yang menjadi jembatan antara AI dan tools eksternal — codebase, database, API, apapun. Analoginya: kalau USB-C adalah standar universal untuk menghubungkan perangkat, MCP adalah standar universal untuk menghubungkan AI dengan tools.
+MCP adalah open protocol yang menjadi jembatan antara AI dan tools eksternal, codebase, database, API, apapun. Analoginya: kalau USB-C adalah standar universal untuk menghubungkan perangkat, MCP adalah standar universal untuk menghubungkan AI dengan tools.
 
 ```
 Claude  ←→  MCP Server  ←→  Codebase / DB / API
@@ -31,7 +31,7 @@ Claude  ←→  MCP Server  ←→  Codebase / DB / API
 
 Yang menarik: MCP bukan eksklusif untuk Claude. Codex CLI, Gemini CLI, dan AI lainnya juga bisa terhubung ke MCP server yang sama. Artinya investasi membuat MCP server yang bagus bisa dipakai lintas AI.
 
-Claude Code sudah dilengkapi MCP support out of the box — tidak perlu setup tambahan yang rumit.
+Claude Code sudah dilengkapi MCP support out of the box, tidak perlu setup tambahan yang rumit.
 
 ---
 
@@ -39,7 +39,7 @@ Claude Code sudah dilengkapi MCP support out of the box — tidak perlu setup ta
 
 Serena adalah MCP server yang membawa kemampuan navigasi semantik ke Claude Code. Intinya, Serena mengekspos kemampuan **Language Server Protocol (LSP)** kepada AI.
 
-LSP adalah teknologi yang sudah lama dipakai IDE modern — itulah yang membuat IDE bisa "go to definition", "find all references", atau "show all implementations" secara akurat. Serena membawa kemampuan yang sama ke tangan Claude Code.
+LSP adalah teknologi yang sudah lama dipakai IDE modern, itulah yang membuat IDE bisa "go to definition", "find all references", atau "show all implementations" secara akurat. Serena membawa kemampuan yang sama ke tangan Claude Code.
 
 **Tanpa Serena:**
 - Claude membaca file satu per satu
@@ -52,7 +52,7 @@ LSP adalah teknologi yang sudah lama dipakai IDE modern — itulah yang membuat 
 - Token usage turun **60–80%**
 - Konsisten meski di codebase yang besar dan kompleks
 
-Perbedaan ini bukan marginal — ini yang membedakan antara Claude Code yang "oke" dan Claude Code yang benar-benar berguna di production codebase.
+Perbedaan ini bukan marginal, ini yang membedakan antara Claude Code yang "oke" dan Claude Code yang benar-benar berguna di production codebase.
 
 ---
 
@@ -77,11 +77,11 @@ Serena mengekspos beberapa tools utama yang bisa dipakai Claude:
 | Tool | Fungsi |
 |---|---|
 | `find_symbol` | Langsung ke definisi class, method, atau variable |
-| `get_symbols_overview` | Outline keseluruhan file — seperti daftar isi |
+| `get_symbols_overview` | Outline keseluruhan file, seperti daftar isi |
 | `find_referencing_symbols` | Cari semua tempat di mana sebuah symbol dipakai |
 | `search_for_pattern` | Global regex search di seluruh codebase |
 
-Dengan tools ini, Claude bisa langsung tanya: "Di mana `PaymentService` didefinisikan?" dan langsung mendapat jawabannya — tanpa harus membaca setiap file satu per satu.
+Dengan tools ini, Claude bisa langsung tanya: "Di mana `PaymentService` didefinisikan?" dan langsung mendapat jawabannya, tanpa harus membaca setiap file satu per satu.
 
 ---
 
@@ -143,16 +143,16 @@ Untuk tim kami yang mayoritas pakai Java + Spring Boot, ini coverage yang sangat
 Bayangkan kamu punya microservice dengan 200+ file Java dan kamu minta Claude untuk melacak bagaimana sebuah transaksi diproses dari request masuk sampai ke database.
 
 **Tanpa Serena**, Claude akan:
-1. Baca `TransactionController.java` — seluruh file, 300 baris
-2. Baca `TransactionService.java` — seluruh file, 500 baris
-3. Baca `TransactionRepository.java` — seluruh file, 200 baris
+1. Baca `TransactionController.java`, seluruh file, 300 baris
+2. Baca `TransactionService.java`, seluruh file, 500 baris
+3. Baca `TransactionRepository.java`, seluruh file, 200 baris
 4. Total: ~1000 baris, ~8,000 token hanya untuk trace satu flow
 
 **Dengan Serena**, Claude akan:
-1. `get_symbols_overview` pada controller — langsung tahu method mana yang relevan
-2. `find_symbol` pada method yang spesifik — baca hanya 30 baris yang relevan
+1. `get_symbols_overview` pada controller, langsung tahu method mana yang relevan
+2. `find_symbol` pada method yang spesifik, baca hanya 30 baris yang relevan
 3. `find_referencing_symbols` untuk trace ke service dan repository
-4. Total: ~100 baris, ~800 token — **10x lebih efisien**
+4. Total: ~100 baris, ~800 token, **10x lebih efisien**
 
 Di codebase yang besar, perbedaan ini terakumulasi sangat signifikan.
 
@@ -162,9 +162,9 @@ Di codebase yang besar, perbedaan ini terakumulasi sangat signifikan.
 
 Karena Serena adalah MCP server standar, konfigurasi `.mcp.json` yang sama bisa dipakai oleh:
 
-- **Claude Code** — primary tool kami
-- **Codex CLI** — via MCP support
-- **Gemini CLI** — via Extensions
+- **Claude Code**: primary tool kami
+- **Codex CLI**: via MCP support
+- **Gemini CLI**: via Extensions
 
 Ini berarti kalau tim kamu bereksperimen dengan multiple AI tools, Serena tetap relevan. Satu investasi setup, bisa dipakai ke mana pun AI ecosystem-nya berkembang.
 
@@ -182,14 +182,14 @@ Ini berarti kalau tim kamu bereksperimen dengan multiple AI tools, Serena tetap 
 
 ## Kesimpulan
 
-Serena + MCP adalah fondasi yang membuat Claude Code benar-benar berguna di codebase production yang besar dan kompleks. Tanpanya, Claude bekerja buta — membaca file secara acak, boros token, dan sering kehilangan konteks.
+Serena + MCP adalah fondasi yang membuat Claude Code benar-benar berguna di codebase production yang besar dan kompleks. Tanpanya, Claude bekerja buta, membaca file secara acak, boros token, dan sering kehilangan konteks.
 
-Dengan Serena, Claude bisa navigasi codebase seperti engineer yang sudah bekerja berbulan-bulan di project tersebut — tahu di mana harus melihat, tahu apa yang relevan, dan tidak membuang waktu membaca hal-hal yang tidak perlu.
+Dengan Serena, Claude bisa navigasi codebase seperti engineer yang sudah bekerja berbulan-bulan di project tersebut, tahu di mana harus melihat, tahu apa yang relevan, dan tidak membuang waktu membaca hal-hal yang tidak perlu.
 
 Setup-nya 15 menit. Benefitnya permanen di setiap sesi kerja.
 
-Artikel berikutnya: bagaimana menggunakan Claude Code + Serena untuk menghasilkan solution design — sequence diagram, C4 model, dan API contract yang benar-benar sesuai dengan arsitektur existing.
+Artikel berikutnya: bagaimana menggunakan Claude Code + Serena untuk menghasilkan solution design, sequence diagram, C4 model, dan API contract yang benar-benar sesuai dengan arsitektur existing.
 
 ---
 
-*Artikel ini bagian dari seri **AI-Assisted Software Development** — pengalaman lapangan menggunakan Claude Code di tim engineering payment fintech.*
+*Artikel ini bagian dari seri **AI-Assisted Software Development**: pengalaman lapangan menggunakan Claude Code di tim engineering payment fintech.*
