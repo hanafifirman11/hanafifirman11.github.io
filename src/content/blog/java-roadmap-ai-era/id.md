@@ -143,7 +143,7 @@ Java gerak cepet tiga tahun terakhir, dan kebanyakan junior masih nulis Java gay
 - **Scoped values**, pengganti `ThreadLocal` yang jalan bener di virtual threads.
 - **Pattern matching for switch**, termasuk type pattern dan deconstruction. Bikin kamu berhenti nulis cascade `if (x instanceof Y y)`.
 
-[ANECDOTE NEEDED: cerita junior di tim kamu yang ngegenerate kode dengan pattern Java lama gara-gara codebase-nya emang masih lama, dan apa yang akhirnya dilakuin buat dorong upgrade gaya kode-nya.]
+Tiap kali gw review PR yang isinya kode hasil generate AI dan masih full pattern Java lama, biasanya yang dituduh duluan AI-nya. Tapi pas gw cek file-file lain di package yang sama, ternyata gaya nulis kayak gitu emang masih banyak. AI-nya bukan males. Dia cuma nyontek tetangga terdekat. Dari situ obrolannya biasanya geser, dari "suruh AI pake Java modern" ke "udah waktunya kah kita modernize folder ini sekalian". Dan biasanya yang kedua itu obrolan yang lebih masuk akal buat dibawa ke tim.
 
 Yang penting dipahami: AI nyontek gaya yang dia lihat di codebase. Kalau codebase masih full pattern pre-Java-17, AI bakal generate pattern pre-Java-17 lagi. Sebagian dari maturity kamu sebagai engineer diukur dari seberapa modern pattern yang kamu giring ke codebase, walaupun gw sendiri jujur kadang masih bingung kapan worth-it push upgrade vs kapan biarin aja sampai timing-nya pas.
 
@@ -253,7 +253,7 @@ Skill yang masuk di Phase 3:
 
 **AI governance.** Yang tidak boleh dikirim ke AI: PII customer, credentials, paten internal, arsitektur kompetitif. Di domain regulated kayak fintech, health, atau government, biasanya tim sudah punya policy soal ini, dan walaupun kadang policy-nya kelihatan ribet, biasanya policy itu ada karena beberapa orang sebelumnya udah pernah ke-trap di situ.
 
-[ANECDOTE NEEDED: pengalaman pribadi pas spec-first ngubah hasil generation, atau sebaliknya pas vibe-coding bikin masalah di prod. Bisa cerita timing-nya, apa yang kelihatan di review, apa yang akhirnya ke-fix.]
+Pernah satu kali gw minta agent generate service buat handle refund dispute. Hasilnya rapi, semua unit test yang dia generate sendiri lulus semua. Beberapa hari kemudian pas code review, ketauan ada race condition yang gw missed: dua submission dispute bareng buat transaction yang sama bisa dua-duanya sukses, refund-nya jadi double. Spec awal yang gw kasih emang nggak nyebut soal concurrency. Akhirnya kami tambah satu baris ke CLAUDE.md ("semua mutating operation di transaction state harus pakai optimistic lock"), regenerate method yang sama, dan output-nya udah include lock yang bener. Bahkan dia mulai nyolek issue serupa di kode tetangganya yang nggak gw minta dia lihat. Sejak itu gw mulai nge-list constraint yang sebenernya tim udah tau, tapi belum pernah ditulis di tempat yang AI bisa baca.
 
 ---
 

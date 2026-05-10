@@ -143,7 +143,7 @@ Java has moved quickly over the last three years and most juniors are still writ
 - **Scoped values**, the replacement for `ThreadLocal` that works correctly with virtual threads.
 - **Pattern matching for switch**, including type patterns and deconstruction. Lets you stop writing `if (x instanceof Y y)` cascades.
 
-[ANECDOTE NEEDED: a story from your own team where a junior generated something with old Java patterns because the surrounding codebase was old, and what you ended up doing about it.]
+I review enough PRs to notice a pattern. When a junior pulls in something AI-generated and it's full of pre-Java-17 idioms, the junior almost always blames the AI. But when I check, the surrounding files in that package are usually full of the same idioms. The AI isn't being lazy. It's mirroring the nearest examples it can see. The conversation we end up having usually shifts from "tell the AI to use modern Java" to "should we modernize this directory while we're here", and the second one is almost always the more useful one to have.
 
 The thing worth understanding is that AI mirrors whatever style it sees in the codebase. If your codebase is full of pre-Java-17 patterns, AI will keep generating pre-Java-17 patterns. Part of the job of a more senior engineer is to nudge the codebase toward more modern patterns over time, although I'll admit I sometimes have a hard time judging when the upgrade is worth pushing for and when it's better to leave it alone for a while.
 
@@ -246,7 +246,7 @@ The skills that sit inside Phase 3:
 
 **AI governance.** What you don't send to AI: customer PII, credentials, internal patents, competitor-sensitive architecture. In regulated domains your team probably already has policy on this, and even when the policy looks fussy, there's usually a reason somebody got bitten before.
 
-[ANECDOTE NEEDED: a real moment from your own work where spec-first dramatically changed an output, or where vibe-coding caused a problem in prod. Be specific about what you saw, what surprised you, and what got fixed.]
+I once asked an agent to generate a service method for handling refund disputes. The output passed every unit test it generated for itself. A few days later in code review, someone caught a race condition I'd missed, two simultaneous dispute submissions for the same transaction would both succeed and double-process the refund. The original spec I'd written hadn't said anything about concurrency. We added a single line to the project's CLAUDE.md ("all mutating operations on transaction state must be guarded by an optimistic lock"), regenerated the same method, and the new version came back with the lock wired in correctly. It also started flagging similar issues in adjacent code that I hadn't asked it to look at. I've started keeping a running list of these missing constraints, and most of them, in retrospect, are things the team already knew but had never written down anywhere the AI could see.
 
 ---
 
