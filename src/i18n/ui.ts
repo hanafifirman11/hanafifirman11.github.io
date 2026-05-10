@@ -49,7 +49,7 @@ export const ui = {
     'about.section.education': 'Pendidikan',
     'about.section.whySite': 'Mengapa Situs Ini',
     'about.section.contact': 'Hubungi Saya',
-    'about.contact.desc': 'Tertarik untuk berkolaborasi, konsultasi arsitektur, atau sekadar ngobrol soal teknologi dan kopi? Jangan ragu untuk menghubungi saya.',
+    'about.contact.desc': 'Mau collab, butuh architecture consulting, atau cuma pengen ngobrolin teknologi sama kopi? Boleh banget langsung hubungin saya.',
 
     // Portfolio page
     'portfolio.eyebrow': 'Portfolio',
