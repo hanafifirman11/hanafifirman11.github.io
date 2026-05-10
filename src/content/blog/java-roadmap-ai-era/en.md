@@ -36,9 +36,9 @@ These are the foundations AI just doesn't help with. If anything, AI raises the 
 
 **Concurrency.** Virtual threads (Loom) are the baseline now. They aren't an "advanced" topic. But virtual threads don't make race conditions disappear. Knowing the Java Memory Model, `volatile`, `synchronized`, and the difference between `CompletableFuture.thenApply` and `thenApplyAsync` is what stops you from shipping a bug AI happily produced for you.
 
-**SQL and database internals.** Indexes, query plans, isolation levels, the classic N+1 problem. Hibernate generates beautiful queries; sometimes catastrophic ones. You need to be able to read EXPLAIN.
+**SQL and database internals.** Indexes, query plans, isolation levels, the classic N+1 problem. Hibernate generates beautiful queries, and sometimes catastrophic ones. You need to be able to read EXPLAIN.
 
-**Distributed systems fundamentals.** CAP, idempotency, retries, deduplication, exactly-once illusions. Spring Cloud and Kafka let you build things; understanding those concepts is what lets you debug them when something goes wrong at 2am.
+**Distributed systems fundamentals.** CAP, idempotency, retries, deduplication, exactly-once illusions. Spring Cloud and Kafka let you build things, but understanding the concepts underneath is what lets you debug them when something goes wrong at 2am.
 
 **System design.** Trade-offs between consistency and availability, when a queue is the right tool versus a database versus a cache, how to scope a bounded context. AI is fine at sketching options. The choice still has to come from you.
 
@@ -151,7 +151,7 @@ The thing worth understanding is that AI mirrors whatever style it sees in the c
 
 ## Phase 2: Spring Boot 4, properly
 
-Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade is the first thing on the list. The upgrade itself isn't difficult; the reason to do it is that most of what's interesting in 2026 ships on 4.
+Spring Boot 4 (latest GA: 4.0.6) shipped in late 2025 on top of Spring Framework 7, Spring Security 7, JUnit 6, Hibernate 7.1, and Jackson 3. If you're still on 3.x, the upgrade is the first thing on the list. The upgrade itself isn't difficult. The reason to do it is that most of what's interesting in 2026 lives on 4.
 
 You probably already know Spring Web MVC, JPA, and how to write a `@RestController`. Picture the next layer up like a stack: the layers below carry the layers above, and you don't get to skip the bottom and start at the top.
 
@@ -197,7 +197,7 @@ What's genuinely new in Spring Boot 4 and worth your attention:
 
 A few opinions you're free to disagree with:
 
-- Reactive is no longer the default answer. With virtual threads, plain MVC scales to thousands of concurrent connections without anyone having to touch callback hell. WebFlux still has a place if you genuinely have backpressure or streaming requirements; outside of that, MVC is fine.
+- Reactive is no longer the default answer. With virtual threads, plain MVC scales to thousands of concurrent connections without anyone having to touch callback hell. WebFlux still has a place when you genuinely have backpressure or streaming requirements. Outside of that, MVC is fine.
 - Testcontainers should honestly be on the project from day one. H2 and embedded Postgres lie about behaviour. Real Postgres in a container catches real bugs.
 - Observability should not be optional. Get Micrometer and OpenTelemetry in from the start. The first time you debug a production issue without traces, you'll remember why people kept telling you to.
 - Spring AI is part of the platform now. `ChatClient`, structured output, RAG via `VectorStore`. If your team doesn't have at least one feature backed by an LLM by 2026, my honest sense is that you'll struggle to catch up next year, although I'd accept this is a hot take and people can reasonably disagree.
@@ -238,7 +238,7 @@ The skills that sit inside Phase 3:
 
 **Spec-first development.** Before you write a prompt, write a CLAUDE.md or SPEC.md that lays out the constraints, conventions, and references. Then generate. The quality of the output usually tracks the quality of the spec.
 
-**Reviewing code at the speed AI produces it.** You're not really the author anymore; you're the reviewer, and that changes the kind of attention you have to bring. Subtle bugs, weak tests, hidden N+1 queries, patterns that don't match the surrounding codebase, all moving past you at AI's output rate.
+**Reviewing code at the speed AI produces it.** You're not really the author anymore. You're the reviewer, and that changes the kind of attention you have to bring. Subtle bugs, weak tests, hidden N+1 queries, patterns that don't match the surrounding codebase, all moving past you at AI's output rate.
 
 **Test literacy.** AI tends to generate tests that pass, and that's part of the problem. A passing test that doesn't exercise the failure mode is worse than no test at all, because it gives you false confidence. You have to read what's being tested *and* what isn't.
 
@@ -314,7 +314,7 @@ These are the ways juniors get stuck in 2026, and AI tends to expose them faster
 
 **Skipping tests because the AI got it right.** It gets things right around 95% of the time, and the remaining 5% is where the bugs live. Tests are how you bound how much you trust the output rather than a ritual to skip.
 
-**Believing AI-generated tests are real coverage.** They often test the implementation rather than the contract, and they often only cover the happy path. Read them; don't only count the green dots.
+**Believing AI-generated tests are real coverage.** They often test the implementation rather than the contract, and they often only cover the happy path. Read them. Don't only count the green dots.
 
 **Stack-jumping every quarter.** Quarkus, Micronaut, and Helidon are all interesting. Mastering one (Spring Boot, in your case) is what makes you employable. Diversify later, after you have depth somewhere.
 

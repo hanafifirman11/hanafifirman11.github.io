@@ -20,11 +20,11 @@ Tiga hal kejadian bareng.
 
 Pertama, **boilerplate udah nggak ada nilainya**. Bikin `@Service` dengan constructor injection, empat CRUD endpoint, paginated list, itu nggak lagi disebut skill. Claude Code atau Cursor ngeluarinnya 30 detik, lebih cepat dari kamu mikirin nama field-nya.
 
-Kedua, **baca kode orang jadi murah**. Onboarding ke codebase legacy 200rb baris dulu butuh tiga minggu. Pakai Serena plus prompt yang bener, sehari udah dapat intuisi arsitektur. Bagian lambatnya bergeser; baca kode bukan lagi yang makan waktu.
+Kedua, **baca kode orang jadi murah**. Onboarding ke codebase legacy 200rb baris dulu butuh tiga minggu. Pakai Serena plus prompt yang bener, sehari udah dapat intuisi arsitektur. Bagian lambatnya bergeser. Sekarang baca kode bukan lagi yang makan waktu.
 
-Ketiga, **validasi tetap mahal**. Mastiin satu potong kode bener-bener jalan; handle concurrency, gak bocor resource, gak ngedrop pas load tinggi, gak break kontrak existing. Itu masih makan waktu kepala manusia yang sama kayak dulu.
+Ketiga, **validasi tetap mahal**. Mastiin satu potong kode bener-bener jalan, handle concurrency, gak bocor resource, gak ngedrop pas load tinggi, gak break kontrak existing. Itu masih makan waktu kepala manusia yang sama kayak dulu.
 
-Poin ketiga itu yang penting buat dimengerti. Generation 10× lebih cepat, validasi nggak ikutan cepat. Yang akhirnya jadi pembeda di 2026 adalah seberapa cepat kamu bisa validasi output yang udah keluar; tapi pertanyaan yang sebenernya, kalau jujur sih, gw juga belum yakin gimana ini bakal stabil dalam dua-tiga tahun ke depan, soalnya tooling-nya masih gerak terus.
+Poin ketiga itu yang penting buat dimengerti. Generation 10× lebih cepat, validasi nggak ikutan cepat. Yang akhirnya jadi pembeda di 2026 adalah seberapa cepat kamu bisa validasi output yang udah keluar. Tapi kalau jujur sih, gw juga belum yakin gimana ini bakal stabil dalam dua-tiga tahun ke depan, soalnya tooling-nya masih gerak terus.
 
 ---
 
@@ -245,7 +245,7 @@ Skill yang masuk di Phase 3:
 
 **Spec-first development.** Sebelum nulis prompt, tulis CLAUDE.md atau SPEC.md yang ngelist constraint, konvensi, dan referensi. Baru generate. Kualitas output AI sebanding sama kualitas spec yang kamu kasih.
 
-**Code review pas AI lagi nggencet output.** Posisi kamu udah geser; sebelumnya author, sekarang reviewer. Itu ngubah semuanya. Kamu harus bisa nangkep bug halus, test yang lemah, hidden N+1, dan pattern yang nggak match codebase, dengan kecepatan yang sebanding sama AI memproduksinya.
+**Code review pas AI lagi nggencet output.** Posisi kamu udah geser. Sebelumnya author, sekarang reviewer. Itu ngubah semuanya. Kamu harus bisa nangkep bug halus, test yang lemah, hidden N+1, dan pattern yang nggak match codebase, dengan kecepatan yang sebanding sama AI memproduksinya.
 
 **Test literacy.** AI generate test yang lulus. Itu masalahnya. Test lulus tapi nggak nge-cover failure mode lebih bahaya dari nggak ada test sama sekali, soalnya bikin confidence palsu. Baca apa yang diuji *dan* apa yang nggak diuji.
 
@@ -327,7 +327,7 @@ Ini cara junior nyangkut di 2026. AI ngebongkar lebih cepet dari sebelumnya.
 
 **Cuek sama observability.** "Lokal jalan kok." Frasa ini umurnya pendek banget pas kamu pegang pager.
 
-**Anggep AI itu otoritas.** AI suka halusinasi Spring annotation, ngarang Hibernate method, bahkan ngasi JEP number palsu. Kebiasaan verifikasi ke docs official perlu kamu bangun lebih awal; setiap kali ke-trap, biaya-nya lebih mahal daripada lima menit waktu yang dihemat.
+**Anggep AI itu otoritas.** AI suka halusinasi Spring annotation, ngarang Hibernate method, bahkan ngasi JEP number palsu. Kebiasaan verifikasi ke docs official perlu kamu bangun lebih awal. Setiap kali ke-trap, biaya-nya lebih mahal daripada lima menit waktu yang dihemat.
 
 ---
 
@@ -337,7 +337,7 @@ Junior Java dev di 2021 berharga karena bisa nulis kode. Junior Java dev di 2026
 
 Peran-nya geser dari author ke editor-architect-validator. Skill-nya saling tumpuk di atas satu sama lain, dan walaupun standar lebih tinggi sekarang, leverage juga ikut tinggi: dev kompeten plus AI bisa ship apa yang dulu butuh tim 5 orang.
 
-Salah satu hal yang gampang kebawa keliru adalah ngira AI udah ngerjain kerjaan kamu. Padahal yang dia ngerjain itu bagian *ngetik*-nya. Bagian lain, terutama judgment dan keputusan apa yang masuk ke production, tetap kamu yang nanggung; dan justru itu bagian yang nggak bakal pernah pindah ke siapapun selain kamu.
+Salah satu hal yang gampang kebawa keliru adalah ngira AI udah ngerjain kerjaan kamu. Padahal yang dia ngerjain itu bagian *ngetik*-nya. Bagian lain, terutama judgment dan keputusan apa yang masuk ke production, tetap kamu yang nanggung. Dan justru itu bagian yang nggak bakal pernah pindah ke siapapun selain kamu.
 
 ---
 
