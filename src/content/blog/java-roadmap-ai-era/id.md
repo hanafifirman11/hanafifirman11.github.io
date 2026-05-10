@@ -1,6 +1,6 @@
 ---
 title: "Roadmap Java Developer di Era AI: Lebih dari Sekadar Spring Boot Dasar"
-description: "Cara junior Java developer naik kelas di 2026 — apa yang udah dikomoditisasi AI, apa yang justru makin penting, dan skill non-negotiable yang misahin engineer biasa dari yang dicari tim."
+description: "Cara junior Java developer naik level di 2026. Apa yang udah dikomoditisasi AI, apa yang justru makin penting, dan skill yang misahin engineer biasa dari yang dicari tim."
 publishedAt: 2026-05-09
 category: ai-engineering
 tags: ["java", "spring-boot", "career", "ai-engineering", "roadmap"]

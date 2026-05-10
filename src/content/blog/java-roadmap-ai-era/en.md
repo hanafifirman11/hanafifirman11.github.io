@@ -1,6 +1,6 @@
 ---
 title: "The Java Developer's Roadmap in the AI Era: Beyond Spring Boot Basics"
-description: "How junior Java developers should level up in 2026 — what AI commoditizes, what stays critical, and the new non-negotiable skills that separate someone replaceable from someone valuable."
+description: "How junior Java developers should level up in 2026. What AI commoditizes, what stays critical, and the new skills that separate someone replaceable from someone valuable."
 publishedAt: 2026-05-09
 category: ai-engineering
 tags: ["java", "spring-boot", "career", "ai-engineering", "roadmap"]
