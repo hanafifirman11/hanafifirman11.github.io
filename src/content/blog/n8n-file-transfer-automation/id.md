@@ -6,15 +6,15 @@ category: architecture
 tags: [n8n, automation, sftp, file-transfer, integration]
 ---
 
-Di dalam sistem *enterprise*, alur data jarang sekali semulus API *real-time*. Metode pengiriman file statis seperti CSV via SFTP secara terpusat *(batch processing)* masih menjadi standar industri, terutama untuk lembaga finansial.
+Di sistem enterprise, alur data jarang semulus API real-time. Pengiriman file statis kayak CSV via SFTP secara batch masih jadi standar industri, apalagi buat lembaga keuangan.
 
-Ketika *workflow* masih berjumlah sedikit, *cron job* dan bash script sederhana sudah cukup menjawab masalah. Namun seiring dengan pertumbuhan puluhan kolaborator data eksternal, dengan variasi *retry logic*, pembersihan data (*parsing*), hingga validasi isi baris per baris, manajemen naskah (*script management*) berubah menjadi pekerjaan meresahkan.
+Pas workflow masih sedikit, cron job plus bash script sederhana udah cukup. Tapi begitu jumlah partner data eksternal nambah, dengan variasi retry logic, parsing CSV, sampai validasi isi tiap baris, script management mulai jadi beban yang lumayan bikin pusing.
 
-Di [artikel sebelumnya](/blog/n8n-self-hosted-kubernetes), saya membahas arsitektur n8n kita di kubernetes. Artikel ini berfokus pada apa yang sebenarnya kita bangun di atas platform tersebut: **File Transfer Automation**.
+Di [artikel sebelumnya](/blog/n8n-self-hosted-kubernetes) saya bahas arsitektur n8n di Kubernetes. Artikel ini fokus ke yang dibangun di atas platform itu: **File Transfer Automation**.
 
 ## Flow Overview: Dari Partner ke Database Internal
 
-Alur kerja pada umumnya membutuhkan kita untuk menyisir direktori eksternal, memproses file baru, menunggah balasan, dan mengarsipkan file orisinal untuk merapikan *storage*:
+Alurnya umumnya begini: scan direktori eksternal, proses file baru, upload response, terus archive file aslinya biar storage nggak penuh:
 
 ```mermaid
 graph LR

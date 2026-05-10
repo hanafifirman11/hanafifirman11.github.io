@@ -15,7 +15,7 @@ Ini bukan metafora. Ini pengamatan empiris dari ratusan sesi Claude Code di code
 
 Ketika engineer memberikan prompt yang spesifik dengan konteks yang jelas, output AI hampir selalu layak sebagai starting point yang solid. Ketika prompt-nya ambigu dan tanpa konteks, AI akan menebak, dan tebakan AI tentang stack teknologi, pattern yang dipakai, atau business logic spesifik hampir selalu salah.
 
-Bayangkan kamu hire seorang kontraktor untuk renovasi rumah. Semakin detail brief yang kamu berikan, material, ukuran, constraint anggaran, preferensi estetika, semakin sedikit revisi yang diperlukan. AI bekerja dengan logika yang sama.
+Bayangkan kamu hire kontraktor buat renovasi rumah. Semakin detail brief yang kamu kasih (material, ukuran, anggaran, preferensi estetika), semakin sedikit revisi yang dibutuhin. AI jalannya pakai logika yang sama.
 
 4 skenario di artikel ini mencakup spektrum yang mungkin kamu hadapi:
 
@@ -43,7 +43,7 @@ Tiap skenario butuh format spec yang berbeda, itulah kenapa prompt one-size-fits
 
 Sebelum masuk ke 4 skenario, ada satu setup yang perlu dilakukan sekali dan berlaku permanen untuk seluruh project: **CLAUDE.md**.
 
-CLAUDE.md adalah file yang dibaca Claude Code di awal setiap sesi. Isinya adalah konteks project yang tidak perlu diulang setiap kali prompt, tech stack, konvensi kode, pattern yang dipakai, dan hal-hal yang tidak boleh dilakukan AI tanpa persetujuan eksplisit.
+CLAUDE.md adalah file yang dibaca Claude Code di awal tiap sesi. Isinya konteks project yang nggak perlu diulang tiap prompt: tech stack, konvensi kode, pattern yang dipakai, dan hal-hal yang nggak boleh dilakuin AI tanpa persetujuan eksplisit.
 
 Contoh CLAUDE.md untuk project Spring Boot kami:
 

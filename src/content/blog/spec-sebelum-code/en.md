@@ -15,7 +15,7 @@ This isn't a metaphor. It's an empirical observation from hundreds of Claude Cod
 
 When an engineer provides a specific prompt with clear context, AI output is almost always a solid starting point. When the prompt is ambiguous and context-free, AI will guess, and AI's guesses about your tech stack, the patterns in use, or specific business logic are almost always wrong.
 
-Imagine hiring a contractor for home renovation. The more detailed the brief you provide, materials, dimensions, budget constraints, aesthetic preferences, the fewer revisions are needed. AI works with the same logic.
+Think of hiring a contractor for a home renovation. The more detail you put in the brief (materials, dimensions, budget, aesthetic preferences), the fewer revisions you'll need. AI works the same way.
 
 The 4 scenarios in this article cover the spectrum:
 
@@ -43,7 +43,7 @@ Each scenario needs a different spec format, that's why one-size-fits-all prompt
 
 Before diving into the 4 scenarios, there's one setup to do once that applies permanently for the entire project: **CLAUDE.md**.
 
-CLAUDE.md is a file that Claude Code reads at the start of every session. Its contents are project context that doesn't need to be repeated in every prompt, tech stack, code conventions, patterns in use, and things AI is not allowed to do without explicit approval.
+CLAUDE.md is a file Claude Code reads at the start of every session. It holds the project context you don't want to repeat in every prompt: tech stack, code conventions, patterns in use, and the things AI shouldn't do without explicit approval.
 
 Example CLAUDE.md for our Spring Boot project:
 

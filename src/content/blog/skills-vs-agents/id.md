@@ -17,9 +17,9 @@ Kenyataannya, keduanya bekerja dengan cara yang fundamental berbeda. Dan menggun
 
 Cara paling mudah memahami perbedaannya: **di mana mereka berjalan dan apa yang mereka ingat**.
 
-**Skill** berjalan di dalam conversation yang sama. Dia bisa melihat seluruh history conversation, semua yang sudah dibahas, semua yang sudah dijawab, semua konteks yang sudah diberikan. Dia multi-turn: bisa tanya beberapa pertanyaan, ingat jawabannya, dan generate output berdasarkan jawaban-jawaban tersebut.
+**Skill** jalan di dalam conversation yang sama, dia bisa lihat semua history sesi (yang udah dibahas, yang udah dijawab, semua konteks yang udah dikasih). Sifatnya multi-turn: bisa nanya beberapa pertanyaan dulu, inget jawabannya, baru generate output berdasarkan jawaban-jawaban itu.
 
-**Agent** berjalan di context window yang terpisah dan terisolasi. Dia tidak melihat conversation history. Dia menerima satu task, bekerja secara autonomous, dan mengembalikan hasil. Setelah selesai, dia tidak "ingat" apapun, instance-nya berakhir.
+**Agent** sebaliknya, jalan di context window yang terpisah dan terisolasi. Dia nggak lihat conversation history. Dia nerima satu task, kerja autonomous, terus balikin hasil. Habis itu instance-nya selesai, dia nggak "inget" apapun.
 
 Visualisasi sederhana:
 

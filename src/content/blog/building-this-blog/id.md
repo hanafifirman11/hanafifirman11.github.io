@@ -68,7 +68,7 @@ Setiap keputusan arsitektur punya biaya, dan ini jujur-jujuran:
 
 Hosting di GitHub Pages, gratis, SSL otomatis (via Let's Encrypt), CI/CD via GitHub Actions. Total biaya: cuma domain (kalau pakai custom domain), sekitar Rp 200rb/tahun.
 
-Dibandingkan setup enterprise yang saya kerjakan sehari-hari, dengan load balancer, multiple availability zone, dan gateway berlapis, ini arsitektur yang sangat sederhana. Dan itu memang intinya. **Kompleksitas harus earned, bukan default.**
+Dibandingin setup enterprise yang saya kerjain sehari-hari (load balancer, multiple AZ, gateway berlapis), ini arsitektur yang super sederhana. Dan itu emang inti dari pilihan ini: kompleksitas itu harus dijustifikasi dulu, bukan default-nya yang kompleks.
 
 ## Apa yang akan saya ubah nanti
 

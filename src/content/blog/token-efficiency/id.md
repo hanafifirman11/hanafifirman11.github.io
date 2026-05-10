@@ -9,9 +9,9 @@ draft: false
 
 Ada behavior Claude Code yang tidak semua orang sadari: semakin penuh context window-nya, semakin menurun kualitas output-nya.
 
-Ini bukan kelemahan yang bisa di-patch, ini sifat dasar dari bagaimana LLM bekerja. Ketika context window mendekati batas, model mulai "melupakan" detail dari awal conversation, fokusnya terdilusi, dan output menjadi lebih generic.
+Ini bukan bug yang bisa di-patch, ini sifat dasar cara LLM bekerja. Begitu context window mendekati batas, model mulai "lupa" detail dari awal conversation, fokusnya terdilusi, dan output jadi lebih generic.
 
-Untuk sesi kerja yang pendek ini tidak jadi masalah. Tapi untuk sesi debugging yang panjang, atau untuk analisis codebase yang besar, ini langsung terasa, Claude mulai memberikan jawaban yang kurang presisi, melupakan constraint yang sudah diberikan, atau mengulang saran yang sudah diberikan sebelumnya.
+Buat sesi kerja yang pendek, ini nggak masalah. Tapi buat sesi debugging yang panjang atau analisis codebase besar, langsung kerasa: Claude mulai ngasih jawaban yang kurang presisi, lupa constraint yang udah dikasih, atau ngulang saran yang udah pernah disebut.
 
 Token efficiency bukan hanya tentang hemat biaya. Ini tentang menjaga kualitas output tetap konsisten sepanjang sesi kerja.
 

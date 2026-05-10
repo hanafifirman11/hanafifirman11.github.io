@@ -170,7 +170,7 @@ webhook:
 Setelah platform ini aktif di *production*, kami mengamati beberapa area pengelolaan yang menuntut perhatian khusus:
 
 ### 1. Enkripsi Credential
-n8n mengenkripsi semua data sensitif (seperti API Keys, password database) menggunakan `N8N_ENCRYPTION_KEY`. Jika nilai *environment variable* ini hilang, seluruh *credential* macet dan harus diulang. Di lingkungan *enterprise*, kami tidak menyimpannya dalam bentuk *plain text*, melainkan menyimpannya di pengelola rahasia eksternal seperti **HashiCorp Vault**, yang kemudian diinjeksi secara otomatis ke Kubernetes Secret.
+n8n meng-encrypt semua data sensitif (API key, password database, dll) pakai `N8N_ENCRYPTION_KEY`. Kalau value environment variable ini ilang, seluruh credential di n8n bakal locked dan harus di-input ulang. Di lingkungan enterprise kami nggak nyimpan ini sebagai plain text, tapi taro di secret manager kayak **HashiCorp Vault**, yang nanti otomatis di-inject ke Kubernetes Secret pas pod dijalanin.
 
 ```mermaid
 flowchart LR
