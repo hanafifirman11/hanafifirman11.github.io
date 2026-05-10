@@ -6,7 +6,7 @@ category: ai-engineering
 tags: ["java", "spring-boot", "career", "ai-engineering", "roadmap"]
 ---
 
-If you can already build a Spring Boot CRUD app, hit Generate in Claude Code, and ship a feature, you're sitting in the same bucket as everybody else who picked up Java a couple of months back. That bar is gone. The AI didn't lower the bar; it raised the next one.
+If you can already build a Spring Boot CRUD app, hit Generate in Claude Code, and ship a feature, you're sitting in the same bucket as everybody else who picked up Java a couple of months back. That bar is gone. What AI did was push the next bar higher, and most people I see haven't noticed where it landed.
 
 I'm writing this for junior Java devs who already know the basics and want to figure out what comes next, the part where you stop being someone the team replaces and start being someone the team consults. I'm assuming you've shipped a few Spring Boot apps, you can find your way around an `application.yml`, and a stack trace doesn't make you panic. The gap I want to talk about is the one between "can finish a ticket" and "is the engineer the team wants in the room when an architecture call is being made."
 
@@ -22,7 +22,7 @@ First, boilerplate quietly stopped being a job. Generating a `@Service` class wi
 
 Second, reading other people's code got cheap. Onboarding into a 200k-line legacy codebase used to take three weeks. With Serena and a halfway-decent prompt, you can have architectural intuition by the end of the first day. The slow part is no longer the reading.
 
-Third, validation didn't get any cheaper. Working out whether a piece of code behaves correctly under concurrency, whether it leaks resources somewhere, whether it falls over under load, whether it quietly breaks an existing contract; that still costs the same human hours it always did.
+Third, validation didn't get any cheaper. Figuring out whether a piece of code behaves correctly under concurrency, whether it leaks resources, whether it falls over under load, whether it quietly breaks an existing contract, all of that still costs the same human hours it always did.
 
 That third point is the one I keep coming back to. Generation maybe got 10× faster (rough estimate, depends a lot on the task). Validation didn't shift much. To be honest I'm not sure how stable this picture is over the next two or three years, because the tooling is still moving, but for now the engineers who'll matter are the ones who can validate fast.
 

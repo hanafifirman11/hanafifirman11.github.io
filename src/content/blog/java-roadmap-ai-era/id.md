@@ -34,7 +34,7 @@ Ini fondasi yang nggak disentuh AI. Malah, AI bikin biaya nggak nguasain ini jad
 
 **JVM internals.** Perilaku GC, memory model, escape analysis. Pas suatu hari latency p99 production loncat tiba-tiba, AI nggak bakal bantu kamu debug G1 pause kalau kamu sendiri nggak ngerti G1 pause itu apa.
 
-**Concurrency.** Virtual threads (Loom) sekarang udah jadi baseline. Tapi virtual threads nggak ngilangin race condition. Paham Java Memory Model, `volatile`, `synchronized`, dan beda `CompletableFuture.thenApply` vs `thenApplyAsync`; ini yang nyegah kamu ship bug yang AI dengan senang hati generate-in.
+**Concurrency.** Virtual threads (Loom) sekarang udah jadi baseline. Tapi virtual threads nggak ngilangin race condition. Paham Java Memory Model, `volatile`, `synchronized`, dan beda `CompletableFuture.thenApply` vs `thenApplyAsync`. Ini yang nyegah kamu ship bug yang AI dengan senang hati generate-in.
 
 **SQL & internals database.** Index, query plan, isolation level, masalah N+1. Hibernate suka generate query cantik. Kadang juga catastrophic. Kamu wajib bisa baca EXPLAIN.
 
@@ -319,7 +319,7 @@ Ini cara junior nyangkut di 2026. AI ngebongkar lebih cepet dari sebelumnya.
 
 **Vibe coding.** Generate tanpa baca, ship tanpa paham. Insiden prod pertama bakal ngajarin, tapi mahal banget.
 
-**Skip test gara-gara "AI udah bener."** AI bener 95%, dan sisanya itu tepat di tempat bug suka ngumpet. Test bukan ritual untuk dilewatin; itu cara kamu ngebatasin trust.
+**Skip test gara-gara "AI udah bener."** AI bener 95%, dan sisanya itu tepat di tempat bug suka ngumpet. Test fungsinya buat ngebatasin seberapa banyak kamu percaya output AI, jadi kalau dilewatin, kamu ship sesuatu tanpa tahu batas-nya.
 
 **Percaya test yang di-generate AI itu coverage utuh.** Sering yang diuji implementasinya doang, kontraknya nggak. Sering juga cuma happy path. Baca isinya, jangan cuma itungin titik ijo.
 
